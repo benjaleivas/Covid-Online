@@ -1,6 +1,6 @@
 import requests
 import json
-import os 
+import os
 
 #!!! Set this in your enviorment or the code won't run!!!
 key = os.environ['ANALYTICS_API_KEY']
