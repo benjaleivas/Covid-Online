@@ -1,12 +1,12 @@
 import requests
 import json
 import os 
-
+import time
 #!!! Set this in your enviorment or the code won't run!!!
-key = os.environ['ANALYTICS_API_KEY']
+key = os.environ['ANALYTICS_API_KEY'] 
 
 
-def get_analytics_by_agency(agency, date_range, report_type, max_pulls=100, limit=10000):
+def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
     ''''
     Pulls JSON files filtered by agency.
 
@@ -21,18 +21,21 @@ def get_analytics_by_agency(agency, date_range, report_type, max_pulls=100, limi
     start_date, stop_date = date_range
 
     
-    url = f"https://api.gsa.gov/analytics/dap/v1.1/agencies/{agency}/reports/{report_type}/data?api_key={key}"
+    url = f"https://api.gsa.gov/analytics/dap/v1.1/agencies/{agency}/reports/{report_type}/data?api_key=M036LWcOjJRDUpWPgX1K1xZHHj08QJ7dmsUgXU65"
     params = {"limit" : limit, "before" : stop_date, "after" : start_date }
     pull_count = 0 
     results = []
-
-    while pull_count < max_pulls: 
+    print(params)
+    while start_date <= stop_date: 
+        time.sleep(1)
         curr_response = requests.get(url, params)
         results += curr_response.json()
         pull_count += 1
         
-        if curr_response.json()[-1]['date'] == stop_date:
-            
+        start_date = curr_response.json()[-1]['date']
+        
+        if start_date == stop_date:
+        
             return results
     
     
