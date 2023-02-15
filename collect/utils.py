@@ -54,15 +54,6 @@ report_name = {
     "DEVICE": "device"
 }
 
-# constants for CDC report names
-cdc_report_name = {
-    "vaccinations": "8xkx-amqh",
-    "cases and deaths": "pwn4-m3yp"
-}
-
-
-
-
 ##########################
 #### HELPER FUNCTIONS ####
 ##########################
