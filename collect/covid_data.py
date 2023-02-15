@@ -14,9 +14,9 @@ def get_nyt_data():
   """
   url = f"https://github.com/nytimes/covid-19-data/raw/master/us.csv"
 
-  df = pd.read_csv(url)
+  covid_df = pd.read_csv(url)
   
-  return df
+  return covid_df
 
 
 def get_bls_data(start_year, end_year):
@@ -37,62 +37,6 @@ def get_bls_data(start_year, end_year):
     json_data = json.loads(p.text)
     
     unemployment_data = json_data['Results']['series'][0]["data"]
+    unemployment_df = pd.DataFrame.from_dict(unemployment_data)
 
-    return unemployment_data
-
-
-# outputs - where to save these files? a data folder locally or should we create a database?
-
-
-# unemployment = get_bls_data("2020", "2022")
-# cases_deaths = get_nyt_data()
-
-
-
-
-
-
-
-## NOT SURE IF WE NEED THIS ANYMORE
-
-# def get_jh_data(data_type):
-#     """
-#     Retrieves COVID-19 data from the Center for Systems Science and 
-#       Engineering (CSSE) at John Hopkins University by data_type
-
-#     Inputs: 
-#       data_type (str): either "cases", "deaths", "vaccinations", or "tests"
-
-#     Returns: pandas Dataframe with all cases or deaths by county
-#     """
-#     data_types = ["cases", "deaths", "vaccinations", "tests"]
-    
-#     assert data_type in data_types, "data_type input not valid. Must be 'cases', 'deaths', 'vaccinations', or 'tests'."
-    
-#     # CASES AND DEATHS
-#     if data_type in ["cases", "deaths"]:
-#         # use "cases" as input to function, but "confirmed" is in url string
-#         if data_type == "cases":
-#             data_type = "confirmed"
-
-#         url = f"https://github.com/CSSEGISandData/COVID-19/raw/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{data_type}_US.csv"
-
-#     # VACINATIONS AND TESTS
-#     if data_type in ["vaccinations", "tests"]:
-#         if data_type == "vaccinations":
-#             url_string = "testing_data/county_time_series_covid19_US"
-#         else:
-#             #if data_type == tests
-#             url_string = "vaccine_data/us_data/time_series/time_series_covid19_vaccine_us"
-        
-#         url = f"https://github.com/govex/COVID-19/raw/master/data_tables/{url_string}.csv"    
-    
-#     # get dataframe from url - but can turn this into a dict if needed
-#     df = pd.read_csv(url)
-
-#     return df
-
-# jh_deaths = get_jh_data("deaths")
-# jh_cases = get_jh_data("cases")
-# jh_vaccinations = get_jh_data("vaccinations")
-# jh_tests = get_jh_data("tests")
+    return unemployment_df
