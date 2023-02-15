@@ -3,7 +3,7 @@
 ### CONSTANT VARIABLES ###
 ##########################
 
-# constants for agency names
+# constants for analytics agency names
 report_agency = {
     "HHS": "health-human-services",
     "AID": "agency-international-development",
@@ -35,7 +35,7 @@ report_agency = {
     "VA": "veterans-affairs"
 }
 
-# constants for report names
+# constants for analytics report names
 report_name = {
     "DOWNLOAD": "download",
     "TRAFFIC": "traffic-source",
@@ -53,6 +53,15 @@ report_name = {
     "IE": "ie",
     "DEVICE": "device"
 }
+
+# constants for CDC report names
+cdc_report_name = {
+    "vaccinations": "8xkx-amqh",
+    "cases and deaths": "pwn4-m3yp"
+}
+
+
+
 
 ##########################
 #### HELPER FUNCTIONS ####
