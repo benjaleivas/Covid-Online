@@ -20,7 +20,7 @@ def merge_data(analytics_data, aux_data, save_locally=False):
     - Work out how this should be automated.
     '''
     merged_data = pd.merge(analytics_data, aux_data, on="date", how="inner")
-    #merged_data = pd.to_datetime(merged_data.date, yearfirst=True)
+    merged_data.date = pd.to_datetime(merged_data.date, yearfirst=True)
 
     if save_locally:
         merged_data.to_csv("data/merged_test_dataset.csv")
