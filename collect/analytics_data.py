@@ -16,7 +16,7 @@ key = os.environ['ANALYTICS_API_KEY']
 # TODO: function with date range that sends each day to previous function and aggregates
 
 
-def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
+def get_analytics_by_agency(agency, years, report_type, limit=10000):
     '''
     Pulls JSON files filtered by agency.
 
@@ -36,7 +36,7 @@ def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
             domain (str)
             visits (int)
     '''
-    start_date, stop_date = date_range
+    start_year, stop_year = years
     results = []
     pull_count = limit
     page = 1
@@ -46,8 +46,8 @@ def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
         url = f"https://api.gsa.gov/analytics/dap/v1.1/agencies/{agency}/reports/{report_type}/data?api_key={key}"
         print(f"Fetching page {page} of request...")
         params = {"limit" : limit, 
-                "before" : stop_date, 
-                "after" : start_date,
+                "before" : f"{stop_year}-12-31", 
+                "after" : f"{start_year}-01-01", 
                 "page" : page}
 
         curr_response = requests.get(url, params)
@@ -79,7 +79,7 @@ def get_analytics_by_report(report, date_range, limit=10000):
             domain (str)
             visits (int)
     '''
-    start_date, stop_date = date_range
+    start_year, stop_year = date_range
     results = []
     pull_count = limit
     page = 1
@@ -89,8 +89,8 @@ def get_analytics_by_report(report, date_range, limit=10000):
         url = f"https://api.gsa.gov/analytics/dap/v1.1/reports/{report}/data?api_key={key}"
         print(f"Fetching page {page} of request...")
         params = {"limit" : limit, 
-                "before" : stop_date, 
-                "after" : start_date,
+                "before" : f"{stop_year}-12-31", 
+                "after" : f"{start_year}-01-01", 
                 "page" : page}
 
         curr_response = requests.get(url, params)
