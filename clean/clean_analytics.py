@@ -1,14 +1,12 @@
 import pandas as pd
+import itertools
 from collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
 from collect.utils import REPORT_NAME, AGENCY_NAME
-from datatype import DataType
+from .datatype import DataType
 from collections import defaultdict
 
-# Switch to classes to keep track of agency type, report name as attributes
-# and more easily toggle between summed data and site/domain level
 
-
-class Agency_Data(DataType):
+class AgencyData(DataType):
     def __init__(self, agency, years, report_type):
         self.agency = agency
         self.years = years
@@ -22,38 +20,84 @@ class Agency_Data(DataType):
         Returns named tuple holding pandas df for each report type.
         """
         for report in self.report_type:
+            print(f"Collecting data on {report}.")
             self.data[report] = get_analytics_by_agency(self.agency, self.years, report)
 
-    def sum_by(self, df, col, in_place=True):
+    def sum_by(self, col, in_place=True):
         """
         Cleans dataframe and sums values
         """
         to_sum = self.data
         for report in to_sum:
-            to_sum[report] = to_sum[report].drop("id", axis=1)
-            to_sum[report].groupby(col, as_index=False).sum()
+            to_sum[report] = to_sum[report].groupby(col, as_index=False).sum()
 
         if in_place:
             self.data = to_sum
         else:
             self.modified_data = to_sum
 
+    def split_by_year(self, in_place=True):
+        """
+        Splits aggegrated yearly data into multiple dataframes per year.
+        """
+        by_year = defaultdict(None)
+        for pair in itertools.product(self.report_type, self.years):
+            report, year = pair
+            # Convert date to datetime
+            self.data[report].date = pd.to_datetime(self.data[report].date)
+            year_df = self.data[report][self.data[report].date.dt.year == year]
+            # Convert date back to string to merge datasets
+            year_df.date = year_df.date.map(str)
+            by_year[f"{year}_{report}"] = year_df
 
-class Report_Data(DataType):
+        if in_place:
+            self.data = by_year
+        else:
+            self.modified_data = by_year
+
+
+class ReportData(DataType):
     def __init__(self, report_type, years):
         self.report_type = report_type
         self.years = years
-        self.raw_pd = get_analytics_by_report(self.report_type, self.years)
+        self.data = defaultdict(None)
 
-    # Add fetch_data method
-
-    def sum_by(self, col, save_locally=False):
+    def fetch_data(self):
         """
-        Sums values by specified col
+        Fetches data for specified reports.
         """
-        clean = self.raw_pd.drop("id", axis=1)
+        for report in self.report_type:
+            print(f"Collecting data on {report}.")
+            self.data[report] = get_analytics_by_report(report, self.years)
 
-        if save_locally:
-            clean.to_csv("data/cleaned_daily_analytics_data.csv")
+    def sum_by(self, col, in_place=True):
+        """
+        Cleans dataframe and sums values
+        """
+        to_sum = self.data
+        for report in to_sum:
+            to_sum[report] = to_sum[report].groupby(col, as_index=False).sum()
 
-        return clean.groupby(col, as_index=False).sum()
+        if in_place:
+            self.data = to_sum
+        else:
+            self.modified_data = to_sum
+
+    def split_by_year(self, in_place=True):
+        """
+        Splits aggegrated yearly data into multiple dataframes per year.
+        """
+        by_year = defaultdict(None)
+        for pair in itertools.product(self.report_type, self.years):
+            report, year = pair
+            # Convert date to datetime
+            self.data[report].date = pd.to_datetime(self.data[report].date)
+            year_df = self.data[report][self.data[report].date.dt.year == year]
+            # Convert date back to string to merge datasets
+            year_df.date = year_df.date.map(str)
+            by_year[f"{year}_{report}"] = year_df
+
+        if in_place:
+            self.data = by_year
+        else:
+            self.modified_data = by_year

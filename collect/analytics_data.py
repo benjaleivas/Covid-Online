@@ -1,6 +1,5 @@
 import requests
 import os
-from .utils import report_agency, report_name
 import time
 from pprint import pprint
 import pandas as pd
@@ -56,7 +55,12 @@ def get_analytics_by_agency(agency, years, report_type, limit=10000):
 
         pull_count = len(curr_response.json()) 
 
-    return pd.json_normalize(results)
+        #Edge case for when last page of results equals limit
+        if (pull_count <= limit) and (curr_response.json()[-1]["date"] == params["after"]):
+            break
+
+    df = pd.json_normalize(results)
+    return df.drop("id", axis=1)
     
 
 def get_analytics_by_report(report, date_range, limit=10000):
@@ -98,5 +102,10 @@ def get_analytics_by_report(report, date_range, limit=10000):
         page += 1
 
         pull_count = len(curr_response.json()) 
+
+        #Edge case for when last page of results equals limit
+        if (pull_count <= limit) and (curr_response.json()[-1]["date"] == params["after"]):
+            break
     
-    return pd.json_normalize(results)
+    df = pd.json_normalize(results)
+    return df.drop("id", axis=1)
