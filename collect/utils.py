@@ -4,7 +4,7 @@
 ##########################
 
 # constants for analytics agency names
-report_agency = {
+AGENCY_NAME = {
     "HHS": "health-human-services",
     "AID": "agency-international-development",
     "AG": "agriculture",
@@ -36,7 +36,7 @@ report_agency = {
 }
 
 # constants for analytics report names
-report_name = {
+REPORT_NAME = {
     "DOWNLOAD": "download",
     "TRAFFIC": "traffic-source",
     "DEVICE": "device-model",
