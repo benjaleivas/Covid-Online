@@ -108,3 +108,4 @@ fig.update_yaxes(gridcolor="#eee", griddash="solid", gridwidth=0.5,
 fig.show()
 
 graph = dcc.Graph(id='visits_trend', figure=fig)
+dcc.Download(id='visits_trend')
