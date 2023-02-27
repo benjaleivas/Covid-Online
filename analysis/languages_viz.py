@@ -19,17 +19,15 @@ lang1_total = lang1_total.rename(columns={'lang1': 'labels'})
 lang1_total['parent'] = 'total'
 
 #Stack 'raw' and 'parent_total'
-data = pd.concat([data, parent_total[['labels', 'parent', 'visits']]])
-
+data = pd.concat([data, lang1_total[[ 'parent', 'labels', 'visits']]])
 raw = raw.rename(columns={'lang1': 'parent', 'lang2': 'labels'})
-data = pd.concat(data, raw[['labels', 'parent', 'visits']])
+data = pd.concat([data, raw[['parent', 'labels', 'visits']]])
 data = data.append({'labels': 'total', 'parent': '', 'visits': lang1_total['visits'].sum()}, ignore_index=True)
 
 #Icicle
 fig = go.Figure(
     go.Icicle(
-        ids = data.language,
-        labels = data['child'],
+        labels = data['labels'],
         parents = data['parent'],
         values = data['visits'],
         branchvalues='total',
