@@ -3,7 +3,15 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
+from analysis.websites_visits import graph 
+
+#from .analysis import websites_visits.graph 
+
+
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+
+
 
 def generate_title_container(title_text, subtitle_text):
     title_container = dbc.Container(
@@ -149,7 +157,7 @@ subtitle_container_goverment_pages = generate_subtitle_container("WERE WE USING 
 graph_component = dcc.Graph(figure={"data": [{"y": [1, 2, 3]}]})
 graph_container_cdc_data = generate_graph_container_one("CDC Data",
  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.",
-  graph_component, 
+  graph, 
   "#808080")
 graph_container_covid_data = generate_graph_container_one(
 title_text = "COVID-19 data:", 
