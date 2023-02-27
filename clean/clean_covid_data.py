@@ -1,5 +1,5 @@
 import pandas as pd
-from collect.covid_data import get_nyt_data
+from collect.auxilary_data import get_nyt_data
 
 def get_cleaned_covid_data(save_locally=False):
     """
