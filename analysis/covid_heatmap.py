@@ -23,3 +23,4 @@ fig = calplot(
 )
 
 fig.show()
+fig.write_image("analysis/calmap")

@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
+from dash import dcc
 from scipy import stats
 import plotly.graph_objects as go
-# from plotly.graph_objects import *
 from plotly.subplots import make_subplots
 
 #Load merged data
@@ -17,7 +17,7 @@ data['visits_2019'] = data.visits/1.5
 # data['visits_norm'] = stats.zscore(data['visits']) # NORMALIZE TO SAME YEAR OR 2019?
 
 #Layout
-layout = Layout(paper_bgcolor='rgba(0,0,0,0)', 
+layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)', 
                 plot_bgcolor='rgba(0,0,0,0)',
                 title="Daily visits to government websites (in millions)",
                 title_font_family='Times New Roman',
@@ -106,3 +106,5 @@ fig.update_yaxes(gridcolor="#eee", griddash="solid", gridwidth=0.5,
                 range=[0, max(max(data['visits']), max(data['visits_2019']))+3000000])
 
 fig.show()
+
+graph = dcc.Graph(id='visits_trend', figure=fig)
