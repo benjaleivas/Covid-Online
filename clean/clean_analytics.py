@@ -5,6 +5,9 @@ from collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
 
+# Regex to clean URLS
+# Add merge column with strings of dates and merge
+
 
 class AnalyticsData(DataType):
     def __init__(self, report_type, years):
@@ -16,9 +19,9 @@ class AnalyticsData(DataType):
         """
         Cleans dataframe and sums values
         """
-        to_sum = self.data
-        for report in to_sum:
-            to_sum[report] = to_sum[report].groupby(col, as_index=False).sum()
+        to_sum = defaultdict(None)
+        for name, report in self.data.items():
+            to_sum[f"{name}_sum"] = report.groupby(col, as_index=False).sum()
 
         if in_place:
             self.data = to_sum
@@ -44,6 +47,20 @@ class AnalyticsData(DataType):
         else:
             self.modified_data = by_year
 
+    def export(self, modified=False):
+        """
+        Exports data to CSV files in the data folder.
+        """
+        export_data = self.data
+        if modified:
+            export_data = self.modified_data
+
+        for (
+            name,
+            df,
+        ) in export_data.items():
+            df.to_csv(f"data/{name}.csv", index=False)
+
 
 class AgencyData(AnalyticsData):
     def __init__(self, agency, years, report_type):
@@ -59,7 +76,9 @@ class AgencyData(AnalyticsData):
         for report in self.report_type:
             print(f"Collecting data on {report}.")
 
-            self.data[report] = get_analytics_by_agency(self.agency, self.years, report)
+            self.data[report] = get_analytics_by_agency(
+                self.agency, (self.years[0], self.years[-1]), report
+            )
 
 
 class ReportData(AnalyticsData):
@@ -72,4 +91,6 @@ class ReportData(AnalyticsData):
         """
         for report in self.report_type:
             print(f"Collecting data on {report}.")
-            self.data[report] = get_analytics_by_report(report, self.years)
+            self.data[report] = get_analytics_by_report(
+                report, (self.years[0], self.years[-1])
+            )
