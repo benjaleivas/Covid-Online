@@ -63,6 +63,7 @@ def get_analytics_by_agency(agency, years, report_type, limit=10000):
         ):
             break
 
+
     df = pd.json_normalize(results)
     return df.drop("id", axis=1)
 
@@ -104,8 +105,6 @@ def get_analytics_by_report(report, date_range, limit=10000):
         }
 
         curr_response = requests.get(url, params)
-        if not curr_response.json():
-            break
 
         results += curr_response.json()
         page += 1

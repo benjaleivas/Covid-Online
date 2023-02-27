@@ -1,5 +1,5 @@
 import pandas as pd
-from collect.covid_data import get_bls_data
+from collect.auxilary_data import get_bls_data
 
 def get_cleaned_bls_data(start_year, end_year, save_locally=False):
     """
