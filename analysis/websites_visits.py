@@ -3,17 +3,11 @@ from dash import dcc
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-#Website data
-visits_2019 = pd.read_csv('data/2019_hhs_totalvisits_by_week.csv')
-visits_2020 = pd.read_csv('data/2020_hhs_totalvisits_by_week.csv')
-visits_2021 = pd.read_csv('data/2021_hhs_totalvisits_by_week.csv')
-visits_2022 = pd.read_csv('data/2022_hhs_totalvisits_by_week.csv')
-
-def weekly_visits_vs_2019(year):
+def visits_vs_2019(year):
     """
-    DESCRIPTION:
-    INPUTS:
-    RETURNS:
+    Plots trend of HHS's website visits.
+    Input (int): year to compare to 2019.
+    Returns (object): Graph of visits trends for 'year', 2019, and difference.
     """
     #Load data
     post, pre = [pd.read_csv(f'data/{year}_hhs_totalvisits_by_week.csv'),
@@ -54,6 +48,20 @@ def weekly_visits_vs_2019(year):
                                            color=line_colors[idx], 
                                            dash=line_types[idx])))
 
+    #Add events
+    # event_2020_1 = {'year': 2021, 'month': 3, 'day': 13, 'event': 'Event 1'} 
+    # event_2020_2 = {'year': 2021, 'month': 7, 'day': 2, 'event': 'Event 2'} 
+    # event_2020_3 = {'year': 2021, 'month': 11, 'day': 29, 'event': 'Event 3'} 
+    # events_2020 = [event_1, event_2, event_3]
+
+    # for event in events:
+    #     fig.add_vline(x=datetime.datetime(
+    #                     event['year'],event['month'],event['day']).timestamp()*1000, 
+    #                     line_width=1, 
+    #                     line_dash="solid", 
+    #                     line_color="red", 
+    #                     annotation_text=event['event'])
+
     #Update figure
     fig.update_layout(layout)
     fig.update_xaxes(showticklabels=False)
@@ -62,16 +70,14 @@ def weekly_visits_vs_2019(year):
                      gridwidth=0.5,
                      range=[0, max(max(post.visits), max(pre.visits))])
 
-    #Make Dash object
+    #Return dash object
     return dcc.Graph(id='visits', figure=fig)
 
     # return fig.show()
-
     # app = dash.Dash()
     # app.layout = html.Div([
     #     dcc.Graph(figure=fig)
     # ])
-
     # app.run_server(debug=True, use_reloader=False)
 
 ####################################################################################################
