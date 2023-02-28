@@ -46,7 +46,6 @@ def weekly_visits_vs_2019(year):
     line_names = [f'{year}', 'Baseline (2019)', 'Difference with baseline']
 
     for idx in range(len(datasets)):
-        # print(f'year: {line_names[idx]}', f'datashape: {datasets[idx].shape}')
         fig.add_trace(go.Scatter(x = datasets[idx]['week'],
                                  y = datasets[idx]['visits'],
                                  mode='lines',
@@ -75,6 +74,8 @@ def weekly_visits_vs_2019(year):
 
     # app.run_server(debug=True, use_reloader=False)
 
+####################################################################################################
+# PREVIOUS CODE, DON'T ERASE YET
 ####################################################################################################
 
 # #     #Baseline
