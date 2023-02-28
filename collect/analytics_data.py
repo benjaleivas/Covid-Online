@@ -3,6 +3,7 @@ import os
 import time
 from pprint import pprint
 import pandas as pd
+import re
 
 #!!! Set this in your environment or the code won't run!!!
 # (see README.md for instructions on how to get your own API key)
@@ -15,7 +16,7 @@ key = os.environ["ANALYTICS_API_KEY"]
 # TODO: function with date range that sends each day to previous function and aggregates
 
 
-def get_analytics_by_agency(agency, years, report_type, limit=10000):
+def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
     """
     Pulls JSON files filtered by agency.
 
@@ -35,7 +36,15 @@ def get_analytics_by_agency(agency, years, report_type, limit=10000):
             domain (str)
             visits (int)
     """
-    start_year, stop_year = years
+    start_year, stop_year = date_range
+    # Check if time is year-to-year or day-to-day
+    # if re.fullmatch(r"\d{4}-\d{2}-\d{2}", start_year):
+    #     before = stop_year
+    #     after = start_year
+    # else:
+    before = f"{stop_year}-12-31"
+    after = f"{start_year}-01-01"
+
     results = []
     pull_count = limit
     page = 1
@@ -46,8 +55,8 @@ def get_analytics_by_agency(agency, years, report_type, limit=10000):
         print(f"Fetching page {page} of request...")
         params = {
             "limit": limit,
-            "before": f"{stop_year}-12-31",
-            "after": f"{start_year}-01-01",
+            "before": before,
+            "after": after,
             "page": page,
         }
 
@@ -62,7 +71,6 @@ def get_analytics_by_agency(agency, years, report_type, limit=10000):
             curr_response.json()[-1]["date"] == params["after"]
         ):
             break
-
 
     df = pd.json_normalize(results)
     return df.drop("id", axis=1)
@@ -89,6 +97,13 @@ def get_analytics_by_report(report, date_range, limit=10000):
             visits (int)
     """
     start_year, stop_year = date_range
+    # Check if time is year-to-year or day-to-day
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", start_year):
+        before = stop_year
+        after = start_year
+    else:
+        before = f"{stop_year}-12-31"
+        after = f"{start_year}-01-01"
     results = []
     pull_count = limit
     page = 1
@@ -99,8 +114,8 @@ def get_analytics_by_report(report, date_range, limit=10000):
         print(f"Fetching page {page} of request...")
         params = {
             "limit": limit,
-            "before": f"{stop_year}-12-31",
-            "after": f"{start_year}-01-01",
+            "before": before,
+            "after": after,
             "page": page,
         }
 
