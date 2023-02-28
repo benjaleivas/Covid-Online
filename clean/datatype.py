@@ -8,3 +8,7 @@ class DataType(ABC):
     @abstractmethod
     def fetch_data(self):
         pass
+
+    @abstractmethod
+    def export(self):
+        pass

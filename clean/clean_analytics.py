@@ -4,6 +4,7 @@ from collect.analytics_data import get_analytics_by_agency, get_analytics_by_rep
 from collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
+import re
 
 # Regex to clean URLS
 # Add merge column with strings of dates and merge
@@ -14,21 +15,32 @@ class AnalyticsData(DataType):
         self.report_type = report_type
         self.years = years
         self.data = defaultdict(None)
+        self.raw_data = defaultdict(None)
 
-    def sum_by(self, col, in_place=True):
+    def sum_by(self, time_range, aggregate=False):
         """
         Cleans dataframe and sums values
         """
+        if time_range == "week":
+            self.count_weeks()
+
         to_sum = defaultdict(None)
         for name, report in self.data.items():
-            to_sum[f"{name}_sum"] = report.groupby(col, as_index=False).sum()
+            col = re.sub(r"\d{4}_", "", name)
+            if "domain" in name:
+                col = "domain"
+            if aggregate:
+                to_sum[f"{name}_by_{time_range}_total"] = report.groupby(
+                    time_range, as_index=False
+                ).sum()
+            else:
+                to_sum[f"{name}_by_{time_range}"] = report.groupby(
+                    [col, time_range], as_index=False
+                ).sum()
 
-        if in_place:
-            self.data = to_sum
-        else:
-            self.modified_data = to_sum
+        self.data = to_sum
 
-    def split_by_year(self, in_place=True):
+    def split_by_year(self):
         """
         Splits aggegrated yearly data into multiple dataframes per year.
         """
@@ -39,27 +51,34 @@ class AnalyticsData(DataType):
             self.data[report].date = pd.to_datetime(self.data[report].date)
             year_df = self.data[report][self.data[report].date.dt.year == year]
             # Convert date back to string to merge datasets
-            year_df.date = year_df.date.map(str)
+            # year_df.date = year_df.date.map(str)
             by_year[f"{year}_{report}"] = year_df
 
-        if in_place:
-            self.data = by_year
-        else:
-            self.modified_data = by_year
+        self.data = by_year
 
-    def export(self, modified=False):
+    def export(self):
         """
         Exports data to CSV files in the data folder.
         """
-        export_data = self.data
-        if modified:
-            export_data = self.modified_data
 
         for (
             name,
             df,
-        ) in export_data.items():
+        ) in self.data.items():
             df.to_csv(f"data/{name}.csv", index=False)
+
+    def count_weeks(self):
+        """
+        Adds column to track weeks for a given
+        """
+        for report in self.data:
+            self.data[report]["week"] = self.data[report]["date"].dt.isocalendar().week
+
+    def undo_changes(self):
+        """
+        Reverts data into format received from Analytics.gov
+        """
+        self.data = self.raw_data
 
 
 class AgencyData(AnalyticsData):
@@ -76,9 +95,11 @@ class AgencyData(AnalyticsData):
         for report in self.report_type:
             print(f"Collecting data on {report}.")
 
-            self.data[report] = get_analytics_by_agency(
+            self.raw_data[report] = get_analytics_by_agency(
                 self.agency, (self.years[0], self.years[-1]), report
             )
+
+        self.data = self.raw_data
 
 
 class ReportData(AnalyticsData):
@@ -91,6 +112,8 @@ class ReportData(AnalyticsData):
         """
         for report in self.report_type:
             print(f"Collecting data on {report}.")
-            self.data[report] = get_analytics_by_report(
+            self.raw_data[report] = get_analytics_by_report(
                 report, (self.years[0], self.years[-1])
             )
+
+        self.data = self.raw_data

@@ -2,9 +2,19 @@ import numpy as np
 import pandas as pd
 from plotly_calplot import calplot  # pip install plotly-calplot
 
+#Covid data
+covid_2020 = pd.read_csv('data/2020_daily_covid_data.csv')
+covid_2021 = pd.read_csv('data/2021_daily_covid_data.csv')
+covid_2022 = pd.read_csv('data/2022_daily_covid_data.csv')
+
+
 #Load merged data
-data = pd.read_csv('data/merged_test_dataset.csv', 
-                   usecols=['date', 'visits', 'cases', 'daily_cases', 'deaths', 'daily_deaths'])
+data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
+                                                             'visits', 
+                                                             'cases', 
+                                                             'daily_cases', 
+                                                             'deaths', 
+                                                             'daily_deaths'])
 
 #Transform data
 data['date'] = pd.to_datetime(data['date'])
@@ -19,8 +29,18 @@ fig = calplot(
          y="daily_cases",
          years_title=False,
          showscale=True,
-         colorscale='reds'
+         colorscale='blues'
 )
 
 fig.show()
-fig.write_image("analysis/calmap")
+
+app = dash.Dash()
+app.layout = html.Div([
+    dcc.Graph(figure=fig)
+])
+
+app.run_server(debug=True, use_reloader=False)
+
+graph = dcc.Graph(id='visits_trend', figure=fig)
+dcc.Download(id='visits_trend')
+
