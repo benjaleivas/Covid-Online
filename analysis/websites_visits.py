@@ -48,7 +48,7 @@ def visits_vs_2019(year):
                                            color=line_colors[idx], 
                                            dash=line_types[idx])))
 
-    #Add events
+    #Add events (Create dictionary for this in 'data' folder)
     # event_2020_1 = {'year': 2021, 'month': 3, 'day': 13, 'event': 'Event 1'} 
     # event_2020_2 = {'year': 2021, 'month': 7, 'day': 2, 'event': 'Event 2'} 
     # event_2020_3 = {'year': 2021, 'month': 11, 'day': 29, 'event': 'Event 3'} 

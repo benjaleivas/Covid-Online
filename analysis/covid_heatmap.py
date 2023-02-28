@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime as dt
 from plotly_calplot import calplot  # pip install plotly-calplot
 
 #Covid data
@@ -13,44 +14,57 @@ def covid_map(year,metric):
     RETURN
     """
     #Load data
-    data = pd.read_csv(f'data/{year}_daily_covid_data.csv')
-    data = data[[f'{metric}']]
-    #
+    data = pd.read_csv(f'data/cleaned_covid_data.csv')
 
+    #Transform data
+    data = data[['date',f'{metric}']]
+    data['date'] =  pd.to_datetime(data['date'])
+    data = data.drop(data[pd.to_datetime(data['date']).dt.year != year].index)
 
-#Load merged data
-data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
-                                                             'visits', 
-                                                             'cases', 
-                                                             'daily_cases', 
-                                                             'deaths', 
-                                                             'daily_deaths'])
+    #Plot figure
+    fig = calplot(data,
+                  x='date',
+                  y=f'{metric}',
+                  years_title=False,
+                  showscale=True,
+                  colorscale='blues'
+                 )
 
-#Transform data
-data['date'] = pd.to_datetime(data['date'])
-#data = data[data['date'].dt.year == 2022]                      #filter year
-#data['daily_cases_diff'] = data.daily_cases.diff().fillna(0)   #differences
-#data = data[['date', 'daily_cases']]                           #relevant vars
+    return dcc.Graph(id='covid', figure=fig)
 
-#Plot heatmap
-fig = calplot(
-         data,
-         x="date",
-         y="daily_cases",
-         years_title=False,
-         showscale=True,
-         colorscale='blues'
-)
+# #Load merged data
+# data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
+#                                                              'visits', 
+#                                                              'cases', 
+#                                                              'daily_cases', 
+#                                                              'deaths', 
+#                                                              'daily_deaths'])
 
-fig.show()
+# #Transform data
+# data['date'] = pd.to_datetime(data['date'])
+# #data = data[data['date'].dt.year == 2022]                      #filter year
+# #data['daily_cases_diff'] = data.daily_cases.diff().fillna(0)   #differences
+# #data = data[['date', 'daily_cases']]                           #relevant vars
 
-app = dash.Dash()
-app.layout = html.Div([
-    dcc.Graph(figure=fig)
-])
+# #Plot heatmap
+# fig = calplot(
+#          data,
+#          x="date",
+#          y="daily_cases",
+#          years_title=False,
+#          showscale=True,
+#          colorscale='blues'
+# )
 
-app.run_server(debug=True, use_reloader=False)
+# fig.show()
 
-graph = dcc.Graph(id='visits_trend', figure=fig)
-dcc.Download(id='visits_trend')
+# app = dash.Dash()
+# app.layout = html.Div([
+#     dcc.Graph(figure=fig)
+# ])
+
+# app.run_server(debug=True, use_reloader=False)
+
+# graph = dcc.Graph(id='visits_trend', figure=fig)
+# dcc.Download(id='visits_trend')
 
