@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from plotly_calplot import calplot  # pip install plotly-calplot
 
@@ -6,6 +5,17 @@ from plotly_calplot import calplot  # pip install plotly-calplot
 covid_2020 = pd.read_csv('data/2020_daily_covid_data.csv')
 covid_2021 = pd.read_csv('data/2021_daily_covid_data.csv')
 covid_2022 = pd.read_csv('data/2022_daily_covid_data.csv')
+
+def covid_map(year,metric):
+    """
+    DESCRIPTION
+    INPUTS
+    RETURN
+    """
+    #Load data
+    data = pd.read_csv(f'data/{year}_daily_covid_data.csv')
+    data = data[[f'{metric}']]
+    #
 
 
 #Load merged data
