@@ -3,8 +3,12 @@ import pandas as pd
 from plotly_calplot import calplot  # pip install plotly-calplot
 
 #Load merged data
-data = pd.read_csv('data/merged_test_dataset.csv', 
-                   usecols=['date', 'visits', 'cases', 'daily_cases', 'deaths', 'daily_deaths'])
+data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
+                                                             'visits', 
+                                                             'cases', 
+                                                             'daily_cases', 
+                                                             'deaths', 
+                                                             'daily_deaths'])
 
 #Transform data
 data['date'] = pd.to_datetime(data['date'])
@@ -23,4 +27,14 @@ fig = calplot(
 )
 
 fig.show()
-fig.write_image("analysis/calmap")
+
+app = dash.Dash()
+app.layout = html.Div([
+    dcc.Graph(figure=fig)
+])
+
+app.run_server(debug=True, use_reloader=False)
+
+graph = dcc.Graph(id='visits_trend', figure=fig)
+dcc.Download(id='visits_trend')
+

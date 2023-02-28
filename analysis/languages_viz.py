@@ -22,7 +22,24 @@ lang1_total['parent'] = 'total'
 data = pd.concat([data, lang1_total[[ 'parent', 'labels', 'visits']]])
 raw = raw.rename(columns={'lang1': 'parent', 'lang2': 'labels'})
 data = pd.concat([data, raw[['parent', 'labels', 'visits']]])
+data = data[['parent', 'labels', 'visits']]
+total = dict(
+    'parent': [''],
+    'labels': ['total'],
+    'visits': [lang1_total['visits'].sum()]
+)
+data.loc[len(data.index)] = total
+
+data.loc[len(data.index)] = ['', 'total', lang1_total['visits'].sum()]
+
 data = data.append({'labels': 'total', 'parent': '', 'visits': lang1_total['visits'].sum()}, ignore_index=True)
+
+data = data[['parent', 'labels', 'visits']]
+
+
+#Group data (4 parents: en,es,zh,others)
+data = data.sort_values('visits', ascending=False)
+
 
 #Icicle
 fig = go.Figure(
