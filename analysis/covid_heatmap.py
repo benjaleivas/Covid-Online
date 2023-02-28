@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 from plotly_calplot import calplot  # pip install plotly-calplot
 
+#Covid data
+covid_2020 = pd.read_csv('data/2020_daily_covid_data.csv')
+covid_2021 = pd.read_csv('data/2021_daily_covid_data.csv')
+covid_2022 = pd.read_csv('data/2022_daily_covid_data.csv')
+
+
 #Load merged data
 data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
                                                              'visits', 
@@ -23,7 +29,7 @@ fig = calplot(
          y="daily_cases",
          years_title=False,
          showscale=True,
-         colorscale='reds'
+         colorscale='blues'
 )
 
 fig.show()
