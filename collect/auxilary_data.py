@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import requests
 import lxml.html
+import re
 
 def get_covid_data():
     """
@@ -79,3 +80,46 @@ def get_language_codes():
         langs[code] = text
 
     return langs
+
+def get_simplified_lang_codes():
+    """
+    """
+    langs = get_language_codes()
+    simplified_langs = {}
+
+    for key, value in langs.items():
+        print(key, value)
+
+        if key in ["nb", "nn"]:
+            simplified_langs[key] = "Norwegian"
+            
+        elif "-" in key:
+            pattern_key = r'^.*?(?=-)'
+            pattern_value = r'^.*?(?=\s\()'
+            # takes all the characters before a dash
+            match = re.search(pattern_key, key)
+
+            if match:
+                new_key = match.group(0)
+                new_value = re.search(pattern_value, value).group(0)
+
+                print(new_key, new_value)
+                simplified_langs[new_key] = new_value
+
+        elif "(" in value:
+            pattern_key = r'^.*?(?=-)'
+            pattern_value = r'^.*?(?=\s\()'
+            match = re.search(pattern_value, value)
+
+            if match:
+                new_value = re.search(pattern_value, value).group(0)
+
+                print(new_key, new_value)
+                simplified_langs[key] = new_value
+        
+        else:
+            #else just add to the dictionary
+            simplified_langs[key] = value
+
+
+    return simplified_langs
