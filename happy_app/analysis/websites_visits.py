@@ -10,8 +10,8 @@ def visits_vs_2019(year):
     Returns (object): Graph of visits trends for 'year', 2019, and difference.
     """
     #Load data
-    post, pre = [pd.read_csv(f'data/{year}_hhs_totalvisits_by_week.csv'),
-                 pd.read_csv('data/2019_hhs_totalvisits_by_week.csv')]
+    post, pre = [pd.read_csv(f'happy_app/data/{year}_hhs_totalvisits_by_week.csv'),
+                 pd.read_csv('happy_app/data/2019_hhs_totalvisits_by_week.csv')]
     diff = post[['week']]
     diff['visits'] = post.visits - pre.visits
     datasets = [post, pre, diff]

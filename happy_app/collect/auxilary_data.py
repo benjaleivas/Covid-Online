@@ -88,38 +88,19 @@ def get_simplified_lang_codes():
     simplified_langs = {}
 
     for key, value in langs.items():
-        print(key, value)
 
-        if key in ["nb", "nn"]:
-            simplified_langs[key] = "Norwegian"
-            
-        elif "-" in key:
-            pattern_key = r'^.*?(?=-)'
-            pattern_value = r'^.*?(?=\s\()'
-            # takes all the characters before a dash
-            match = re.search(pattern_key, key)
+        pattern_key = r'^.*?(?=-)'
+        pattern_value = r'^[^\(]+'
 
-            if match:
-                new_key = match.group(0)
-                new_value = re.search(pattern_value, value).group(0)
+        key_match = re.search(pattern_key, key)
+        value_match = re.search(pattern_value, value)
 
-                print(new_key, new_value)
-                simplified_langs[new_key] = new_value
+        if key_match:
+            key = key_match.group(0)
 
-        elif "(" in value:
-            pattern_key = r'^.*?(?=-)'
-            pattern_value = r'^.*?(?=\s\()'
-            match = re.search(pattern_value, value)
+        if value_match:
+            value = value_match.group(0)
 
-            if match:
-                new_value = re.search(pattern_value, value).group(0)
-
-                print(new_key, new_value)
-                simplified_langs[key] = new_value
+        simplified_langs[key] = value
         
-        else:
-            #else just add to the dictionary
-            simplified_langs[key] = value
-
-
     return simplified_langs
