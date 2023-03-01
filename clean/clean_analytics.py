@@ -49,23 +49,28 @@ class AnalyticsData(DataType):
             report, year = pair
             # Convert date to datetime
             self.data[report].date = pd.to_datetime(self.data[report].date)
-            year_df = self.data[report][self.data[report].date.dt.year == year]
-            # Convert date back to string to merge datasets
-            # year_df.date = year_df.date.map(str)
+            year_df = self.data[report][
+                self.data[report].date.dt.isocalendar().year == year
+            ]
+
             by_year[f"{year}_{report}"] = year_df
 
         self.data = by_year
 
-    def export(self):
+    def export(self, **reports):
         """
         Exports data to CSV files in the data folder.
         """
+        to_export = self.report_type
 
         for (
             name,
             df,
         ) in self.data.items():
-            df.to_csv(f"data/{name}.csv", index=False)
+            if reports and name in reports.values():
+                df.to_csv(f"data/update_data/{name}.csv", index=False)
+            else:
+                df.to_csv(f"data/update_data/{name}.csv", index=False)
 
     def count_weeks(self):
         """
