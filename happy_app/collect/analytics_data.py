@@ -38,12 +38,12 @@ def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
     """
     start_year, stop_year = date_range
     # Check if time is year-to-year or day-to-day
-    # if re.fullmatch(r"\d{4}-\d{2}-\d{2}", start_year):
-    #     before = stop_year
-    #     after = start_year
-    # else:
-    before = f"{stop_year}-12-31"
-    after = f"{start_year}-01-01"
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(start_year)):
+        before = stop_year
+        after = start_year
+    else:
+        before = f"{stop_year}-12-31"
+        after = f"{start_year}-01-01"
 
     results = []
     pull_count = limit
