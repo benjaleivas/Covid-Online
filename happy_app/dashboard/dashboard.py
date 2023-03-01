@@ -76,7 +76,14 @@ import dash_html_components as html
 import plotly.express as px
 import plotly.graph_objects as go
 
-#from analysis.websites_visits import graph 
+from happy_app.analysis.websites_visits import visits_vs_2019
+# from analysis.websites_visits import visits_vs_2019
+
+
+#import 
+
+
+graph_20210_2020 = visits_vs_2019(2020)
 
 #from analysis.websites_visits import weekly_visits_vs_2019
 
@@ -394,7 +401,7 @@ graph_component = dcc.Graph(figure={"data": [{"y": [1, 2, 3]}]})
 graph_container_cdc_data = generate_graph_container_two(
  title_text =   "CDC Data",
  paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.",
-  graph_component = graph_component_bar, 
+  graph_component = graph_20210_2020, 
   graph_component_2 = graph_component_line, 
   title_color = "#808080")
 
