@@ -30,6 +30,8 @@ def covid_map(year,metric):
                   colorscale='blues'
                  )
 
+    # return fig.show()
+
     return dcc.Graph(id='covid', figure=fig)
 
 # #Load merged data

@@ -68,9 +68,11 @@ def visits_vs_2019(year):
     fig.update_yaxes(gridcolor="#eee",
                      griddash="solid",
                      gridwidth=0.5,
-                     range=[0, max(max(post.visits), max(pre.visits))])
+                     range=[0, 250000000])
+                    #  range=[0, max(max(post.visits), max(pre.visits))])
 
     #Return dash object
+    # return fig.show()
     return dcc.Graph(id='visits', figure=fig)
 
     # return fig.show()
