@@ -183,6 +183,27 @@ dash = ">=2.0.0"
 pandas = ["numpy", "pandas"]
 
 [[package]]
+<<<<<<< HEAD
+name = "dash-bootstrap-components"
+version = "1.3.1"
+description = "Bootstrap themed components for use in Plotly Dash"
+category = "main"
+optional = false
+python-versions = ">=3.7, <4"
+files = [
+    {file = "dash-bootstrap-components-1.3.1.tar.gz", hash = "sha256:a4f4b61ae786248f23cfc89aab5b2953d602f0934ff4485fe1d56d60d829532d"},
+    {file = "dash_bootstrap_components-1.3.1-py3-none-any.whl", hash = "sha256:abb52d9318be2c0a8477d2253b3d101fb6da9fdde509249643edb21dd34cbbf2"},
+]
+
+[package.dependencies]
+dash = ">=2.0.0"
+
+[package.extras]
+pandas = ["numpy", "pandas"]
+
+[[package]]
+=======
+>>>>>>> 34c006369a0ec54b5edb3d77a6940345b19c1553
 name = "dash-core-components"
 version = "2.0.0"
 description = "Core component suite for Dash"
@@ -786,5 +807,5 @@ watchdog = ["watchdog"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10,<3.12"
-content-hash = "94de2faaad6d55981bea0c06cb6d53a476b231ae2982bddfee5ad387ee73a940"
+python-versions = ">=3.8.1,<3.12"
+content-hash = "7ab1ab7013164a53c31b40173d786ea04ee92d63ae2343382a04c18a2896626d"

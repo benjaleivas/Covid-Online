@@ -15,8 +15,9 @@ dash-html-components = "^2.0.0"
 pandas = "^1.5.3"
 requests = "^2.28.2"
 regex = "^2022.10.31"
-lxml = "^4.9.2"
+dash = "^2.8.1"
 scipy = "^1.10.1"
+>>>>>>> 34c006369a0ec54b5edb3d77a6940345b19c1553
 
 
 [build-system]
