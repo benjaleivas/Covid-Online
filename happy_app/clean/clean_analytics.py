@@ -69,7 +69,7 @@ class AnalyticsData(DataType):
         ) in self.data.items():
             if reports and name in reports.values():
                 df.to_csv(f"data/update_data/{name}.csv", index=False)
-            else:
+            if not reports:
                 df.to_csv(f"data/update_data/{name}.csv", index=False)
 
     def count_weeks(self):
@@ -94,8 +94,6 @@ class AgencyData(AnalyticsData):
     def fetch_data(self):
         """
         Fetches and structures API data based on years and number of reports
-
-        Returns named tuple holding pandas df for each report type.
         """
         for report in self.report_type:
             print(f"Collecting data on {report}.")
