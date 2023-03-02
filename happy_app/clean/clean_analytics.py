@@ -1,7 +1,8 @@
 import pandas as pd
 import itertools
-from collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
-from collect.utils import REPORT_NAME, AGENCY_NAME
+from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
+from happy_app.collect.auxilary_data import simplify_language_codes
+from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
 import re
@@ -120,3 +121,16 @@ class ReportData(AnalyticsData):
             )
 
         self.data = self.raw_data
+
+    def clean_language_column(self):
+        """
+        Creates new column of language names using dictionary from 
+        """
+        language_codes = simplify_language_codes()
+
+        for _, df in self.data.items():
+            if "language" in df.columns:
+                # simplify language codes to be just the characters before the dash
+
+                # error code: ValueError: pattern contains no capture groups
+                df["language"] = df["language"].str.extract(r'^.*?(?=-)')
