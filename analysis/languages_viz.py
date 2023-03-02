@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 data = pd.read_csv('data/2020_language.csv',usecols=['language', 'visits'])
 
 #Transform data
-parent_child = data['language'].str.split('-')]]
+parent_child = data['language'].str.split('-')
 
 #Group by
 

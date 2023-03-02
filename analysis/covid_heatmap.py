@@ -34,6 +34,11 @@ def covid_map(year,metric):
 
     return dcc.Graph(id='covid', figure=fig)
 
+####################################################################################################
+# PREVIOUS CODE, DON'T ERASE YET
+####################################################################################################
+
+
 # #Load merged data
 # data = pd.read_csv('data/merged_test_dataset.csv',  usecols=['date', 
 #                                                              'visits', 

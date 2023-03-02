@@ -75,7 +75,6 @@ def visits_vs_2019(year):
     # return fig.show()
     return dcc.Graph(id='visits', figure=fig)
 
-    # return fig.show()
     # app = dash.Dash()
     # app.layout = html.Div([
     #     dcc.Graph(figure=fig)
