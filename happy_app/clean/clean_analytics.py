@@ -8,6 +8,22 @@ import re
 
 # Regex to clean URLS
 # Add merge column with strings of dates and merge
+# no second-level domain 
+
+# Time Periods for Traffic
+# March 2020 - April 2020
+# December 2020 - January 2021
+# December 2021 - January 2022
+
+# Sites to track
+# cdc.gov
+# covid.cdc.gov
+# vacunas.cdc
+# vaccines.gov
+# covid.gov
+# covidtests.gov
+
+
 
 
 class AnalyticsData(DataType):
@@ -103,6 +119,8 @@ class AgencyData(AnalyticsData):
             )
 
         self.data = self.raw_data
+
+# clean traffic source data
 
 
 class ReportData(AnalyticsData):

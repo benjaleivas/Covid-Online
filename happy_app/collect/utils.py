@@ -31,7 +31,7 @@ AGENCY_NAME = {
     "STATE": "state",
     "DOT": "transportation",
     "TRES": "treasury",
-    "VA": "veterans-affairs"
+    "VA": "veterans-affairs",
 }
 
 # constants for analytics report names
@@ -46,12 +46,28 @@ REPORT_NAME = {
     "BROWSER_OS": "os-browser",
     "BROWSER_WINDOWS": "windows-browser",
     "BROWSER": "browser",
-    "WINDOWS_IE":"windows-ie",
+    "WINDOWS_IE": "windows-ie",
     "OS": "os",
     "WINDOWS": "windows",
     "IE": "ie",
-    "DEVICE": "device"
+    "DEVICE": "device",
 }
+
+
+KEY_DATES_2020 = {
+    "2020-03-13": "COVID-19 Declared National Emergency",
+    "2020-05-08": "FDA Authorizes First COVID-19 Test",
+    "2020-12-11": "FDA Authorizes Pfizer Vaccine",
+}
+
+KEY_DATES_2021 = {
+    "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
+    "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
+    "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
+}
+
+KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
+
 
 ##########################
 #### HELPER FUNCTIONS ####
