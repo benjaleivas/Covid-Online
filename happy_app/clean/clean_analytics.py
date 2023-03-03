@@ -1,10 +1,7 @@
 import pandas as pd
 import itertools
-from happy_app.collect.analytics_data import (
-    get_analytics_by_agency,
-    get_analytics_by_report,
-)
-from happy_app.collect.auxilary_data import simplify_language_codes
+from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
+from happy_app.collect.auxilary_data import simplify_language_codes, get_census_language_data
 from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
@@ -154,15 +151,35 @@ class LanguageData(AnalyticsData):
 
         self.data = self.raw_data
 
-    def clean_language_column(self):
+    def add_language_columns(self):
         """
-        Creates new column of language names using dictionary from
+        Creates new column of language names using dictionary from aux data.
+        Creates new columns of total langauge speakers from 2013 Census.
         """
         language_codes = simplify_language_codes()
+        census_language_data = get_census_language_data()
 
+        # add langauge names for clarity
         for _, df in self.data.items():
             if "language" in df.columns:
+                # remove quotations if present
+                # df["language"] = df["language"].str.replace(r"\"", "")
+                
                 # simplify language codes to be just the characters before the dash
+                df["language"] = df["language"].str.replace(r'(?=-)', r'^(.*?)(?=-)')
 
-                # error code: ValueError: pattern contains no capture groups
-                df["language"] = df["language"].str.extract(r"^.*?(?=-)")
+                # add new column with just the langauge name using dictionary
+                df["language_name"] = df["language"].map(language_codes)
+
+                # # add census data matched on langauge name
+                # df.merge(census_language_data, on='language_name', how='left')
+        
+        # TODO: note we have about a ~72% match rate with a language based
+            # on the codes
+
+        # TODO: when i try to revert back to raw_data the language and language
+            # name columns are NaN instead of the raw version
+            # assuming it is a deep copy issue
+            
+        
+     
