@@ -9,6 +9,20 @@ import re
 
 # Regex to clean URLS
 # Add merge column with strings of dates and merge
+# no second-level domain
+
+# Time Periods for Traffic
+# March 2020 - April 2020
+# December 2020 - January 2021
+# December 2021 - January 2022
+
+# Sites to track
+# cdc.gov
+# covid.cdc.gov
+# vacunas.cdc
+# vaccines.gov
+# covid.gov
+# covidtests.gov
 
 
 class AnalyticsData(DataType):
@@ -87,7 +101,7 @@ class AnalyticsData(DataType):
         self.data = self.raw_data
 
 
-class AgencyData(AnalyticsData):
+class TrafficData(AnalyticsData):
     def __init__(self, agency, years, report_type):
         super().__init__(report_type, years)
         self.agency = agency
@@ -105,10 +119,25 @@ class AgencyData(AnalyticsData):
 
         self.data = self.raw_data
 
+    def find_sites(self, sites):
+        """
+        Subsets data by specified sites
+        """
+        for name, data in self.data.items():
+            # pass data if aggregated
+            if "total" in name:
+                pass
+            data = data[data["domain"].isin(sites)]
 
-class ReportData(AnalyticsData):
-    def __init__(self, report_type, years):
-        super().__init__(report_type, years)
+
+# Add SourceData class here
+
+
+class LanguageData(AnalyticsData):
+    def __init__(self, agency, years, report_type="language"):
+        super().__init__(agency, years)
+        self.agency = agency
+        self.report_type = [report_type]
 
     def fetch_data(self):
         """
@@ -116,8 +145,8 @@ class ReportData(AnalyticsData):
         """
         for report in self.report_type:
             print(f"Collecting data on {report}.")
-            self.raw_data[report] = get_analytics_by_report(
-                report, (self.years[0], self.years[-1])
+            self.raw_data[report] = get_analytics_by_agency(
+                self.agency, (self.years[0], self.years[-1]), report
             )
 
         self.data = self.raw_data
@@ -153,6 +182,4 @@ class ReportData(AnalyticsData):
             # assuming it is a deep copy issue
             
         
-        
-
-
+     
