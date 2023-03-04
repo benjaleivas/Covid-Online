@@ -2,12 +2,12 @@ import pandas as pd
 import datetime as dt
 from plotly_calplot import calplot  # pip install plotly-calplot
 
-def plot_covid_map(year,metric):
+def plot_covid_cases(year,metric):
     """
-    Creates covid calendar heatmap for chosen 'year' and 'metric'.
+    Creates Covid-19 calendar heatmap for chosen 'year' and 'metric'.
     Inputs:
         - year (int): year to plot covid data for.
-        - metric (str): indicator to use, daily cases or log difference.
+        - metric (str): indicator to use, 'daily_cases' or 'log_difference'.
     Returns (object): DCC graph of 'year' calendar map for covid's 'metric'.
     """
     #Load data
@@ -17,7 +17,8 @@ def plot_covid_map(year,metric):
     #Transform data
     data = data[['date',f'{metric}']]
     data['date'] =  pd.to_datetime(data['date'])
-    data = data.drop(data[pd.to_datetime(data['date']).dt.year != year].index)
+    data = data.drop(data[data['date'].dt.year != year].index)
+
 
     #Plot figure
     fig = calplot(data,
@@ -28,5 +29,4 @@ def plot_covid_map(year,metric):
                   colorscale='blues'
                  )
 
-    return fig.show()
-    # return dcc.Graph(id='covid', figure=fig)
+    return dcc.Graph(id=f'covid_cases-{year}-{metric}', figure=fig)

@@ -20,6 +20,16 @@ KEY_DATES_2021 = {
 
 KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
 
+KEY_DATES = {
+    "2020-03-13": "COVID-19 Declared National Emergency",
+    "2020-05-08": "FDA Authorizes First COVID-19 Test",
+    "2020-12-11": "FDA Authorizes Pfizer Vaccine",
+    "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
+    "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
+    "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
+    "2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"
+}
+
 ## constants used in clean/
 
 # dictionary of strings to look for using regular expressions
@@ -109,3 +119,4 @@ REPORT_NAME = {
     "IE": "ie",
     "DEVICE": "device",
 }
+
