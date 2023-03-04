@@ -18,7 +18,7 @@ def plot_covid_map(year,metric):
     data = data[['date',f'{metric}']]
     data['date'] =  pd.to_datetime(data['date'])
     data = data.drop(data[data['date'].dt.year != year].index)
-    
+
 
     #Plot figure
     fig = calplot(data,
@@ -29,5 +29,4 @@ def plot_covid_map(year,metric):
                   colorscale='blues'
                  )
 
-    return fig.show()
-    # return dcc.Graph(id='covid', figure=fig)
+    return dcc.Graph(id=f'covid_cases-{year}-{metric}', figure=fig)
