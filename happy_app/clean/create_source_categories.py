@@ -43,7 +43,7 @@ SOURCE_TYPES = {
 }
 
 
-def create_source_categories(data):
+def create_source_category_dict(data):
     """
     Takes a dataframe and creates a dictionary url fragments called "sources"
     in analytics data (e.g. "facebook.com") to meaningful source categories
@@ -77,7 +77,7 @@ def create_source_categories(data):
     return source_categories_reversed
 
 
-def label_sources(data):
+def add_source_labels(data):
     """
     Takes a dataframe of TrafficSourceData, and adds two columns: "source cat" 
     and "source type" which offer two levels of categorization of the source
@@ -89,12 +89,12 @@ def label_sources(data):
     (str) and "source type" (str).
     """
     # get source categories using helper function
-    source_categories = create_source_categories(data)
+    source_categories = create_source_category_dict(data)
 
     # create a dictionary that maps each source cat to a more general source type
     source_types_reversed = {value: k for k,values in SOURCE_TYPES.items() for value in values}
 
-    #maps the source to source categories
+    # maps the source to source categories
     data["source cat"] = data["source"].str.lower().map(source_categories, na_action='ignore')
     
     # maps the source to source types, using source categories if no source type
