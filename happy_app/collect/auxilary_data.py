@@ -70,7 +70,7 @@ def simplify_language_codes():
 
     for key, value in language_codes.items():
 
-        pattern_key = r'^.*?(?=-)'
+        pattern_key = r'^(.*?)(?=-)'
         pattern_value = r'^[^\(]+'
 
         key_match = re.search(pattern_key, key)
@@ -107,12 +107,12 @@ def get_census_language_data():
     response = requests.get(url)
     languages_spoken = pd.DataFrame(response.json())
 
-    # set column headers as column names
-    languages_spoken.columns = languages_spoken.iloc[0]
-
     # remove first row of data which were column names, and unnecessary columns
     languages_spoken = languages_spoken.tail(-1)
-    languages_spoken = languages_spoken.drop(columns=["us", "LAN"])
+    languages_spoken = languages_spoken.drop(columns=[2, 3])
+
+    # set column headers as column names
+    languages_spoken.columns = ["language_name", "estimate"]
     
     return languages_spoken
     
