@@ -2,45 +2,10 @@ import pandas as pd
 import itertools
 from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
 from happy_app.collect.auxilary_data import simplify_language_codes, get_census_language_data
-from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
+from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME, COMMON_SOURCES, SOURCE_TYPES
 from .datatype import DataType
 from collections import defaultdict
 import re
-
-
-# dictionary of strings to look for using regular expressions
-COMMON_SOURCES = {
-    #social media sources
-    "Facebook": ["facebook", "^Facebook$", "education.fb.com"],
-    "Twitter" : ["twitter", "^t.co$"],
-    "Instagram" : ["instagram"],
-    "Snapchat" : ["snapchat"],
-    "Reddit" : ["reddit"],
-    "TikTok": ["tiktok"],
-    "YouTube": ["youtube"],
-    "Spotify": ["spotify"],
-    # search engines
-    "Google" : ["google"] ,
-    "DuckDuckGo" : ["duckduckgo"],
-    "Bing" : ["bing"],
-    "Yahoo": ["yahoo"],
-    "Baidu": ["baidu"],
-    # gov sources
-    "Other .gov": [".gov$", "lnks.gd", "govdelivery", "gquery", ".us$"],
-    # direct site
-    "Direct Link": ["(direct)"],
-    # other interesting sites
-    "Wikipedia": ["wikipedia"],
-    "Other .org": [".org$"],
-    "Other .edu": [".edu$"],
-    "Other .com": [".com$"],
-    "Oracle": ["eloqua"],
-}
-
-SOURCE_TYPES = {
-    "Social Media": ["Facebook", "Twitter", "Instagram", "Snapchat","Reddit","TikTok","YouTube", "Spotify"],
-    "Search Engine": ["Google", "DuckDuckGo","Bing","Yahoo","Baidu"]
-}
 
 
 def create_source_category_dict(data):
