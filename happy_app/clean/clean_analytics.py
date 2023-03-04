@@ -31,6 +31,7 @@ class AnalyticsData(DataType):
         self.years = years
         self.data = defaultdict(None)
         self.raw_data = defaultdict(None)
+        self.to_export = []
 
     def sum_by(self, time_range, aggregate=False):
         """
@@ -72,20 +73,14 @@ class AnalyticsData(DataType):
 
         self.data = by_year
 
-    def export(self, **reports):
+    def export(self):
         """
         Exports data to CSV files in the data folder.
         """
-        to_export = self.report_type
 
-        for (
-            name,
-            df,
-        ) in self.data.items():
-            if reports and name in reports.values():
-                df.to_csv(f"data/update_data/{name}.csv", index=False)
-            if not reports:
-                df.to_csv(f"data/update_data/{name}.csv", index=False)
+        for export_dct in self.to_export:
+            for name, df in export_dct.items():
+                df.to_csv(f"happy_app/data/update_data/{name}.csv", index=False)
 
     def count_weeks(self):
         """
@@ -119,15 +114,19 @@ class TrafficData(AnalyticsData):
 
         self.data = self.raw_data
 
-    def find_sites(self, sites):
+    def find_sites(self, sites, export=True):
         """
         Subsets data by specified sites
         """
+        by_site = defaultdict(None)
         for name, data in self.data.items():
             # pass data if aggregated
             if "total" in name:
                 pass
-            data = data[data["domain"].isin(sites)]
+            by_site[name] = data[data["domain"].isin(sites)]
+
+        if export:
+            self.to_export.append(by_site)
 
 
 # Add SourceData class here
