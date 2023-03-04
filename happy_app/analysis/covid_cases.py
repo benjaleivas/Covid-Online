@@ -2,7 +2,7 @@ import pandas as pd
 import datetime as dt
 from plotly_calplot import calplot  # pip install plotly-calplot
 
-def plot_covid_map(year,metric):
+def plot_covid_cases(year,metric):
     """
     Creates Covid-19 calendar heatmap for chosen 'year' and 'metric'.
     Inputs:
