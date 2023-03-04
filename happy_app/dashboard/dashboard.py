@@ -76,14 +76,17 @@ import dash_html_components as html
 import plotly.express as px
 import plotly.graph_objects as go
 
-from happy_app.analysis.websites_visits import visits_vs_2019
+#from analysis.websites_visits import graph 
+
+
+#from happy_app.analysis.websites_visits import visits_vs_2019
 # from analysis.websites_visits import visits_vs_2019
 
 
 #import 
 
 
-graph_20210_2020 = visits_vs_2019(2020)
+#graph_20210_2020 = visits_vs_2019(2020)
 
 #from analysis.websites_visits import weekly_visits_vs_2019
 
@@ -192,37 +195,8 @@ def generate_graph_container_two(title_text, paragraph_text, graph_component,
     )
     return graph_container
 
-import dash_core_components as dcc
 
-def generate_graph_container_interactive(title_text, paragraph_text, graph_component_1, graph_component_2, graph_component_3, title_color):
-    graph_container = dbc.Container(
-        fluid=True,
-        children=[
-            dbc.Row([
-                dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
-                    html.P(paragraph_text, style={"font-size": "1rem"})
-                ], width=4),
-                dbc.Col([
-                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    dcc.Dropdown(
-                        id='graph-dropdown',
-                        options=[
-                            {'label': 'Graph 1', 'value': 'graph1'},
-                            {'label': 'Graph 2', 'value': 'graph2'},
-                            {'label': 'Graph 3', 'value': 'graph3'}
-                        ],
-                        value='graph1'
-                    ),
-                    html.Div(
-                        id='graph-container',
-                        children=graph_component_1
-                    )
-                ], width=8)
-            ])
-        ]
-    )
-    return graph_container
+
 
 def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, title_color='black', number_color='black'):
     container = dbc.Container(
@@ -300,70 +274,67 @@ def generate_conclusion_container(title_text, list_items, bg_color):
     )
     return container
 
+def generate_graph_container_interactive(title_text, paragraph_text, graph_component_1, graph_component_2, graph_component_3, title_color):
+    graph_container = dbc.Container(
+        fluid=True,
+        children=[
+            dbc.Row([
+                dbc.Col([
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.P(paragraph_text, style={"font-size": "1rem"})
+                ], width=4),
+                dbc.Col([
+                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
+                    dcc.Dropdown(
+                        id='graph-dropdown-2',
+                        options=[
+                            {'label': 'Graph 1', 'value': 'graph1'},
+                            {'label': 'Graph 2', 'value': 'graph2'},
+                            {'label': 'Graph 3', 'value': 'graph3'}
+                        ],
+                        value='graph1'
+                    ),
+                    html.Div(
+                        id='graph-container-2',
+                        children=graph_component_1
+                    )
+                ], width=8)
+            ])
+        ]
+    )
+    return graph_container
+
+def generate_graph_container_interactive_two(title_text, paragraph_text, graph_component_1, graph_component_2, graph_component_3, graph_component_4, graph_component_5, graph_component_6, title_color):
+    graph_container = dbc.Container(
+        fluid=True,
+        children=[
+            dbc.Row([
+                dbc.Col([
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.P(paragraph_text, style={"font-size": "1rem"})
+                ], width=4),
+                dbc.Col([
+                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
+                    dcc.Dropdown(
+                        id='graph-dropdown-1',
+                        options=[
+                            {'label': 'Graph 1', 'value': 'graph1'},
+                            {'label': 'Graph 2', 'value': 'graph2'},
+                            {'label': 'Graph 3', 'value': 'graph3'}
+                        ],
+                        value='graph1'
+                    ),
+                    html.Div(
+                        id='graph-container-1',
+                        children=[graph_component_1, graph_component_2]
+                    )
+                ], width=8)
+            ])
+        ]
+    )
+    return graph_container
 
 
-
-
-
-
-
-
-
-# def generate_graph_container_two(title_left, title_right, graph_component_left, graph_component_right, title_color):
-#     graph_container = dbc.Container(
-#         fluid=True,
-#         children=[
-#             dbc.Row([
-#                 dbc.Col([
-#                     html.H1(title_left, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
-#                     graph_component_left
-#                 ], width=4),
-#                 dbc.Col([                    html.H1(title_right, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),                    graph_component_right                ], width=8)
-#             ])
-#         ]
-#     )
-#     return graph_container
-
-
-
-
-
-
-
-
-
-# def generate_graph_container_two(title_text, paragraph_text, title_color):
-#     # Define the two graph components
-#     graph_left = dcc.Graph(figure={"data": [{"x": [1, 2, 3], "y": [1, 2, 3], "type": "scatter", "mode": "lines"}]})
-#     graph_right = dcc.Graph(figure={"data": [{"x": ["A", "B", "C"], "y": [3, 2, 1], "type": "bar"}]})
-
-#     # Define the layout of the container
-#     graph_container = dbc.Container(
-#         fluid=True,
-#         children=[
-#             dbc.Row(
-#                 dbc.Col(
-#             html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
-#                     width=12
-#                 )
-#             ),
-#             html.P(paragraph_text, style={"font-size": "1rem"}),
-#             dbc.Row(
-#                 [
-#                     dbc.Col(
-#                         graph_left,
-#                         width={"size": 6, "order": 1}
-#                     ),
-#                     dbc.Col(
-#                         graph_right,
-#                         width={"size": 6, "order": 2}
-#                     )
-#                 ]
-#             )
-#         ]
-#     )
-
-#     return graph_container
 
 ##############
 # Fake data 
@@ -397,11 +368,13 @@ title_container = generate_title_container("COVID-19 Online:",
 subtitle_container_goverment_pages = generate_subtitle_container("WERE WE USING GOVERMENT PAGES?",
  "#005aae", 
  "white"  )
-graph_component = dcc.Graph(figure={"data": [{"y": [1, 2, 3]}]})
+
+
+
 graph_container_cdc_data = generate_graph_container_two(
  title_text =   "CDC Data",
- paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.",
-  graph_component = graph_20210_2020, 
+ paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.",
+  graph_component = graph_component_bar, 
   graph_component_2 = graph_component_line, 
   title_color = "#808080")
 
@@ -461,6 +434,18 @@ conclusion_container = generate_conclusion_container(
         bg_color="#005aae"
     )
 
+interactive_two_container = generate_graph_container_interactive_two(
+    title_text = "Attemp for interactive graph", 
+    paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
+    graph_component_1 = graph_component_line , 
+    graph_component_2 = graph_component_bar, 
+    graph_component_3 = graph_component_bar, 
+    graph_component_4 = graph_component_bar, 
+    graph_component_5 = graph_component_bar, 
+    graph_component_6 = graph_component_bar, 
+    title_color = "#005aae") 
+   
+
 
 
 
@@ -487,7 +472,7 @@ app.layout = html.Div(children=[
     subtitle_container_language, 
     graph_container_language, 
     subtitle_container_most_visited_pages, 
-    graph_container_traffic_source, 
+    interactive_two_container, 
     conclusion_container
 
     #subtitle_container_disease, 
@@ -496,17 +481,31 @@ app.layout = html.Div(children=[
 
 
 @app.callback(
-    dash.dependencies.Output('graph-container', 'children'),
-    [dash.dependencies.Input('graph-dropdown', 'value')]
+    [dash.dependencies.Output('graph-container-1', 'children'),
+     dash.dependencies.Output('graph-container-2', 'children')],
+    [dash.dependencies.Input('graph-dropdown-1', 'value'),
+     dash.dependencies.Input('graph-dropdown-2', 'value')]
 )
 
-def update_graph_container(value):
-    if value == 'graph1':
-        return graph_component_bar 
-    elif value == 'graph2':
-        return graph_component_line
-    elif value == 'graph3':
-        return graph_component_treemap 
+def update_graph_container(value1, value2):
+    if value1 == 'graph1':
+        graph_container_1 = [graph_component_bar, graph_component_line]
+    elif value1 == 'graph2':
+        graph_container_1 = [graph_component_line, graph_component_bar]
+    elif value1 == 'graph3':
+        graph_container_1 = [graph_component_bar, graph_component_line]
+    
+    if value2 == 'graph1':
+        graph_container_2 = graph_component_bar 
+    elif value2 == 'graph2':
+        graph_container_2 = graph_component_line
+    elif value2 == 'graph3':
+        graph_container_2 = graph_component_treemap
+    
+    return graph_container_1, graph_container_2
+
+
+
 
 
 # Run app
