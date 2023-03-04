@@ -36,7 +36,7 @@ class AnalyticsData(DataType):
         self.raw_data = defaultdict(None)
         self.to_export = []
 
-    def sum_by(self, time_range, aggregate=False):
+    def sum_by(self, time_range, aggregate=False, export=True):
         """
         Cleans dataframe and sums values
         """
@@ -57,7 +57,8 @@ class AnalyticsData(DataType):
                     [col, time_range], as_index=False
                 ).sum()
 
-        self.data = to_sum
+        if export:
+            self.to_export.append(to_sum)
 
     def split_by_year(self):
         """
@@ -91,6 +92,7 @@ class AnalyticsData(DataType):
         """
         for report in self.data:
             self.data[report]["week"] = self.data[report]["date"].dt.isocalendar().week
+            self.data["year"] = self.data[report]["date"].dt.isocalendar().week
 
     def undo_changes(self):
         """
