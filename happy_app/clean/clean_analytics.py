@@ -130,29 +130,22 @@ class ReportData(AnalyticsData):
         language_codes = simplify_language_codes()
         census_language_data = get_census_language_data()
 
-        # add langauge names for clarity
-        for _, df in self.data.items():
+        with_language_cols = {key: val for key, val in self.data.items()}
+
+        # add language names for clarity
+        for key, df in self.data.items():
             if "language" in df.columns:
-                # remove quotations if present
-                # df["language"] = df["language"].str.replace(r"\"", "")
-                
                 # simplify language codes to be just the characters before the dash
-                df["language"] = df["language"].str.replace(r'(?=-)', r'^(.*?)(?=-)')
-
+                with_language_cols[key]["language"] = df["language"].str.replace(r'\-(.*)', "", regex=True)
                 # add new column with just the langauge name using dictionary
-                df["language_name"] = df["language"].map(language_codes)
+                with_language_cols[key]["language_name"] = df["language"].map(language_codes)
 
-                # # add census data matched on langauge name
-                # df.merge(census_language_data, on='language_name', how='left')
+                # really bad match rate
+                with_language_cols[key] = with_language_cols[key].merge(census_language_data, on='language_name', how='left')
+
+                #need to re-sum by date?
+                
         
-        # TODO: note we have about a ~72% match rate with a language based
-            # on the codes
-
-        # TODO: when i try to revert back to raw_data the language and language
-            # name columns are NaN instead of the raw version
-            # assuming it is a deep copy issue
-            
+        # note we have about a ~98% match rate with a language based on the codes
+        self.data = with_language_cols
         
-        
-
-
