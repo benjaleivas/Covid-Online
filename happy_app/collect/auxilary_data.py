@@ -70,7 +70,7 @@ def simplify_language_codes():
 
     for key, value in language_codes.items():
 
-        pattern_key = r'^.*?(?=-)'
+        pattern_key = r'^(.*?)(?=-)'
         pattern_value = r'^[^\(]+'
 
         key_match = re.search(pattern_key, key)
@@ -86,37 +86,6 @@ def simplify_language_codes():
         
     return simplified_languages
 
-def get_census_language_data():
-    """
-    Collects language data from 2013 Census - which is the last time this question
-    was asked and collected in full detail.
-    """
-    # set variables for census data table
-    year = "2013" # most recent year of data even though its pretty outdated
-    report = "language"
-    columns = "LANLABEL,EST"
-    geography = "us:01"
-    variable = "LAN"
-
-    # sign up for API key here https://api.census.gov/data/key_signup.html
-    # save it as local variable, os.environ["CENSUS_API_KEY"]
-    API_key = os.environ["CENSUS_API_KEY"]
-    
-    url = f"https://api.census.gov/data/{year}/{report}?get={columns}&for={geography}&{variable}&key={API_key}"
-
-    response = requests.get(url)
-    languages_spoken = pd.DataFrame(response.json())
-
-    # set column headers as column names
-    languages_spoken.columns = languages_spoken.iloc[0]
-
-    # remove first row of data which were column names, and unnecessary columns
-    languages_spoken = languages_spoken.tail(-1)
-    languages_spoken = languages_spoken.drop(columns=["us", "LAN"])
-    
-    return languages_spoken
-    
-    
 
 ###### OTHER DATA THAT WE DIDN'T END UP USING IN OUR OUTPUT
 
@@ -142,3 +111,34 @@ def get_bls_data(start_year, end_year):
 
     return unemployment_df
 
+
+def get_census_language_data():
+    """
+    Collects language data from 2013 Census - which is the last time this question
+    was asked and collected in full detail.
+    """
+    # set variables for census data table
+    year = "2013" # most recent year of data even though its pretty outdated
+    report = "language"
+    columns = "LANLABEL,EST"
+    geography = "us:01"
+    variable = "LAN"
+
+    # sign up for API key here https://api.census.gov/data/key_signup.html
+    # save it as local variable, os.environ["CENSUS_API_KEY"]
+    API_key = os.environ["CENSUS_API_KEY"]
+    
+    url = f"https://api.census.gov/data/{year}/{report}?get={columns}&for={geography}&{variable}&key={API_key}"
+
+    response = requests.get(url)
+    languages_spoken = pd.DataFrame(response.json())
+
+    # remove first row of data which were column names, and unnecessary columns
+    languages_spoken = languages_spoken.tail(-1)
+    languages_spoken = languages_spoken.drop(columns=[2, 3])
+
+    # set column headers as column names
+    languages_spoken.columns = ["language_name", "estimate"]
+    
+    return languages_spoken
+    

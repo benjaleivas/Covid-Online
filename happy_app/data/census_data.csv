@@ -1,0 +1,328 @@
+,language_name,estimate
+1,Spanish,37458470
+2,Ladino,130
+3,Pachuco,
+4,French,1253560
+5,Patois,32900
+6,Cajun,21285
+7,Portuguese,692500
+8,Papia Mentae,970
+9,German,1063275
+10,Luxembourgian,500
+11,Pennsylvania Dutch,133190
+12,Dutch,141580
+13,Afrikaans,23010
+14,Frisian,510
+15,Swedish,55735
+16,Danish,28285
+17,Norwegian,39430
+18,Icelandic,4865
+19,Faroese,30
+20,Serbocroatian,144675
+21,Croatian,53040
+22,Serbian,70260
+23,Bielorussian,1805
+24,Ukrainian,152325
+25,Czech,47385
+26,Lusatian,
+27,Slovak,27930
+28,Bulgarian,57785
+29,Macedonian,22885
+30,Slovene,6370
+31,India n.e.c.,61385
+32,Bengali,257740
+33,Panjabi,253740
+34,Marathi,73630
+35,Bihari,595
+36,Rajasthani,715
+37,Oriya,5385
+38,Assamese,1305
+39,Kashmiri,1775
+40,Nepali,94220
+41,Sindhi,8965
+42,Pakistan n.e.c.,12605
+43,Sinhalese,26745
+44,Romany,1555
+45,Jamaican Creole,21965
+46,Krio,10560
+47,Hawaiian Pidgin,365
+48,Pidgin,4445
+49,Gullah,385
+50,Saramacca,35
+51,Catalonian,2325
+52,Romanian,154625
+53,Rhaeto-Romanic,
+54,Welsh,2235
+55,Irish Gaelic,20590
+56,Scottic Gaelic,1635
+57,Albanian,133870
+58,Lithuanian,39790
+59,Latvian,16035
+60,Pashto,22760
+61,Kurdish,17020
+62,Balochi,185
+63,Tadzhik,435
+64,Ossete,50
+65,Chinese,1867485
+66,Hakka,1350
+67,"Kan, Hsiang",50
+68,Cantonese,458840
+69,Mandarin,487250
+70,Fuchow,1450
+71,Formosan,77675
+72,Wu,2670
+73,Karakalpak,
+74,Kazakh,1480
+75,Kirghiz,550
+76,Karachay,420
+77,Uighur,8905
+78,Azerbaijani,2085
+79,Turkish,116515
+80,Turkmen,205
+81,Mongolian,10180
+82,Tungus,235
+83,Dravidian,1150
+84,Gondi,1470
+85,Telugu,247760
+86,Kannada,48620
+87,Malayalam,146310
+88,Tamil,190685
+89,Munda,2030
+90,Burushaski,95
+91,Tibetan,16730
+92,Burmese,62645
+93,Karen,30185
+94,Kachin,520
+95,Mien,19010
+96,Paleo-siberian,530
+97,Indonesian,67410
+98,Achinese,
+99,Balinese,795
+100,Cham,1050
+101,Javanese,495
+102,Malagasy,720
+103,Malay,14580
+104,Minangkabau,15
+105,Sundanese,35
+106,Bisayan,29800
+107,Sebuano,15700
+108,Pangasinan,2265
+109,Ilocano,85755
+110,Bikol,695
+111,Pampangan,5620
+112,Micronesian,7830
+113,Carolinian,945
+114,Chamorro,19780
+115,Gilbertese,170
+116,Kusaiean,1165
+117,Marshallese,18485
+118,Mokilese,500
+119,Mortlockese,
+120,Nauruan,
+121,Palau,4140
+122,Ponapean,3525
+123,Trukese,8790
+124,Ulithean,40
+125,Woleai-Ulithi,140
+126,Yapese,720
+127,Melanesian,1305
+128,Polynesian,435
+129,Samoan,64135
+130,Tongan,31440
+131,Niuean,
+132,Tokelauan,125
+133,Fijian,5755
+134,Marquesan,135
+135,Rarotongan,95
+136,Maori,460
+137,Nukuoro,210
+138,Hawaiian,26205
+139,Aleut,995
+140,Pacific Gulf Yupik,70
+141,Eskimo,1270
+142,Inupik,6740
+143,St. Lawrence Island Yupik,1070
+144,Yupik,19750
+145,Algonquian,1030
+146,Arapaho,1065
+147,Atsina,55
+148,Blackfoot,1450
+149,Cheyenne,1920
+150,Cree,870
+151,Delaware,240
+152,Fox,400
+153,Kickapoo,820
+154,Menomini,405
+155,French Cree,170
+156,Miami,115
+157,Micmac,205
+158,Ojibwa,9735
+159,Ottawa,965
+160,Passamaquoddy,845
+161,Penobscot,75
+162,Abnaki,55
+163,Potawatomi,985
+164,Shawnee,255
+165,Yurok,350
+166,Kutenai,215
+167,Makah,150
+168,Kwakiutl,175
+169,Nootka,
+170,Upper Chehalis,4
+171,Clallam,145
+172,Coeur Dalene,95
+173,Columbia,
+174,Salish,1350
+175,Okanogan,230
+176,Puget Sound Salish,215
+177,Quinault,145
+178,Tillamook,
+179,Twana,
+180,Haida,180
+181,Athapascan,1265
+182,Ahtena,45
+183,Han,60
+184,Ingalit,15
+185,Koyukon,65
+186,Kuchin,1285
+187,Upper Kuskokwim,
+188,Tanaina,90
+189,Tanana,
+190,Upper Tanana,
+191,Chasta Costa,165
+192,Hupa,70
+193,Other Athapascan-Eyak,25
+194,Apache,13445
+195,Kiowa,750
+196,Tlingit,1240
+197,Mountain Maidu,200
+198,Northwest Maidu,
+199,Southern Maidu,
+200,Sierra Miwok,155
+201,Nomlaki,
+202,Patwin,4
+203,Wintun,135
+204,Foothill North Yokuts,225
+205,Tachi,
+206,Santiam,55
+207,Siuslaw,10
+208,Klamath,205
+209,Nez Perce,805
+210,Sahaptian,1295
+211,Upper Chinook,270
+212,Tsimshian,40
+213,Achumawi,
+214,Atsugewi,
+215,Karok,445
+216,Pomo,485
+217,Washo,215
+218,Cocomaricopa,35
+219,Mohave,200
+220,Yuma,290
+221,Diegueno,295
+222,Delta River Yuman,365
+223,Havasupai,145
+224,Walapai,300
+225,Yavapai,245
+226,Chumash,
+227,Tonkawa,50
+228,Yuchi,165
+229,Crow,4160
+230,Hidatsa,625
+231,Mandan,75
+232,Dakota,17855
+233,Chiwere,105
+234,Winnebago,1720
+235,Kansa,20
+236,Omaha,480
+237,Osage,420
+238,Ponca,305
+239,Quapaw,
+240,Alabama,370
+241,Choctaw,9635
+242,Mikasuki,290
+243,Koasati,365
+244,Muskogee,4465
+245,Chetemacha,65
+246,Keres,13190
+247,Iroquois,165
+248,Mohawk,1945
+249,Oneida,770
+250,Onondaga,75
+251,Cayuga,
+252,Seneca,1015
+253,Tuscarora,240
+254,Wyandot,30
+255,Cherokee,11465
+256,Arikara,155
+257,Caddo,115
+258,Pawnee,95
+259,Wichita,
+260,Comanche,1015
+261,Mono,355
+262,Paiute,1305
+263,Northern Paiute,30
+264,Southern Paiute,
+265,Chemehuevi,
+266,Kawaiisu,
+267,Ute,1895
+268,Shoshoni,2000
+269,Hopi,6075
+270,Cahuilla,60
+271,Cupeno,20
+272,Luiseno,75
+273,Serrano,
+274,Pima,6990
+275,Yaqui,640
+276,Picuris,155
+277,Tiwa,2180
+278,Sandia,
+279,Tewa,4620
+280,Towa,1925
+281,Zuni,9615
+282,Chinook Jargon,45
+283,American Indian,7110
+284,Jicarilla,510
+285,Chiricahua,155
+286,San Carlos,360
+287,Kalispel,30
+288,Spokane,
+289,Amharic,195260
+290,Berber,2940
+291,Chadic,8565
+292,Cushite,122445
+293,Sudanic,8510
+294,Nilotic,6890
+295,Nilo-Hamitic,1275
+296,Nubian,305
+297,Saharan,80
+298,Nilo-Saharan,270
+299,Khoisan,55
+300,Swahili,88685
+301,Bantu,56685
+302,Mande,29835
+303,Fulani,30475
+304,Gur,1310
+305,"Kru, Ibo, Yoruba",322255
+306,Efik,5620
+307,Mbum (and related),715
+308,African,12320
+309,Finnish,25805
+310,Estonian,6035
+311,Lapp,
+312,Other Uralic languages,20
+313,Caucasian,8980
+314,Basque,1860
+315,Syriac,74725
+316,Aztecan,720
+317,Sonoran,60
+318,Misumalpan,95
+319,Mayan languages,7650
+320,Tarascan,60
+321,Mapuche,210
+322,Oto - Manguen,5100
+323,Quechua,1300
+324,Arawakian,3150
+325,Chibchan,1095
+326,Tupi-Guarani,245
+327,Uncodable,6760
