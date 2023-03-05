@@ -15,3 +15,9 @@ import os
 os.environ['ANALYTICS_API_KEY'] = '<YOUR KEY HERE>'
 ```
 
+## Running our Project
+
+After cloning the repository following these steps to view our work.
+
+1. Set up the virtual enviornment by running ```python poetry install ``` to install the required packages, then ```python poetry shell ``` to activate the envioronment. 
+2.  

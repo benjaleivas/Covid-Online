@@ -3,7 +3,6 @@ import pandas as pd
 from dash import dcc
 import plotly.graph_objects as go
 from datetime import datetime as dt
-from plotly.subplots import make_subplots
 from happy_app.collect.utils import KEY_DATES
 
 def plot_hhs_visits(year):
