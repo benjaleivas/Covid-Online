@@ -28,7 +28,7 @@ def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
       on the type of report selected, but may include:
             id (int)
             date (str): in format YYYY-MM-DD
-            report_name (str)
+            report_type (str)
             domain (str)
             visits (int)
     """

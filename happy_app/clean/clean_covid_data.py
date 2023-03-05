@@ -2,7 +2,6 @@ import pandas as pd
 from .datatype import DataType
 from happy_app.collect.auxilary_data import get_covid_data
 from collections import defaultdict
-import itertools
 
 
 class CovidData(DataType):
@@ -51,9 +50,10 @@ class CovidData(DataType):
             #save as separate attribute if in_place=False
             self.modified_data = by_year
 
-
+    #didn't end up aggregating the data this way, but helpful for data exploration
     def sum_by(self, time_period="daily", in_place=True):
         """
+        #TODO: add doc string
         """
         self.time_period = time_period
         valid_time_periods = ["daily", "weekly", "monthly"]
@@ -82,13 +82,17 @@ class CovidData(DataType):
         
 
     def export(self, modified=False):
-
+        """
+        #TODO: add doc string
+        """
         export_data = self.data
+
         if modified:
             export_data = self.modified_data
 
-        for (year, df) in export_data.items():
-            df.to_csv(f"data/{year}_{self.time_period}_covid_data.csv", index=False)
+        for year, df in export_data.items():
+            print(f"Saving {year} daily COVID data.")
+            df.to_csv(f"happy_app/data/update_data/{year}_{self.time_period}_covid_data.csv", index=False)
 
 
 ## HELPER FUNCTIONS TO CLEAN COVID DATA

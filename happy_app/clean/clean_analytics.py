@@ -66,7 +66,7 @@ class AnalyticsData(DataType):
         else:
             return to_sum
 
-    def split_by_year(self):
+    def split_by_year(self, export=True):
         """
         Splits aggegrated yearly data into multiple dataframes per year.
         """
@@ -80,7 +80,7 @@ class AnalyticsData(DataType):
             ]
 
             by_year[f"{year}_{report}"] = year_df
-
+            
         self.data = by_year
 
     def export(self):
@@ -93,6 +93,7 @@ class AnalyticsData(DataType):
                 # Remove date if not removed already
                 if "date" in df.columns:
                     df.drop("date", axis=1, inplace=True)
+                print(f"Saving {name}.")
                 df.to_csv(f"happy_app/data/update_data/{name}.csv", index=False)
 
     def count_weeks(self):
@@ -146,10 +147,10 @@ class TrafficData(AnalyticsData):
 
 # Claire
 class TrafficSourceData(AnalyticsData):
-    def __init__(self, agency, years, report_type="traffic-source"):
+    def __init__(self, agency, years, report_type=["traffic-source"]):
         super().__init__(agency, years)
         self.agency = agency
-        self.report_type = [report_type]
+        self.report_type = report_type
         self.start_date, self.end_date = years
 
     def add_source_categories(self, export=True):
@@ -183,6 +184,7 @@ class TrafficSourceData(AnalyticsData):
 
         for export_dct in self.to_export:
             for name, df in export_dct.items():
+                print(f"Saving {name}.")
                 df.to_csv(f"happy_app/data/update_data/{self.start_date}_to_{self.end_date}_{name}.csv", index=False)
     
 # Claire
@@ -190,8 +192,8 @@ class LanguageData(AnalyticsData):
     def __init__(self, agency, years, report_type="language"):
         super().__init__(agency, years)
         self.agency = agency
-        self.report_type = [report_type]
-
+        self.report_type = report_type
+        
     def add_language_columns(self, export=True):
         """
         Creates new column of language names using dictionary from aux data.
@@ -204,21 +206,15 @@ class LanguageData(AnalyticsData):
 
         # for every dataframe in self.data
         for key, df in with_language_cols.items():
-            if "language" in with_language_cols.columns:
+            if "language" in with_language_cols[key].columns:
                 # simplify language codes to be just the characters before the dash
-                with_language_cols[key]["language"] = with_language_cols["language"].str.replace(r'\-(.*)', "", regex=True)
+                with_language_cols[key]["language"] = with_language_cols[key]["language"].str.replace(r'\-(.*)', "", regex=True)
                 # add new column with just the langauge name using dictionary
-                with_language_cols[key]["language_name"] = with_language_cols["language"].map(language_codes)
+                with_language_cols[key]["language_name"] = with_language_cols[key]["language"].map(language_codes).str.strip()
 
         if export:
             self.to_export.append(with_language_cols)
         else:
             # if export is false, method will return the new data
             return with_language_cols
-
-
-                
-        
-        
-
 
