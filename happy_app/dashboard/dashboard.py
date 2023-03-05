@@ -3,18 +3,17 @@ from dash import dcc
 from dash import html
 import pandas as pd
 import dash_bootstrap_components as dbc
-import dash_html_components as html
 import plotly.express as px
 import plotly.graph_objects as go
 
-#Esta era la última que servía 
-#from happy_app.analysis.visits_viz import plot_visits_vs_2019
-#graph_20210_2020 = visits_vs_2019(2020)
+from happy_app.analysis.hhs_visits import plot_hhs_visits
+from happy_app.analysis.covid_cases import plot_covid_cases
+
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-
+#En caso de que querramos quedarnos con la versión anterior 
 # def generate_title_container(title_text, subtitle_text):
 #     title_container = dbc.Container(
 #         fluid=True,
@@ -115,16 +114,6 @@ def generate_subtitle_container(subtitle_text, background_color, text_color, sub
     )
     return subtitle_container
 
-
-
-
-
-
-
-
-
-
-
 # def generate_subtitle_container(subtitle_text, background_color, text_color ):
 #     subtitle_container = dbc.Container(
 #         fluid=True,
@@ -196,41 +185,29 @@ def generate_graph_container_two(title_text, paragraph_text, graph_component,
 
 
 
-def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, title_color='black', number_color='black'):
+def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, number3, explanation3, title_color='black', number_color='black'):
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
-        children=[
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            html.H1(title_text, style={"color": title_color, "font-size": "4rem"}),
-                            html.P(paragraph_text)
-                        ],
+        children=[            dbc.Row(                [                    dbc.Col(                        [                            html.H1(title_text, style={"color": title_color, "font-size": "4rem"}),                            html.P(paragraph_text)                        ],
                         width=4,
                         style={'height': '40vh', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                     ),
                     dbc.Col(
-                        [
-                            dbc.Row(
-                                [
-                                    dbc.Col(
-                                        [
-                                            html.H1(f"{number1}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),
-                                            html.P(explanation1, style={'text-align': 'center'})
-                                        ],
-                                        width=6,
+                        [                            dbc.Row(                                [                                    dbc.Col(                                        [                                            html.H1(f"{number1}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
+                                        width=4,
                                         style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [
-                                            html.H1(f"{number2}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),
-                                            html.P(explanation2, style={'text-align': 'center'})
-                                        ],
-                                        width=6,
+                                        [                                            html.H1(f"{number2}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
+                                        width=4,
                                         style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
-                                    )
+                                    ),
+                                    dbc.Col(
+                                        [                                            html.H1(f"{number3}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
+                                        width=4,
+                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                                    ),
                                 ],
                                 style={'height': '50%'}
                             )
@@ -244,6 +221,7 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
         ]
     )
     return container
+
 
 def generate_conclusion_container(title_text, list_items, bg_color):
     container = dbc.Container(
@@ -416,10 +394,12 @@ title_color = "#808080")
 numbers_container = generate_numbers_container(
     title_text = "Numbers",
     paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
-    number1 = 60, 
+    number1 = 33.3, 
     explanation1 = "Number of cases", 
-    number2 = 40, 
+    number2 = 33.3, 
     explanation2 = "Number of cases", 
+    number3 = 33.3, 
+    explanation3 = "Number of cases", 
     title_color= "#808080", 
     number_color= "#005aae")
 
@@ -453,14 +433,19 @@ conclusion_container = generate_conclusion_container(
         bg_color="#005aae"
     )
 
+
+graph_2019_2020 = plot_hhs_visits(2020)
+graph_2019_2021 = plot_hhs_visits(2021)
+graph_2019_2022 = plot_hhs_visits(2022)
+
 interactive_two_container = generate_graph_container_interactive_two(
     title_text = "Attemp for interactive graph", 
     paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.", 
-    graph_component_1 = graph_component_line , 
+    graph_component_1 = graph_2019_2020 , 
     graph_component_2 = graph_component_bar, 
-    graph_component_3 = graph_component_bar, 
+    graph_component_3 = graph_2019_2021, 
     graph_component_4 = graph_component_bar, 
-    graph_component_5 = graph_component_bar, 
+    graph_component_5 = graph_2019_2022, 
     graph_component_6 = graph_component_bar, 
     title_color = "#005aae") 
    
@@ -509,11 +494,11 @@ app.layout = html.Div(children=[
 
 def update_graph_container(value1, value2):
     if value1 == 'graph1':
-        graph_container_1 = [graph_component_bar, graph_component_line]
+        graph_container_1 = [graph_2019_2020, graph_component_line]
     elif value1 == 'graph2':
-        graph_container_1 = [graph_component_line, graph_component_bar]
+        graph_container_1 = [graph_2019_2021, graph_component_bar]
     elif value1 == 'graph3':
-        graph_container_1 = [graph_component_bar, graph_component_line]
+        graph_container_1 = [graph_2019_2022, graph_component_line]
     
     if value2 == 'graph1':
         graph_container_2 = graph_component_bar 
