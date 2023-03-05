@@ -1,7 +1,13 @@
 import pandas as pd
 import itertools
-from happy_app.collect.analytics_data import get_analytics_by_agency
-from happy_app.collect.auxilary_data import simplify_language_codes
+from happy_app.collect.analytics_data import (
+    get_analytics_by_agency,
+    get_analytics_by_report,
+)
+from happy_app.collect.auxilary_data import (
+    simplify_language_codes,
+    get_census_language_data,
+)
 from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
