@@ -1,3 +1,5 @@
+#Author: Raúl Castellanos 
+
 import dash
 from dash import dcc
 from dash import html
@@ -387,13 +389,13 @@ subtitle_id = "forms_accesing" )
 
 
 
-graph_container_traffic_source = generate_graph_container_one(
+graph_container_language = generate_graph_container_one(
 title_text = "Traffic Source", 
 paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
 graph_component = graph_component_bar, 
 title_color = "#808080")
 
-numbers_container = generate_numbers_container(
+social_numbers_container = generate_numbers_container(
     title_text = "Numbers",
     paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
     number1 = 33.3, 
@@ -411,8 +413,8 @@ subtitle_container_language = generate_subtitle_container(
  text_color = "white", 
  subtitle_id = "language")
 
-graph_container_language = generate_graph_container_interactive(
-    title_text = "Attemp for interactive graph", 
+graph_container_accesing = generate_graph_container_interactive(
+    title_text = "Forms of accesing", 
     paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
     graph_component_1 = graph_component_treemap, 
     graph_component_2 = graph_component_line, 
@@ -440,18 +442,18 @@ graph_2019_2020 = plot_hhs_visits(2020)
 graph_2019_2021 = plot_hhs_visits(2021)
 graph_2019_2022 = plot_hhs_visits(2022)
 
-graph_covid_2020 = plot_covid_cases(2020, "daily_cases")
+#graph_covid_2020 = plot_covid_cases(2021, "daily_cases")
 
-interactive_two_container = generate_graph_container_interactive_two(
+interactive_cdc_covid_container = generate_graph_container_interactive_two(
     title_text = "Attemp for interactive graph", 
     paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.", 
     graph_component_1 = graph_2019_2020 , 
-    graph_component_2 = graph_covid_2020, 
+    graph_component_2 = graph_component_bar, 
     graph_component_3 = graph_2019_2021, 
     graph_component_4 = graph_component_bar, 
     graph_component_5 = graph_2019_2022, 
     graph_component_6 = graph_component_bar, 
-    title_color = "#005aae") 
+    title_color = "#808080") 
    
 
 
@@ -472,16 +474,15 @@ interactive_two_container = generate_graph_container_interactive_two(
 app.layout = html.Div(children=[
     title_container,
     subtitle_container_goverment_pages,
-    interactive_two_container,
-    #graph_container_cdc_data, 
-    #graph_container_covid_data, 
+    interactive_cdc_covid_container,
     subtitle_container_forms_of_accesing, 
-    graph_container_traffic_source, 
-    numbers_container, 
+    graph_container_accesing, 
+    social_numbers_container, 
     subtitle_container_language, 
     graph_container_language, 
     subtitle_container_most_visited_pages, 
-    graph_container_cdc_data, 
+    graph_container_language,
+    graph_container_language,  
     conclusion_container
 
     #subtitle_container_disease, 
@@ -498,7 +499,7 @@ app.layout = html.Div(children=[
 
 def update_graph_container(value1, value2):
     if value1 == 'graph1':
-        graph_container_1 = [graph_2019_2020, graph_covid_2020]
+        graph_container_1 = [graph_2019_2020, graph_component_bar]
     elif value1 == 'graph2':
         graph_container_1 = [graph_2019_2021, graph_component_bar]
     elif value1 == 'graph3':
