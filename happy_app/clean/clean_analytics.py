@@ -1,14 +1,15 @@
 import pandas as pd
 import itertools
-from happy_app.collect.analytics_data import (
-    get_analytics_by_agency,
-    get_analytics_by_report,
-)
+from happy_app.collect.analytics_data import get_analytics_by_agency
 from happy_app.collect.auxilary_data import simplify_language_codes
 from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from .datatype import DataType
 from collections import defaultdict
 import re
+import warnings
+
+# Turn off pandas warnings
+warnings.simplefilter("ignore")
 
 # Regex to clean URLS
 # Add merge column with strings of dates and merge
@@ -50,15 +51,17 @@ class AnalyticsData(DataType):
                 col = "domain"
             if aggregate:
                 to_sum[f"{name}_by_{time_range}_total"] = report.groupby(
-                    time_range, as_index=False
+                    ["year", time_range], as_index=False
                 ).sum()
             else:
                 to_sum[f"{name}_by_{time_range}"] = report.groupby(
-                    [col, time_range], as_index=False
+                    [col, time_range, "year"], as_index=False
                 ).sum()
 
         if export:
             self.to_export.append(to_sum)
+        else:
+            return to_sum
 
     def split_by_year(self):
         """
@@ -84,6 +87,9 @@ class AnalyticsData(DataType):
 
         for export_dct in self.to_export:
             for name, df in export_dct.items():
+                # Remove date if not removed already
+                if "date" in df.columns:
+                    df.drop("date", axis=1, inplace=True)
                 df.to_csv(f"happy_app/data/update_data/{name}.csv", index=False)
 
     def count_weeks(self):
@@ -92,7 +98,7 @@ class AnalyticsData(DataType):
         """
         for report in self.data:
             self.data[report]["week"] = self.data[report]["date"].dt.isocalendar().week
-            self.data["year"] = self.data[report]["date"].dt.isocalendar().week
+            self.data[report]["year"] = self.data[report]["date"].dt.isocalendar().year
 
     def undo_changes(self):
         """
@@ -128,10 +134,12 @@ class TrafficData(AnalyticsData):
             # pass data if aggregated
             if "total" in name:
                 pass
-            by_site[name] = data[data["domain"].isin(sites)]
+            by_site[f"{name}_key_sites"] = data[data["domain"].isin(sites)]
 
         if export:
             self.to_export.append(by_site)
+        else:
+            return by_site
 
 
 # Add SourceData class here
