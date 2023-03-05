@@ -1,12 +1,11 @@
-import pandas as pd
-import itertools
-from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
-from happy_app.collect.auxilary_data import simplify_language_codes, get_census_language_data
-from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME, COMMON_SOURCES, SOURCE_TYPES
-from .datatype import DataType
-from collections import defaultdict
-import re
+# Author: Claire
 
+import pandas as pd
+from happy_app.collect.utils import COMMON_SOURCES, SOURCE_TYPES
+import warnings
+
+# tell python to ignore a UserWarning for str.extract
+warnings.simplefilter(action='ignore', category=UserWarning)
 
 def create_source_category_dict(data):
     """

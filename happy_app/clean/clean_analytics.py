@@ -1,8 +1,11 @@
+# Author: Jack
+
 import pandas as pd
 import itertools
 from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
 from happy_app.collect.auxilary_data import simplify_language_codes, get_census_language_data
 from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
+from happy_app.clean.create_source_categories import add_source_labels
 from .datatype import DataType
 from collections import defaultdict
 import re
@@ -24,7 +27,7 @@ import re
 # covid.gov
 # covidtests.gov
 
-
+# Jack
 class AnalyticsData(DataType):
     def __init__(self, report_type, years):
         self.report_type = report_type
@@ -97,24 +100,23 @@ class AnalyticsData(DataType):
         """
         self.data = self.raw_data
 
-
-class TrafficData(AnalyticsData):
-    def __init__(self, agency, years, report_type):
-        super().__init__(report_type, years)
-        self.agency = agency
-
     def fetch_data(self):
         """
-        Fetches and structures API data based on years and number of reports
+        Fetches data for specified reports.
         """
         for report in self.report_type:
             print(f"Collecting data on {report}.")
-
             self.raw_data[report] = get_analytics_by_agency(
                 self.agency, (self.years[0], self.years[-1]), report
             )
 
         self.data = self.raw_data
+
+# Jack
+class TrafficData(AnalyticsData):
+    def __init__(self, agency, years, report_type):
+        super().__init__(report_type, years)
+        self.agency = agency
 
     def find_sites(self, sites, export=True):
         """
@@ -131,49 +133,79 @@ class TrafficData(AnalyticsData):
             self.to_export.append(by_site)
 
 
-# Add SourceData class here
+# Claire
+class TrafficSourceData(AnalyticsData):
+    def __init__(self, agency, years, report_type="traffic-source"):
+        super().__init__(agency, years)
+        self.agency = agency
+        self.report_type = [report_type]
+        self.start_date, self.end_date = years
 
+    def add_source_categories(self, export=True):
+        """
+        Takes a dataframe of TrafficSourceData, and adds two columns: "source cat" 
+        and "source type" which offer two levels of categorization of the source
+        data for analytics. 
 
+        Inputs (DataFrame): a dataframe that is a value of the self.data atrribute
+            of the TrafficSourceData class 
+        Returns (DataFrame): the same dataframe with two added columns, "source cat"
+            (str) and "source type" (str).
+        """
+        with_source_categories = {}
+
+        # fills initialized dict with new dataframes with two new columns
+        for key, df in self.data.items():
+            with_source_categories[key] = add_source_labels(df)
+
+        if export:
+            self.to_export.append(with_source_categories)
+        else:
+            # if export is false, method will return the new data
+            return with_source_categories
+    
+    def export(self):
+        """
+        Slight change from inherited class to include the start and end dates 
+        in the file name because it is not split by year.
+        """
+
+        for export_dct in self.to_export:
+            for name, df in export_dct.items():
+                df.to_csv(f"happy_app/data/update_data/{self.start_date}_to_{self.end_date}_{name}.csv", index=False)
+    
+# Claire
 class LanguageData(AnalyticsData):
     def __init__(self, agency, years, report_type="language"):
         super().__init__(agency, years)
         self.agency = agency
         self.report_type = [report_type]
 
-    def fetch_data(self):
-        """
-        Fetches data for specified reports.
-        """
-        for report in self.report_type:
-            print(f"Collecting data on {report}.")
-            self.raw_data[report] = get_analytics_by_agency(
-                self.agency, (self.years[0], self.years[-1]), report
-            )
-
-        self.data = self.raw_data
-
-    def add_language_columns(self):
+    def add_language_columns(self, export=True):
         """
         Creates new column of language names using dictionary from aux data.
-        Creates new columns of total langauge speakers from 2013 Census.
         """
+        # get language codes from webscraper functions, then simplify
         language_codes = simplify_language_codes()
-        census_language_data = get_census_language_data()
 
+        #create copy of self.data to modify in this function
         with_language_cols = {key: val for key, val in self.data.items()}
 
-        # add language names for clarity
-        for key, df in self.data.items():
-            if "language" in df.columns:
+        # for every dataframe in self.data
+        for key, df in with_language_cols.items():
+            if "language" in with_language_cols.columns:
                 # simplify language codes to be just the characters before the dash
-                with_language_cols[key]["language"] = df["language"].str.replace(r'\-(.*)', "", regex=True)
+                with_language_cols[key]["language"] = with_language_cols["language"].str.replace(r'\-(.*)', "", regex=True)
                 # add new column with just the langauge name using dictionary
-                with_language_cols[key]["language_name"] = df["language"].map(language_codes)
+                with_language_cols[key]["language_name"] = with_language_cols["language"].map(language_codes)
 
-                # really bad match rate
-                with_language_cols[key] = with_language_cols[key].merge(census_language_data, on='language_name', how='left')
+        if export:
+            self.to_export.append(with_language_cols)
+        else:
+            # if export is false, method will return the new data
+            return with_language_cols
 
-                #need to re-sum by date?
+
                 
         
         
