@@ -1,3 +1,5 @@
+# Author: Jack and Claire
+
 import requests
 import os
 import time
@@ -8,12 +10,6 @@ import re
 #!!! Set this in your environment or the code won't run!!!
 # (see README.md for instructions on how to get your own API key)
 key = os.environ["ANALYTICS_API_KEY"]
-
-# decompose further, breaking apart the function below into two parts
-
-# TODO: function to get a FULL day of data
-
-# TODO: function with date range that sends each day to previous function and aggregates
 
 
 def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
@@ -67,9 +63,7 @@ def get_analytics_by_agency(agency, date_range, report_type, limit=10000):
         pull_count = len(curr_response.json())
 
         # Edge case for when last page of results equals limit
-        if (pull_count == limit) and (
-            curr_response.json()[-1]["date"] == params["after"]
-        ):
+        if pull_count < limit:
             break
 
     df = pd.json_normalize(results)
@@ -127,9 +121,7 @@ def get_analytics_by_report(report, date_range, limit=10000):
         pull_count = len(curr_response.json())
 
         # Edge case for when last page of results equals limit
-        if (pull_count == limit) and (
-            curr_response.json()[-1]["date"] == params["after"]
-        ):
+        if pull_count < limit:
             break
 
     df = pd.json_normalize(results)

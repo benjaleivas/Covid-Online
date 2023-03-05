@@ -86,6 +86,32 @@ def simplify_language_codes():
         
     return simplified_languages
 
+
+###### OTHER DATA THAT WE DIDN'T END UP USING IN OUR OUTPUT
+
+def get_bls_data(start_year, end_year):
+    """
+    Gets US national monthly unemployment rate from the start year to the end 
+        year (inclusive).
+
+    Inputs:
+        start year (str), expects YYYY
+        end year (str), expects YYYY
+    
+    Returns: list of dictionaries with keys year, period (month numeric), 
+        periodName (month name), value (str), and footnotes.
+    """
+    headers = {'Content-type': 'application/json'}
+    data = json.dumps({"seriesid": ["LNS14000000"],"startyear":start_year, "endyear":end_year})
+    p = requests.post('https://api.bls.gov/publicAPI/v1/timeseries/data/', data=data, headers=headers)
+    json_data = json.loads(p.text)
+    
+    unemployment_data = json_data['Results']['series'][0]["data"]
+    unemployment_df = pd.DataFrame.from_dict(unemployment_data)
+
+    return unemployment_df
+
+
 def get_census_language_data():
     """
     Collects language data from 2013 Census - which is the last time this question
@@ -116,29 +142,3 @@ def get_census_language_data():
     
     return languages_spoken
     
-    
-
-###### OTHER DATA THAT WE DIDN'T END UP USING IN OUR OUTPUT
-
-def get_bls_data(start_year, end_year):
-    """
-    Gets US national monthly unemployment rate from the start year to the end 
-        year (inclusive).
-
-    Inputs:
-        start year (str), expects YYYY
-        end year (str), expects YYYY
-    
-    Returns: list of dictionaries with keys year, period (month numeric), 
-        periodName (month name), value (str), and footnotes.
-    """
-    headers = {'Content-type': 'application/json'}
-    data = json.dumps({"seriesid": ["LNS14000000"],"startyear":start_year, "endyear":end_year})
-    p = requests.post('https://api.bls.gov/publicAPI/v1/timeseries/data/', data=data, headers=headers)
-    json_data = json.loads(p.text)
-    
-    unemployment_data = json_data['Results']['series'][0]["data"]
-    unemployment_df = pd.DataFrame.from_dict(unemployment_data)
-
-    return unemployment_df
-
