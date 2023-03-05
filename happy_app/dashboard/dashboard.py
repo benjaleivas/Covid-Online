@@ -11,6 +11,8 @@ from happy_app.analysis.covid_cases import plot_covid_cases
 
 
 
+
+
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #En caso de que querramos quedarnos con la versión anterior 
@@ -145,7 +147,7 @@ def generate_graph_container_one(title_text, paragraph_text, graph_component, ti
         children=[
             dbc.Row([
                 dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
@@ -169,7 +171,7 @@ def generate_graph_container_two(title_text, paragraph_text, graph_component,
         children=[
             dbc.Row([
                 dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
@@ -189,7 +191,7 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
-        children=[            dbc.Row(                [                    dbc.Col(                        [                            html.H1(title_text, style={"color": title_color, "font-size": "4rem"}),                            html.P(paragraph_text)                        ],
+        children=[            dbc.Row(                [                    dbc.Col(                        [                            html.H1(title_text, style={"color": title_color, "font-size": "2rem"}),                            html.P(paragraph_text)                        ],
                         width=4,
                         style={'height': '40vh', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                     ),
@@ -254,7 +256,7 @@ def generate_graph_container_interactive(title_text, paragraph_text, graph_compo
         children=[
             dbc.Row([
                 dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
@@ -284,7 +286,7 @@ def generate_graph_container_interactive_two(title_text, paragraph_text, graph_c
         children=[
             dbc.Row([
                 dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "3rem"}),
+                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
@@ -433,16 +435,18 @@ conclusion_container = generate_conclusion_container(
         bg_color="#005aae"
     )
 
-
+#import graphs 
 graph_2019_2020 = plot_hhs_visits(2020)
 graph_2019_2021 = plot_hhs_visits(2021)
 graph_2019_2022 = plot_hhs_visits(2022)
+
+graph_covid_2020 = plot_covid_cases(2020, "daily_cases")
 
 interactive_two_container = generate_graph_container_interactive_two(
     title_text = "Attemp for interactive graph", 
     paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.", 
     graph_component_1 = graph_2019_2020 , 
-    graph_component_2 = graph_component_bar, 
+    graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
     graph_component_4 = graph_component_bar, 
     graph_component_5 = graph_2019_2022, 
@@ -494,7 +498,7 @@ app.layout = html.Div(children=[
 
 def update_graph_container(value1, value2):
     if value1 == 'graph1':
-        graph_container_1 = [graph_2019_2020, graph_component_line]
+        graph_container_1 = [graph_2019_2020, graph_covid_2020]
     elif value1 == 'graph2':
         graph_container_1 = [graph_2019_2021, graph_component_bar]
     elif value1 == 'graph3':
