@@ -6,19 +6,19 @@
 
 ## constants used in analysis/
 
-KEY_DATES_2020 = {
-    "2020-03-13": "COVID-19 Declared National Emergency",
-    "2020-05-08": "FDA Authorizes First COVID-19 Test",
-    "2020-12-11": "FDA Authorizes Pfizer Vaccine",
-}
+# KEY_DATES_2020 = {
+#     "2020-03-13": "COVID-19 Declared National Emergency",
+#     "2020-05-08": "FDA Authorizes First COVID-19 Test",
+#     "2020-12-11": "FDA Authorizes Pfizer Vaccine",
+# }
 
-KEY_DATES_2021 = {
-    "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
-    "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
-    "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
-}
+# KEY_DATES_2021 = {
+#     "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
+#     "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
+#     "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
+# }
 
-KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
+# KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
 
 KEY_DATES = {
     "2020-03-13": "COVID-19 Declared National Emergency",
@@ -63,7 +63,10 @@ COMMON_SOURCES = {
 
 SOURCE_TYPES = {
     "Social Media": ["Facebook", "Twitter", "Instagram", "Snapchat","Reddit","TikTok","YouTube", "Spotify"],
-    "Search Engine": ["Google", "DuckDuckGo","Bing","Yahoo","Baidu"]
+    "Search Engine": ["Google", "DuckDuckGo","Bing","Yahoo","Baidu"],
+    "Direct Link": ["Direct Link"],
+    ".gov Sites": ["Other .gov"],
+    "Other": ["Wikipedia", "Other .org", "Other .edu", "Other .com", "Oracle"]
 }
 
 
