@@ -2,10 +2,10 @@
 
 import pandas as pd
 
-# data imports
-FILEPATHS = [
-    "happy_app/data/update_data/2021-03-03_to_2021-03-12_traffic-source.csv"
-]
+time_periods = [("2020-03-01", "2020-04-30"),
+                ("2020-12-01", "2021-01-31"),
+                ("2021-12-01", "2022-01-31")]
+
 
 def find_social_referral_frequency(start_date, end_date, source_cat):
     """
@@ -33,4 +33,15 @@ def find_social_referral_frequency(start_date, end_date, source_cat):
     social_referrals = traffic_source_data[traffic_source_data["has_social_referral"] == "Yes"].sum()["visits"]
 
     # return the frequency of visits that were social referrals for that source
-    return float(round(social_referrals/total*100, ndigits=1))
+    return social_referrals/total
+
+def get_social_referral_frequency(source_cat):
+    """
+    Find average across time periods pulled.
+    """
+    freq_total = 0
+    for time_period in time_periods:
+        start_date, end_date = time_period
+        freq_total += find_social_referral_frequency(start_date, end_date, source_cat)
+    
+    return int(round(freq_total*100/len(time_periods), ndigits=0))
