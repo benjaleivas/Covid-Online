@@ -26,8 +26,8 @@ KEY_DATES = {
     "2020-12-11": "FDA Authorizes Pfizer Vaccine",
     "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
     "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
-    "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
-    "2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"
+    "2021-11-19": "Omicron Surge Begins; CDC Urges Booster Shots",
+    "2022-01-19": "Due to Omicron surge, Biden launches online platform to order free COVID-19 tests"
 }
 
 ## constants used in clean/
