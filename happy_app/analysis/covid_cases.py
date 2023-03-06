@@ -1,15 +1,17 @@
 import pandas as pd
-import datetime as dt
 from dash import dcc
-from plotly_calplot import calplot  # pip install plotly-calplot
+import datetime as dt
+from plotly_calplot import calplot
+
 
 def plot_covid_cases(year):
     """
     Creates Covid-19 calendar heatmap for chosen 'year'.
+    
     Inputs:
         - year (int): year to plot Covid-19 data for.
 
-    Returns (object): DCC graph .
+    Returns (object): DCC graph.
     """
     #Load data
     data = pd.read_csv(f'happy_app/data/update_data/{year}_daily_covid_data.csv')
@@ -18,7 +20,7 @@ def plot_covid_cases(year):
     data = data[['date','daily_cases']]
     data['date'] =  pd.to_datetime(data['date'])
 
-    #Plot figure
+    #Create figure
     fig = calplot(
         data,
         x='date',
@@ -28,4 +30,5 @@ def plot_covid_cases(year):
         colorscale='blues'
     )
 
+    #Return dash object
     return dcc.Graph(id=f'covid_daily_cases-{year}', figure=fig)
