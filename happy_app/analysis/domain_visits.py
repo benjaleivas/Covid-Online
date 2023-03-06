@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from datetime import datetime as dt
 from happy_app.collect.utils import KEY_DATES
 
-def plot_domain_visits(key_sites):
+def plot_domain_visits():
     """
     Plots key site's cumulative visits between 2020-2022.
 
@@ -15,6 +15,12 @@ def plot_domain_visits(key_sites):
 
     Returns (object): DCC Graph.
     """
+
+    key_sites = ['vaccines.gov', 
+                'vacunas.gov', 
+                'covid.cdc.gov', 
+                'covid.gov', 
+                'covidtests.gov']
 
     #Load data
     data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
