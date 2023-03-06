@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime as dt
+from dash import dcc
 from plotly_calplot import calplot  # pip install plotly-calplot
 
 def plot_covid_cases(year):
