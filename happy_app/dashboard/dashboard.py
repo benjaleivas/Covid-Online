@@ -416,7 +416,7 @@ title_text = "Initial Lockdowns Drove Surge in CDC Traffic",
 paragraph_text =  "The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency." , 
 graph_component = cdc_data_graph, 
 title_color = "#808080", 
-graph_title = "Cumulative Visits to CDC.gov from 2019-2022")
+graph_title = "Cumulative Visits to CDC.gov from 2020-2022")
 
 graph_container_non_cdc_visits = generate_graph_container_one(
 title_text = "Websites Born out of the Pandemic", 
@@ -467,7 +467,7 @@ subtitle_container_most_visited_pages = generate_subtitle_container(
 
 
 conclusion_container = generate_conclusion_container(
-        title_text="Powerd by Happ.py",
+        title_text="Powered by Happ.py",
         bg_color="#005aae", 
         github_link = "https://github.com/uchicago-capp122-spring23/30122-project-hap_py"
     )
@@ -478,7 +478,7 @@ conclusion_container = generate_conclusion_container(
 
 interactive_cdc_covid_container = generate_graph_container_interactive_two(
     title_text = "Spikes in HHS Web Usage", 
-    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **203 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **155 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
+    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **155 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **155 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
     graph_component_1 = graph_2019_2020 , 
     graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
@@ -486,7 +486,7 @@ interactive_cdc_covid_container = generate_graph_container_interactive_two(
     graph_component_5 = graph_2019_2022, 
     graph_component_6 = graph_covid_2022, 
     title_color = "#808080", 
-    graph_title = "Visits to the Health and Human Services Websites by Week (compared to a base year)", 
+    graph_title = "Visits to the HHS Websites and Daily COVID Cases by Week", 
     first_label = 2020, 
     second_label = 2021, 
     third_label = 2022) 
