@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 from happy_app.analysis.hhs_visits import plot_hhs_visits
 from happy_app.analysis.covid_cases import plot_covid_cases
 from happy_app.analysis.social_referrals import get_social_referral_frequency
+from happy_app.analysis.domain_visits import plot_domain_visits
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -103,7 +104,11 @@ def generate_subtitle_container(subtitle_text, background_color, text_color):
     return subtitle_container
 
 
-def generate_graph_container_one(title_text, paragraph_text, graph_component, title_color):
+def generate_graph_container_one(title_text, 
+                                 paragraph_text,
+                                 graph_component, 
+                                 graph_title, 
+                                title_color):
     """
     This function generates a graph container with only one static graph. 
 
@@ -131,7 +136,7 @@ def generate_graph_container_one(title_text, paragraph_text, graph_component, ti
                     html.P(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
-                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
+                    html.H2(graph_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     graph_component, 
                 ], width=8)
             ])
@@ -355,6 +360,11 @@ fb_number = get_social_referral_frequency("Facebook")
 tw_number = get_social_referral_frequency("Twitter")
 ig_number = get_social_referral_frequency("Instagram")
 
+#import sites 
+key_sites_cdc = ['cdc.gov']
+key_sites_non_cdc = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov', 'covidtests.gov']
+cdc_data_graph = plot_domain_visits(key_sites_cdc)
+non_cdc_data_graph = plot_domain_visits(key_sites_non_cdc)
 
 
 
@@ -379,11 +389,6 @@ graph_container_cdc_data = generate_graph_container_two(
   graph_component_2 = graph_component_line, 
   title_color = "#808080")
 
-# graph_container_covid_data = generate_graph_container_one(
-# title_text = "COVID-19 data:", 
-# paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
-# graph_component = graph_component, 
-# title_color = "#808080")
 
 subtitle_container_forms_of_accesing = generate_subtitle_container(
   subtitle_text =  "FROM WHERE WERE PEOPLE ACCESING GOV. WEBSITES?",
@@ -393,26 +398,29 @@ subtitle_container_forms_of_accesing = generate_subtitle_container(
 
 
 graph_container_language = generate_graph_container_one(
-title_text = "Traffic Source", 
-paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
+title_text = "Language", 
+paragraph_text =  "During the COVID-19 pandemic, users visited government websites in more than 68 languages. Government sites were most viewed in English (74.2%), Spanish (13%), Chinese (3.8%) or French (1%)." , 
 graph_component = graph_component_bar, 
-title_color = "#808080")
+title_color = "#808080", 
+graph_title = "This is a title")
 
 graph_container_cdc_visits = generate_graph_container_one(
-title_text = "CDC visits", 
-paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
-graph_component = graph_component_bar, 
-title_color = "#808080")
+title_text = "A Digital Response to the Pandemic", 
+paragraph_text =  "In looking at traffic to cdc.gov alone, we see a significant uptick in the number of total visits surrounding the date when COVID-19 was declared a national emergency (March 11, 2020). In looking at traffic over 2019-2022, that was the only significant increase of traffic, suggesting that other sites might have absorbed more of the fluctuation of web traffic during the course of the COVID-19 pandemic." , 
+graph_component = cdc_data_graph, 
+title_color = "#808080", 
+graph_title = "Cumulative Visits to CDC.gov from 2019-2022")
 
 graph_container_non_cdc_visits = generate_graph_container_one(
-title_text = "Non CDC visits", 
-paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
-graph_component = graph_component_bar, 
-title_color = "#808080")
+title_text = "Websites Born out of the Pandemic", 
+paragraph_text =  "Likely in response to the uptick of traffic on government websites, the Biden administration increased efforts to offer digital tools related to the pandemic launching two new sites specific to COVID-19: CovidTests.gov and Covid.gov. In part due to the Omicron wave, CovidTests.gov drew visitors almost instantly, achieving similar traffic numbers to longer-standing sites like Vaccines.gov within weeks. Traffic to CovidTests.gov plateaus after the launch of Covid.gov in March 2020, which aggregated information on the pandemic to one website. Like CovidTests.gov, Covid.gov quickly amassed visitors post-launch offering further evidence of people’s increased reliance on digital services as a result of the pandemic." , 
+graph_component = non_cdc_data_graph, 
+title_color = "#808080", 
+graph_title = "Cumulative Visits to Other Pandemic-Related Websites from 2019-2022")
 
 social_numbers_container = generate_numbers_container(
-    title_text = "Numbers",
-    paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
+    title_text = "Traffic Driven by Social Networks",
+    paragraph_text = "Some of the government website traffic during the pandemic was driven by links shared by friends on social media. However, the proportion of traffic driven by friends differed across social media platforms. In the two months around the three largest spikes of COVID cases, Twitter was the most “contagious” in terms of sharing government website links (99% of traffic was due to social referrals), while only 4 in 10 Facebook visits were driven by social referrals. Instragram traffic was driven the least by social referrals, as only 14% of all traffic from the platform were driven by this type of interaction.", 
     number1 = fb_number, 
     explanation1 = "from Facebook", 
     number2 = tw_number, 
@@ -428,15 +436,15 @@ subtitle_container_language = generate_subtitle_container(
  text_color = "white")
 
 graph_container_accesing = generate_graph_container_interactive(
-    title_text = "Forms of accesing", 
-    paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
+    title_text = "Traffic Source", 
+    paragraph_text = "In the first wave of the pandemic (March/April 2020), 63% of traffic to government websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to government websites came from social media websites during this time period. These trends remained true during the peak of COVID cases in December 2020/January 2021 as well as in December 2021/January 2022.", 
     graph_component_1 = graph_component_treemap, 
     graph_component_2 = graph_component_line, 
     graph_component_3 = graph_component_bar, 
     title_color = "#808080")
 
 subtitle_container_most_visited_pages = generate_subtitle_container(
-  subtitle_text =  "WHICH WERE THE PAGES THE USERS USED THE MOST?", 
+  subtitle_text =  "KEY SITES", 
  background_color = "#005aae", 
  text_color = "white" )
 
@@ -469,21 +477,6 @@ interactive_cdc_covid_container = generate_graph_container_interactive_two(
     second_label = 2021, 
     third_label = 2022) 
    
-
-
-
-
-
-# subtitle_container_disease = generate_subtitle_container("How were the main COVID-19 indicators?", 
-#  "#005aae", 
-#  "white"  )
-# graph_container_disease = generate_graph_container_one("Unemployment",
-#  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.",
-#   graph_component, 
-#   "#00ACC7")
-# covid_data = generate_graph_container_two("How were the main COVID-19 indicators?",
-#  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
-#  "#005aae")
 
 app.layout = html.Div(children=[
     title_container,
@@ -532,4 +525,4 @@ def update_graph_container(value1, value2):
 
 # Run app
 if __name__=='__main__':
-    app.run_server(port=8051)
+    app.run_server(port=8052)
