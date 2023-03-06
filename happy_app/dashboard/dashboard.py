@@ -497,7 +497,7 @@ conclusion_container = generate_conclusion_container(
 
 interactive_cdc_covid_container = generate_graph_container_interactive_two(
     title_text = "Spikes in HHS Web Usage", 
-    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **155 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **203 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
+    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to [HHS websites](https://analytics.usa.gov/health-human-services/data/) increased sharply, with these sites witnessing **155 million visits per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **203 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
     graph_component_1 = graph_2019_2020 , 
     graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
@@ -561,4 +561,4 @@ def update_graph_container(value1):
 
 # Run app
 if __name__=='__main__':
-    app.run_server(port=8050)
+    app.run_server(port=8049)
