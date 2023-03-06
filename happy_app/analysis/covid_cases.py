@@ -3,6 +3,7 @@ from dash import dcc
 import datetime as dt
 from plotly_calplot import calplot
 
+
 def plot_covid_cases(year):
     """
     Creates Covid-19 calendar heatmap for chosen 'year'.
