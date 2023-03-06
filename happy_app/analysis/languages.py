@@ -7,7 +7,7 @@ import plotly.express as px
 
 def plot_languages():
     """
-    Make a waffle chart of browser language for those with over 100M visits.
+    Make a bubble chart of browser language for those with over 100M visits.
 
     Design based on Towards Data Science Waffle Chart:
         https://towardsdatascience.com/9-visualizations-to-show-proportions-or-percentages-instead-of-a-pie-chart-4e8d81617451
@@ -33,7 +33,6 @@ def plot_languages():
     palette = list(
         sns.color_palette(palette="Paired", n_colors=len(languages)).as_hex()
     )
-    # labels = [str(round(i*100/sum(data.visits),1))+' %' for i in data.visits]
 
     label = [
         i + "<br>" + str(j) + "M" + "<br>" + str(k) + "%"
@@ -60,21 +59,5 @@ def plot_languages():
     fig.update_xaxes(showgrid=False, zeroline=False, visible=False)
     fig.update_yaxes(showgrid=False, zeroline=False, visible=False)
     fig.update_layout({"plot_bgcolor": "white", "paper_bgcolor": "white"})
-    # fig.show()
-
-    # return data
-
-    # Create figure
-    # fig = plt.figure(FigureClass=Waffle,
-    #                 rows=20, columns=50,
-    #                 values=data.percentage,
-    #                 colors=palette,
-    #                 labels=[i+' '+j for i,j in zip(data.language_name, labels)],
-    #                 figsize = (15,6),
-    #                 legend={'loc':'upper right',
-    #                         'bbox_to_anchor': (1.32, 1),
-    #                         })
-    # plt.tight_layout()
-    # plt.show()
 
     return dcc.Graph(id=f"languages", figure=fig)
