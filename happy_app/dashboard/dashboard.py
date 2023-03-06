@@ -1,5 +1,6 @@
 #Author: Raúl Castellanos 
 
+#importing packages 
 import dash
 from dash import dcc
 from dash import html
@@ -8,47 +9,35 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 
+#importing functions from other files 
 from happy_app.analysis.hhs_visits import plot_hhs_visits
 from happy_app.analysis.covid_cases import plot_covid_cases
-
-
+from happy_app.analysis.social_referrals import get_social_referral_frequency
 
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+"""
+Creates a Dash application and adds it to a Flask server.
+"""
+def generate_title_container(title_text, subtitle_text, subtitle_list, subtitles_id=None):
+    """
+    This function generates a container containing a title, subtitle and a set of subtitle buttons.
 
-#En caso de que querramos quedarnos con la versión anterior 
-# def generate_title_container(title_text, subtitle_text):
-#     title_container = dbc.Container(
-#         fluid=True,
-#         style={
-#             "height": "100vh",
-#             "background-color": "#005aae",
-#             "color": "white",
-#             "display": "flex",
-#             "flex-direction": "column",
-#             "justify-content": "center",
-#             "align-items": "center"
-#         },
-#         children=[
-#             html.H1(title_text, style={"font-size": "8rem", "text-align": "center"}),
-#             html.Br(),
-#             html.Br(),
-#             html.H2(subtitle_text, style={"font-size": "1rem", "text-align": "center"}),
-#             html.Br(),
-#             html.Br(),
-#             dbc.Row(
-#                 dbc.Col(
-#                     html.Button("Scroll Down", id="scroll-down-button", className="btn btn-primary", style={"background-color": "white", "color": "#005aae"}),
-#                     width=12,
-#                     style={"display": "flex", "justify-content": "center", "align-items": "flex-end", "padding-bottom": "4rem"}
-#                 )
-#             )
-#         ]
-#     )
-#     return title_container
+    Inputs: 
+    - title_text: (str)
+        The text to be used for the main title.
+    - subtitle_text: (str)
+        The text to be used for the subtitle.
+    - subtitle_list: list of (str)
+        A list of strings representing the subtitles that will be turned into buttons.
+    - subtitles_id: list of (str), default None
+        A list of ids to be used for the subtitle buttons. 
 
-def generate_title_container(title_text, subtitle_text, subtitle_list, subtitles_id):
+    Returns: 
+    - dbc.Container
+        A Dash container that will be the title. 
+    """
     subtitle_buttons = []
     for i, subtitle in enumerate(subtitle_list):
         subtitle_id = subtitles_id[i] if subtitles_id else f"subtitle-{i}"
@@ -92,7 +81,25 @@ def generate_title_container(title_text, subtitle_text, subtitle_list, subtitles
 
 
 
+
 def generate_subtitle_container(subtitle_text, background_color, text_color, subtitle_id):
+    """
+    This function generates a containers that are subtiltles 
+
+    Inputs: 
+    - subtitle_text: (str)
+        The text to be used for the subtitle.
+    - background_color: (str)
+        The background color to be used for the subtitle container.
+    - text_color: (str)
+        The color to be used for the subtitle text.
+    - subtitle_id: (str)
+        A string representing the ID for each subtitle. 
+
+    Returns: 
+    - dbc.Container
+        A Dash container that will be the subtitles of the app. 
+    """
     subtitle_container = dbc.Container(
         fluid=True,
         style={
@@ -118,32 +125,25 @@ def generate_subtitle_container(subtitle_text, background_color, text_color, sub
     )
     return subtitle_container
 
-# def generate_subtitle_container(subtitle_text, background_color, text_color ):
-#     subtitle_container = dbc.Container(
-#         fluid=True,
-#         style={
-#             "height": "20vh",
-#             "background-color": background_color,
-#             "color": text_color,
-#             "display": "flex",
-#             "flex-direction": "column",
-#             "justify-content": "center",
-#             "align-items": "flex-start"
-#         },
-#         children=[
-#             dbc.Row(
-#                 dbc.Col(
-#                     html.H1(subtitle_text, style={"font-size": "3rem"}),
-#                     width=12,
-#                     style={"display": "flex", "justify-content": "center", "align-items": "center"}
-#                 )
-#             )
-#         ]
-#     )
-#     return subtitle_container
-
-
 def generate_graph_container_one(title_text, paragraph_text, graph_component, title_color):
+    """
+    This function generates a graph container with only one static graph. 
+
+    Inputs: 
+    - title_text: (str)
+        The text to be used for the title of the graph component. 
+    - paragraph_text: (str)
+        The text to be used for the paragraph.
+    - graph_component: imported graph 
+        A graph imported as a dcc object 
+    - title_color : str
+        The color to be used for the title text.
+
+    Returns: 
+    - dbc.Container
+        A Dash container that will be used to display and give context for one graph
+
+    """
     graph_container = dbc.Container(
         fluid=True,
         children=[
@@ -193,24 +193,42 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
-        children=[            dbc.Row(                [                    dbc.Col(                        [                            html.H1(title_text, style={"color": title_color, "font-size": "2rem"}),                            html.P(paragraph_text)                        ],
+        children=[ dbc.Row(
+        [dbc.Col([html.H1(title_text, 
+                          style={"color": title_color, "font-size": "2rem"}),
+                                     html.P(paragraph_text)],
                         width=4,
-                        style={'height': '40vh', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                        style={'height': '40vh', 'display': 'flex',
+                                'flex-direction': 'column', 
+                                'justify-content': 'center'}
                     ),
                     dbc.Col(
-                        [                            dbc.Row(                                [                                    dbc.Col(                                        [                                            html.H1(f"{number1}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
+                        [dbc.Row(
+                            [dbc.Col([html.H1(f"{number1}%", style={'text-align': 'center',
+                                                                     'font-size': '6rem', 
+                                                                     'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
                                         width=4,
-                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                                        style={'display': 'flex',
+                                                'flex-direction': 'column', 
+                                                'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [                                            html.H1(f"{number2}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
+                                        [html.H1(f"{number2}%", style={'text-align': 'center', 
+                                                                       'font-size': '6rem',
+                                                                         'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
                                         width=4,
-                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                                        style={'display': 'flex',
+                                                'flex-direction': 'column',
+                                                  'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [                                            html.H1(f"{number3}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
+                                        [html.H1(f"{number3}%", style={'text-align': 'center', 
+                                                                       'font-size': '6rem',
+                                                                         'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
                                         width=4,
-                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                                        style={'display': 'flex',
+                                                'flex-direction': 'column', 
+                                                'justify-content': 'center'}
                                     ),
                                 ],
                                 style={'height': '50%'}
@@ -290,7 +308,7 @@ def generate_graph_container_interactive_two(title_text, paragraph_text, graph_c
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
-                ], width=4),
+                ], width=3),
                 dbc.Col([
                     html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     dcc.Dropdown(
@@ -306,7 +324,7 @@ def generate_graph_container_interactive_two(title_text, paragraph_text, graph_c
                         id='graph-container-1',
                         children=[graph_component_1, graph_component_2]
                     )
-                ], width=8)
+                ], width=9)
             ])
         ]
     )
@@ -336,6 +354,22 @@ data = px.data.gapminder().query("year == 2007").query("continent == 'Asia'")
 fig_treemap = px.treemap(data, path=['continent', 'country'], values='pop',
                          color='lifeExp', hover_data=['iso_alpha'])
 graph_component_treemap = dcc.Graph(figure=fig_treemap)
+
+#import graphs visits to cdc by year 
+graph_2019_2020 = plot_hhs_visits(2020)
+graph_2019_2021 = plot_hhs_visits(2021)
+graph_2019_2022 = plot_hhs_visits(2022)
+
+#import grpahs of covid cases by year 
+graph_covid_2020 = plot_covid_cases(2020)
+graph_covid_2021 = plot_covid_cases(2021)
+graph_covid_2022 = plot_covid_cases(2022)
+
+#import numbers of social referals
+fb_number = get_social_referral_frequency("Facebook")
+tw_number = get_social_referral_frequency("Twitter")
+ig_number = get_social_referral_frequency("Instagram")
+
 
 
 
@@ -395,15 +429,27 @@ paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vest
 graph_component = graph_component_bar, 
 title_color = "#808080")
 
+graph_container_cdc_visits = generate_graph_container_one(
+title_text = "CDC visits", 
+paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
+graph_component = graph_component_bar, 
+title_color = "#808080")
+
+graph_container_non_cdc_visits = generate_graph_container_one(
+title_text = "Non CDC visits", 
+paragraph_text =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend." , 
+graph_component = graph_component_bar, 
+title_color = "#808080")
+
 social_numbers_container = generate_numbers_container(
     title_text = "Numbers",
     paragraph_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac pulvinar lectus, in efficitur ligula. Nulla facilisi. Donec nec est porttitor, malesuada odio quis, lobortis velit. Fusce finibus ullamcorper nulla, et tincidunt lectus porttitor sed. Vivamus dictum dictum eleifend.", 
-    number1 = 33.3, 
-    explanation1 = "Number of cases", 
-    number2 = 33.3, 
-    explanation2 = "Number of cases", 
-    number3 = 33.3, 
-    explanation3 = "Number of cases", 
+    number1 = fb_number, 
+    explanation1 = "from Facebook", 
+    number2 = tw_number, 
+    explanation2 = "from Twitter", 
+    number3 = ig_number, 
+    explanation3 = "from Instagram", 
     title_color= "#808080", 
     number_color= "#005aae")
 
@@ -437,22 +483,19 @@ conclusion_container = generate_conclusion_container(
         bg_color="#005aae"
     )
 
-#import graphs 
-graph_2019_2020 = plot_hhs_visits(2020)
-graph_2019_2021 = plot_hhs_visits(2021)
-graph_2019_2022 = plot_hhs_visits(2022)
 
-#graph_covid_2020 = plot_covid_cases(2021, "daily_cases")
+
+
 
 interactive_cdc_covid_container = generate_graph_container_interactive_two(
     title_text = "Attemp for interactive graph", 
     paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.", 
     graph_component_1 = graph_2019_2020 , 
-    graph_component_2 = graph_component_bar, 
+    graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
-    graph_component_4 = graph_component_bar, 
+    graph_component_4 = graph_covid_2021, 
     graph_component_5 = graph_2019_2022, 
-    graph_component_6 = graph_component_bar, 
+    graph_component_6 = graph_covid_2022, 
     title_color = "#808080") 
    
 
@@ -481,12 +524,10 @@ app.layout = html.Div(children=[
     subtitle_container_language, 
     graph_container_language, 
     subtitle_container_most_visited_pages, 
-    graph_container_language,
-    graph_container_language,  
+    graph_container_cdc_visits,
+    graph_container_non_cdc_visits,  
     conclusion_container
 
-    #subtitle_container_disease, 
-    #covid_data
 ])
 
 
@@ -499,11 +540,11 @@ app.layout = html.Div(children=[
 
 def update_graph_container(value1, value2):
     if value1 == 'graph1':
-        graph_container_1 = [graph_2019_2020, graph_component_bar]
+        graph_container_1 = [graph_2019_2020, graph_covid_2020]
     elif value1 == 'graph2':
-        graph_container_1 = [graph_2019_2021, graph_component_bar]
+        graph_container_1 = [graph_2019_2021, graph_covid_2021]
     elif value1 == 'graph3':
-        graph_container_1 = [graph_2019_2022, graph_component_line]
+        graph_container_1 = [graph_2019_2022, graph_covid_2022]
     
     if value2 == 'graph1':
         graph_container_2 = graph_component_bar 
