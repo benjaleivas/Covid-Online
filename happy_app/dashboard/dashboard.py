@@ -14,6 +14,7 @@ from happy_app.analysis.hhs_visits import plot_hhs_visits
 from happy_app.analysis.covid_cases import plot_covid_cases
 from happy_app.analysis.social_referrals import get_social_referral_frequency
 from happy_app.analysis.domain_visits import plot_domain_visits
+from happy_app.analysis.traffic_sources import plot_traffic_sources
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -134,11 +135,11 @@ def generate_graph_container_one(title_text,
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     html.P(paragraph_text, style={"font-size": "1rem"})
-                ], width=4),
+                ], width=3),
                 dbc.Col([
                     html.H2(graph_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
                     graph_component, 
-                ], width=8)
+                ], width=9)
             ])
         ]
     )
@@ -366,6 +367,9 @@ key_sites_non_cdc = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov'
 cdc_data_graph = plot_domain_visits(key_sites_cdc)
 non_cdc_data_graph = plot_domain_visits(key_sites_non_cdc)
 
+#import 
+graph_traffic_sources = plot_traffic_sources()
+
 
 
 title_container = generate_title_container(
@@ -438,7 +442,7 @@ subtitle_container_language = generate_subtitle_container(
 graph_container_accesing = generate_graph_container_interactive(
     title_text = "Traffic Source", 
     paragraph_text = "In the first wave of the pandemic (March/April 2020), 63% of traffic to government websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to government websites came from social media websites during this time period. These trends remained true during the peak of COVID cases in December 2020/January 2021 as well as in December 2021/January 2022.", 
-    graph_component_1 = graph_component_treemap, 
+    graph_component_1 = graph_traffic_sources, 
     graph_component_2 = graph_component_line, 
     graph_component_3 = graph_component_bar, 
     title_color = "#808080")
@@ -511,7 +515,7 @@ def update_graph_container(value1, value2):
         graph_container_1 = [graph_2019_2022, graph_covid_2022]
     
     if value2 == 'graph1':
-        graph_container_2 = graph_component_bar 
+        graph_container_2 = graph_traffic_sources
     elif value2 == 'graph2':
         graph_container_2 = graph_component_line
     elif value2 == 'graph3':
