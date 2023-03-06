@@ -1,4 +1,4 @@
-#Author: Raúl Castellanos 
+#Author: Raúl Castellanos Guzmán 
 
 #importing packages 
 import dash
