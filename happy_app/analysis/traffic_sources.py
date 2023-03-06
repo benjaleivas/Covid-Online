@@ -45,7 +45,7 @@ def plot_traffic_sources():
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)',
         font_family='Arial',
-        font_size=20,
+        font_size=12,
         showlegend=True,
         barmode='stack',
         legend=dict(
