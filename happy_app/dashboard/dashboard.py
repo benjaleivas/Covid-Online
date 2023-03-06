@@ -334,7 +334,7 @@ def generate_graph_container_interactive_two(title_text, paragraph_text, graph_c
 
 ##############
 # Fake data 
-###############
+#############
 
 # Bar plot
 data = {'fruit': ['apple', 'orange', 'banana'], 'quantity': [10, 5, 20]}
