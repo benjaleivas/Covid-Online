@@ -516,10 +516,8 @@ app.layout = html.Div(children=[
 
 
 @app.callback(
-    [dash.dependencies.Output('graph-container-1', 'children'),
-     dash.dependencies.Output('graph-container-2', 'children')],
-    [dash.dependencies.Input('graph-dropdown-1', 'value'),
-     dash.dependencies.Input('graph-dropdown-2', 'value')]
+    [dash.dependencies.Output('graph-container-1', 'children')],
+    [dash.dependencies.Input('graph-dropdown-1', 'value')]
 )
 
 def update_graph_container(value1):
@@ -537,11 +535,11 @@ def update_graph_container(value1):
     # elif value2 == 'graph3':
     #     graph_container_2 = graph_component_treemap
     
-    return graph_container_1
+    return [graph_container_1]
 
 
 
 
 # Run app
 if __name__=='__main__':
-    app.run_server(port=8057)
+    app.run_server(port=8050)
