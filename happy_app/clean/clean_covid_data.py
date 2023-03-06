@@ -10,7 +10,7 @@ class CovidData(DataType):
         self.data = defaultdict(None)
         self.years = None
         self.time_period = "daily"
-    
+
     def fetch_data(self):
         """
         Uses collect and clean functions to get cleaned COVID data.
@@ -30,56 +30,58 @@ class CovidData(DataType):
         covid_data = covid_data[covid_data.date.dt.year != 2023]
 
         # save data and years as instance attributes
-        self.data['covid_data'] = covid_data
-        self.years = self.data['covid_data']['date'].dt.year.unique()
+        self.data["covid_data"] = covid_data
+        self.years = self.data["covid_data"]["date"].dt.year.unique()
 
-    
     def split_by_year(self, in_place=True):
         """
         Splits aggegrated yearly data into one dataframe per year.
         """
         by_year = defaultdict(None)
         for year in self.years:
-            year_df = self.data['covid_data'][self.data['covid_data'].date.dt.year == int(year)]
+            year_df = self.data["covid_data"][
+                self.data["covid_data"].date.dt.year == int(year)
+            ]
             # Convert date back to string to merge datasets
             by_year[year] = year_df
 
         if in_place:
             self.data = by_year
         else:
-            #save as separate attribute if in_place=False
+            # save as separate attribute if in_place=False
             self.modified_data = by_year
 
-    #didn't end up aggregating the data this way, but helpful for data exploration
+    # didn't end up aggregating the data this way, but helpful for data exploration
     def sum_by(self, time_period="daily", in_place=True):
         """
         #TODO: add doc string
         """
         self.time_period = time_period
         valid_time_periods = ["daily", "weekly", "monthly"]
-        
-        #raise an AssertionError if time_period is not "daily", "weekly", "monthly"
-        assert time_period in valid_time_periods, "Time period must be 'daily', 'weekly', or 'monthly'."
-        
+
+        # raise an AssertionError if time_period is not "daily", "weekly", "monthly"
+        assert (
+            time_period in valid_time_periods
+        ), "Time period must be 'daily', 'weekly', or 'monthly'."
+
         for year, df in self.data.items():
             if time_period == "daily":
                 # don't do anything if aggregator should be day, already at day level
                 return
             elif time_period == "weekly":
                 # create new column by week
-                df['week'] = df.date.dt.isocalendar().week
-                by_time_period = df.groupby('week').sum()
+                df["week"] = df.date.dt.isocalendar().week
+                by_time_period = df.groupby("week").sum()
             elif time_period == "monthly":
                 # create new column by month
-                df['month'] = df.date.dt.month
-                by_time_period = df.groupby('month').sum()
+                df["month"] = df.date.dt.month
+                by_time_period = df.groupby("month").sum()
 
             if in_place:
                 self.data[year] = by_time_period
             else:
-                #save as separate attribute if in_place=False
+                # save as separate attribute if in_place=False
                 self.modified_data[year] = by_time_period
-        
 
     def export(self, modified=False):
         """
@@ -92,10 +94,13 @@ class CovidData(DataType):
 
         for year, df in export_data.items():
             print(f"Saving {year} daily COVID data.")
-            df.to_csv(f"happy_app/data/update_data/{year}_{self.time_period}_covid_data.csv", index=False)
+            df.to_csv(
+                f"happy_app/data/{year}_{self.time_period}_covid_data.csv", index=False
+            )
 
 
 ## HELPER FUNCTIONS TO CLEAN COVID DATA
+
 
 def add_columns_for_daily_cols(covid_df):
     """
@@ -106,24 +111,25 @@ def add_columns_for_daily_cols(covid_df):
 
     Returns: NYT COVID dataframe with two additional columns.
     """
-    #raise an AssertionError if both columns are not in the input df
-    assert 'cases' in covid_df, "Column 'cases' not in dataframe input."
-    assert 'deaths' in covid_df, "Column 'deaths' not in dataframe input."
-    
-    covid_df['daily_cases'] = covid_df['cases'].diff()
-    covid_df['daily_deaths'] = covid_df['deaths'].diff()
+    # raise an AssertionError if both columns are not in the input df
+    assert "cases" in covid_df, "Column 'cases' not in dataframe input."
+    assert "deaths" in covid_df, "Column 'deaths' not in dataframe input."
+
+    covid_df["daily_cases"] = covid_df["cases"].diff()
+    covid_df["daily_deaths"] = covid_df["deaths"].diff()
 
     # hardcode the first observation to have the right values, not NAN
-    covid_df.loc[0, 'daily_cases'] = 1
-    covid_df.loc[0, 'daily_deaths'] = 0
+    covid_df.loc[0, "daily_cases"] = 1
+    covid_df.loc[0, "daily_deaths"] = 0
 
     return covid_df
+
 
 def convert_date_col(covid_df):
     """
     Takes pandas Dataframe with a date column, and returns a column of dates
     into datetime objects.
     """
-    covid_df['date'] = pd.to_datetime(covid_df['date'])
+    covid_df["date"] = pd.to_datetime(covid_df["date"])
 
     return covid_df

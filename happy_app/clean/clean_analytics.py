@@ -1,10 +1,8 @@
 # Author: Jack
-
 import pandas as pd
 import itertools
-from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
-from happy_app.collect.auxilary_data import simplify_language_codes, get_census_language_data
-from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
+from happy_app.collect.analytics_data import get_analytics_by_agency
+from happy_app.collect.auxilary_data import simplify_language_codes
 from happy_app.clean.create_source_categories import add_source_labels
 from .datatype import DataType
 from collections import defaultdict
@@ -30,6 +28,7 @@ warnings.simplefilter("ignore")
 # vaccines.gov
 # covid.gov
 # covidtests.gov
+
 
 # Jack
 class AnalyticsData(DataType):
@@ -66,7 +65,7 @@ class AnalyticsData(DataType):
         else:
             return to_sum
 
-    def split_by_year(self, export=True):
+    def split_by_year(self):
         """
         Splits aggegrated yearly data into multiple dataframes per year.
         """
@@ -76,11 +75,11 @@ class AnalyticsData(DataType):
             # Convert date to datetime
             self.data[report].date = pd.to_datetime(self.data[report].date)
             year_df = self.data[report][
-                self.data[report].date.dt.isocalendar().year == year
+                self.data[report].date.dt.isocalendar().year == int(year)
             ]
 
             by_year[f"{year}_{report}"] = year_df
-            
+
         self.data = by_year
 
     def export(self):
@@ -94,7 +93,7 @@ class AnalyticsData(DataType):
                 if "date" in df.columns:
                     df.drop("date", axis=1, inplace=True)
                 print(f"Saving {name}.")
-                df.to_csv(f"happy_app/data/update_data/{name}.csv", index=False)
+                df.to_csv(f"happy_app/data/{name}.csv", index=False)
 
     def count_weeks(self):
         """
@@ -121,6 +120,7 @@ class AnalyticsData(DataType):
             )
 
         self.data = self.raw_data
+
 
 # Jack
 class TrafficData(AnalyticsData):
@@ -155,12 +155,12 @@ class TrafficSourceData(AnalyticsData):
 
     def add_source_categories(self, export=True):
         """
-        Takes a dataframe of TrafficSourceData, and adds two columns: "source cat" 
+        Takes a dataframe of TrafficSourceData, and adds two columns: "source cat"
         and "source type" which offer two levels of categorization of the source
-        data for analytics. 
+        data for analytics.
 
         Inputs (DataFrame): a dataframe that is a value of the self.data atrribute
-            of the TrafficSourceData class 
+            of the TrafficSourceData class
         Returns (DataFrame): the same dataframe with two added columns, "source cat"
             (str) and "source type" (str).
         """
@@ -175,25 +175,29 @@ class TrafficSourceData(AnalyticsData):
         else:
             # if export is false, method will return the new data
             return with_source_categories
-    
+
     def export(self):
         """
-        Slight change from inherited class to include the start and end dates 
+        Slight change from inherited class to include the start and end dates
         in the file name because it is not split by year.
         """
 
         for export_dct in self.to_export:
             for name, df in export_dct.items():
                 print(f"Saving {name}.")
-                df.to_csv(f"happy_app/data/update_data/{self.start_date}_to_{self.end_date}_{name}.csv", index=False)
-    
+                df.to_csv(
+                    f"happy_app/data/{self.start_date}_to_{self.end_date}_{name}.csv",
+                    index=False,
+                )
+
+
 # Claire
 class LanguageData(AnalyticsData):
     def __init__(self, agency, years, report_type="language"):
         super().__init__(agency, years)
         self.agency = agency
         self.report_type = report_type
-        
+
     def add_language_columns(self, export=True):
         """
         Creates new column of language names using dictionary from aux data.
@@ -201,20 +205,23 @@ class LanguageData(AnalyticsData):
         # get language codes from webscraper functions, then simplify
         language_codes = simplify_language_codes()
 
-        #create copy of self.data to modify in this function
+        # create copy of self.data to modify in this function
         with_language_cols = {key: val for key, val in self.data.items()}
 
         # for every dataframe in self.data
         for key, df in with_language_cols.items():
             if "language" in with_language_cols[key].columns:
                 # simplify language codes to be just the characters before the dash
-                with_language_cols[key]["language"] = with_language_cols[key]["language"].str.replace(r'\-(.*)', "", regex=True)
+                with_language_cols[key]["language"] = with_language_cols[key][
+                    "language"
+                ].str.replace(r"\-(.*)", "", regex=True)
                 # add new column with just the langauge name using dictionary
-                with_language_cols[key]["language_name"] = with_language_cols[key]["language"].map(language_codes).str.strip()
+                with_language_cols[key]["language_name"] = (
+                    with_language_cols[key]["language"].map(language_codes).str.strip()
+                )
 
         if export:
             self.to_export.append(with_language_cols)
         else:
             # if export is false, method will return the new data
             return with_language_cols
-

@@ -13,3 +13,7 @@ class DataType(ABC):
     @abstractmethod
     def export(self):
         pass
+
+    @abstractmethod
+    def split_by_year(self):
+        pass
