@@ -17,6 +17,7 @@ from happy_app.analysis.domain_visits import plot_domain_visits
 from happy_app.analysis.traffic_sources import plot_traffic_sources
 from happy_app.analysis.domain_visits import plot_domain_visits
 from happy_app.analysis.cdc_visits import plot_cdc_visits
+from happy_app.analysis.languages import plot_languages
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -369,12 +370,15 @@ from happy_app.analysis.cdc_visits import plot_cdc_visits
 
 
 #import sites 
-key_sites = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov', 'covidtests.gov']
-cdc_data_graph = plot_domain_visits(key_sites)
-non_cdc_data_graph = plot_cdc_visits()
+key_sites_cdc = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov', 'covidtests.gov']
+non_cdc_data_graph = plot_domain_visits()
+cdc_data_graph = plot_cdc_visits()
 
-#import 
+#import traffic sources 
 graph_traffic_sources = plot_traffic_sources()
+
+#import language plot 
+graph_language = plot_languages()
 
 
 
@@ -410,7 +414,7 @@ subtitle_container_forms_of_accesing = generate_subtitle_container(
 graph_container_language = generate_graph_container_one(
 title_text = "Language", 
 paragraph_text =  "During the COVID-19 pandemic, users visited government websites in more than 68 languages. Government sites were most viewed in English (74.2%), Spanish (13%), Chinese (3.8%) or French (1%)." , 
-graph_component = graph_component_bar, 
+graph_component = graph_language, 
 title_color = "#808080", 
 graph_title = "This is a title")
 
