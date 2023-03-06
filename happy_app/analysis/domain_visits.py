@@ -126,5 +126,4 @@ def plot_domain_visits(key_sites):
     )
 
     #Return dash object
-    return fig.show()
-    # return dcc.Graph(id=f'domain_visits-{len(key_sites)}', figure=fig)
+    return dcc.Graph(id=f'domain_visits-{len(key_sites)}', figure=fig)

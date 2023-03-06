@@ -16,7 +16,8 @@ def plot_languages():
     Returns (object): DCC Graph.
     """
     #Load data
-    data = pd.read_csv('happy_app/data/update_data/language.csv', usecols=['language_name', 'visits'])
+    data = pd.read_csv('happy_app/data/update_data/language.csv', 
+                        usecols=['language_name', 'visits'])
 
     #Transform data
     data = data.groupby('language_name', as_index=False).sum()
@@ -24,10 +25,12 @@ def plot_languages():
     data = data.sort_values(by='visits', ascending=False)
     data = data[data.visits > 100000000]
 
+    #Set features for figure
     languages = data.language_name.unique()
     palette = list(sns.color_palette(palette='Paired', n_colors=len(languages)).as_hex())
     labels = [str(round(i*100/sum(data.visits),1))+' %' for i in data.visits]
 
+    #Create figure
     fig = plt.figure(FigureClass=Waffle, 
                     rows=20, columns=50,
                     values=data.percentage, 
