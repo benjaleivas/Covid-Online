@@ -15,6 +15,8 @@ from happy_app.analysis.covid_cases import plot_covid_cases
 from happy_app.analysis.social_referrals import get_social_referral_frequency
 from happy_app.analysis.domain_visits import plot_domain_visits
 from happy_app.analysis.traffic_sources import plot_traffic_sources
+from happy_app.analysis.domain_visits import plot_domain_visits
+from happy_app.analysis.cdc_visits import plot_cdc_visits
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -361,11 +363,15 @@ fb_number = get_social_referral_frequency("Facebook")
 tw_number = get_social_referral_frequency("Twitter")
 ig_number = get_social_referral_frequency("Instagram")
 
+
+from happy_app.analysis.domain_visits import plot_domain_visits
+from happy_app.analysis.cdc_visits import plot_cdc_visits
+
+
 #import sites 
-key_sites_cdc = ['cdc.gov']
-key_sites_non_cdc = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov', 'covidtests.gov']
-cdc_data_graph = plot_domain_visits(key_sites_cdc)
-non_cdc_data_graph = plot_domain_visits(key_sites_non_cdc)
+key_sites = ['vaccines.gov', 'vacunas.gov', 'covid.cdc.gov', 'covid.gov', 'covidtests.gov']
+cdc_data_graph = plot_domain_visits(key_sites)
+non_cdc_data_graph = plot_cdc_visits()
 
 #import 
 graph_traffic_sources = plot_traffic_sources()
