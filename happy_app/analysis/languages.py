@@ -26,7 +26,7 @@ def plot_languages():
     data["percentage"] = round((data.visits / data["visits"].sum()) * 100, ndigits=1)
     data = data.sort_values(by="visits", ascending=False)
     data = data[data.visits > 100000000]
-    data["visits"] = round(data.visits / 100000000, ndigits=1)
+    data["visits"] = round(data.visits / 1000000, ndigits=1)
 
     # Set features for figure
     languages = data.language_name.unique()
