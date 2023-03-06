@@ -26,13 +26,15 @@ def plot_hhs_visits(year):
     layout = go.Layout(
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)',
-        title=None,
-        title_font_family=None,
-        title_font_color=None,
         font_family='Arial',
-        font_color=None,
-        yaxis_title=None, 
-        xaxis_title=None
+        showlegend=True,
+        legend=dict(
+            x=1,
+            y=1.02,
+            xanchor='right',
+            yanchor='bottom',
+            orientation='h'
+        )
     )
 
     #Define lines formats
