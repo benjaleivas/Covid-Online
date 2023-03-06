@@ -1,5 +1,4 @@
 import datetime
-import numpy as np
 import pandas as pd
 from dash import dcc
 import plotly.graph_objects as go
@@ -10,8 +9,7 @@ def plot_domain_visits():
     """
     Plots key site's cumulative visits between 2020-2022.
 
-    Input:
-        - key_sites (list of str): list of domains to highlight in plot.
+    Inputs: None.
 
     Returns (object): DCC Graph.
     """
@@ -101,25 +99,19 @@ def plot_domain_visits():
         )
 
     #Add events
-    events = dict()
-    if len(key_sites) == 1:
-        events['2020-03-13'] = KEY_DATES['2020-03-13']
-    else:
-        events['2020-12-11'] = 'FDA <br> Authorizes <br> Pfizer <br> Vaccine'
-        events['2021-03-08'] = 'CDC Approves Safe Gathering <br> for Vaccinated Individuals'
-        events['2022-01-19'] = 'Due to Omicron surge, <br> Biden launches online platform <br> to order free COVID-19 tests'
-    
-    for date, event in events.items():
-        key_date = dt.strptime(date, '%Y-%m-%d')
-        diff_year = key_date.year - 2020
-        week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1] + (53 * diff_year)
-        fig.add_vline(
-            x=week,
-            line_width=1,
-            line_dash="solid",
-            line_color="red",
-            annotation_text=event
-        )
+    relevant_dates = {'2020-12-11', '2021-03-08', '2022-01-19'}    
+    for date, event in KEY_DATES.items():
+        if date in relevant_dates:
+            key_date = dt.strptime(date, '%Y-%m-%d')
+            diff_year = key_date.year - 2020
+            week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1] + (53 * diff_year)
+            fig.add_vline(
+                x=week,
+                line_width=1,
+                line_dash="solid",
+                line_color="red",
+                annotation_text=event
+            )
 
     #Update figure
     fig.update_layout(layout)

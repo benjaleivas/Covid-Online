@@ -7,8 +7,7 @@ def plot_covid_cases(year):
     """
     Creates Covid-19 calendar heatmap for chosen 'year'.
     
-    Inputs:
-        - year (int): year to plot Covid-19 data for.
+    Inputs: year (int): year to plot Covid-19 data for.
 
     Returns (object): DCC graph.
     """

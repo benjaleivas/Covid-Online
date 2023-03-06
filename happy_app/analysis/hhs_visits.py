@@ -10,8 +10,7 @@ def plot_hhs_visits(year):
     Plots trend of visits to HHS's website for 'year' relative to 2019, as well
     as the difference in visits between both years.
 
-    Inputs:
-        - year (int): year to compare 2019's visits to.
+    Input: year (int): year to compare 2019's visits to.
 
     Returns (object): DCC Graph.
     """

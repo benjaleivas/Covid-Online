@@ -10,6 +10,8 @@ def plot_cdc_visits():
     """
     Plots CDCs website cumulative visits between 2019-2022.
 
+    Inputs: None.
+
     Returns (object): DCC Graph.
     """
     #Load data

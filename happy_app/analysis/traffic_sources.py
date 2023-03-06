@@ -9,6 +9,8 @@ def plot_traffic_sources():
     Other), by COVID peak (March 2020 - April 2020, Dec 2020 - Jan 2021, 
     Dec 2021 - Jan 2022).
 
+    Inputs: None.
+
     Returns (object): DCC Graph.
     """
 
