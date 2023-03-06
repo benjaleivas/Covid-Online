@@ -80,26 +80,19 @@ def plot_cdc_visits():
         )
     )
 
-    #Add events
-    # events = dict('2020-03-13': KEY_DATES['2020-03-13'])
-        # events['2020-03-13'] = KEY_DATES['2020-03-13']
-    # else:
-    #     events['2020-12-11'] = 'FDA <br> Authorizes <br> Pfizer <br> Vaccine'
-    #     events['2021-03-08'] = 'CDC Approves Safe Gathering <br> for Vaccinated Individuals'
-    #     events['2022-01-19'] = 'Due to Omicron surge, <br> Biden launches online platform <br> to order free COVID-19 tests'
-    
-    # for date, event in KEY_DATES.items():
-    #     key_date = dt.strptime(date, '%Y-%m-%d')
-    #     diff_year = key_date.year - 2019
-    #     week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1] + (53 * 2019)
-    #     fig.add_vline(
-    #         x=week,
-    #         line_width=1,
-    #         line_dash="solid",
-    #         line_color="red",
-    #         annotation_text=event
-    #     )
-    #     break
+    #Add relevant events    
+    for date, event in KEY_DATES.items():
+        key_date = dt.strptime(date, '%Y-%m-%d')
+        diff_year = key_date.year - 2019
+        week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1] + (53 * diff_year)
+        fig.add_vline(
+            x=week,
+            line_width=1,
+            line_dash="solid",
+            line_color="red",
+            annotation_text=event
+        )
+        break
 
     #Update figure
     fig.update_layout(layout)
@@ -112,5 +105,4 @@ def plot_cdc_visits():
     )
 
     #Return dash object
-    return fig.show()
-    # return dcc.Graph(id=f'domain_visits-{len(key_sites)}', figure=fig)
+    return dcc.Graph(id=f'domain_visits-{len(key_sites)}', figure=fig)
