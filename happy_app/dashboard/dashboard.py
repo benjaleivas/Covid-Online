@@ -137,7 +137,7 @@ def generate_graph_container_one(title_text,
             dbc.Row([
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    html.P(paragraph_text, style={"font-size": "1rem"})
+                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
                 ], width=3),
                 dbc.Col([
                     html.H2(graph_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
@@ -161,7 +161,7 @@ def generate_graph_container_two(title_text, paragraph_text, graph_component,
             dbc.Row([
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    html.P(paragraph_text, style={"font-size": "1rem"})
+                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
                     html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
@@ -176,49 +176,40 @@ def generate_graph_container_two(title_text, paragraph_text, graph_component,
 
 
 
-def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, number3, explanation3, title_color='black', number_color='black'):
+def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, 
+                               number3, explanation3, numbers_title, title_color='black', number_color='black'):
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
-        children=[ dbc.Row(
-        [dbc.Col([html.H1(title_text, 
-                          style={"color": title_color, "font-size": "2rem"}),
-                                     html.P(paragraph_text)],
+        children=[ dbc.Row(        [dbc.Col([html.H1(title_text,                           style={"color": title_color, "font-size": "2rem"}),                                     dcc.Markdown(paragraph_text, style={"font-size": "1rem"})],
                         width=4,
                         style={'height': '40vh', 'display': 'flex',
                                 'flex-direction': 'column', 
                                 'justify-content': 'center'}
                     ),
                     dbc.Col(
-                        [dbc.Row(
-                            [dbc.Col([html.H1(f"{number1}%", style={'text-align': 'center',
-                                                                     'font-size': '6rem', 
-                                                                     'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
+                        [html.H2(numbers_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),                          dbc.Row(                            [dbc.Col([html.H1(f"{number1}%", style={'text-align': 'center',                                                                     'font-size': '6rem',                                                                      'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
                                         width=4,
                                         style={'display': 'flex',
                                                 'flex-direction': 'column', 
                                                 'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [html.H1(f"{number2}%", style={'text-align': 'center', 
-                                                                       'font-size': '6rem',
-                                                                         'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
+                                        [html.H1(f"{number2}%", style={'text-align': 'center',                                                                        'font-size': '6rem',                                                                         'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
                                         width=4,
                                         style={'display': 'flex',
                                                 'flex-direction': 'column',
                                                   'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [html.H1(f"{number3}%", style={'text-align': 'center', 
-                                                                       'font-size': '6rem',
-                                                                         'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
+                                        [html.H1(f"{number3}%", style={'text-align': 'center',                                                                        'font-size': '6rem',                                                                         'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
                                         width=4,
                                         style={'display': 'flex',
                                                 'flex-direction': 'column', 
                                                 'justify-content': 'center'}
                                     ),
                                 ],
-                                style={'height': '50%'}
+                                style={'height': '50%', 'margin-top': '1rem'}
                             )
                         ],
                         width=8,
@@ -232,23 +223,21 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
     return container
 
 
-def generate_conclusion_container(title_text, list_items, bg_color):
+
+def generate_conclusion_container(title_text, bg_color, github_link):
     container = dbc.Container(
         fluid=True,
-        style={'height': '100vh', 'background-color': bg_color},
+        style={'height': '15vh', 'background-color': bg_color},
         children=[
             dbc.Row(
                 [
                     dbc.Col(
                         [
-                            html.H1(title_text, style={'color': 'white', 'font-size': '5rem', 'margin-bottom': '2rem', 'text-align': 'center'}),
-                            html.Ul(
-                                [html.Li(item, style={'color': 'white', 'font-size': '2rem', 'text-align': 'center'}) for item in list_items],
-                                style={'list-style-type': 'none', 'padding-left': '0', 'margin-top': '2rem', 'text-align': 'center'}
-                            )
+                            html.A(html.H5(title_text, style={'color': 'white', 'font-size': '1rem', 'margin-bottom': '2rem', 'text-align': 'right'}),
+                                   href=github_link, target='_blank', style={'color': 'white', 'text-decoration': 'none'}),
                         ],
                         width=12,
-                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center', 'align-items': 'center'}
+                        style={'display': 'flex', 'flex-direction': 'row', 'justify-content': 'flex-end', 'align-items': 'center'}
                     )
                 ],
                 style={'height': '100%'}
@@ -257,6 +246,8 @@ def generate_conclusion_container(title_text, list_items, bg_color):
     )
     return container
 
+
+
 def generate_graph_container_interactive(title_text, paragraph_text, graph_component_1, graph_component_2, graph_component_3, title_color):
     graph_container = dbc.Container(
         fluid=True,
@@ -264,7 +255,7 @@ def generate_graph_container_interactive(title_text, paragraph_text, graph_compo
             dbc.Row([
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    html.P(paragraph_text, style={"font-size": "1rem"})
+                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
                 ], width=4),
                 dbc.Col([
                     html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
@@ -287,21 +278,22 @@ def generate_graph_container_interactive(title_text, paragraph_text, graph_compo
     )
     return graph_container
 
+
 def generate_graph_container_interactive_two(title_text, paragraph_text,
                                               graph_component_1, graph_component_2, 
                                               graph_component_3, graph_component_4,
-                                                graph_component_5, graph_component_6,
-                                                  title_color, graph_title, 
-                                                  first_label, 
-                                                  second_label, 
-                                                  third_label):
+                                              graph_component_5, graph_component_6,
+                                              title_color, graph_title, 
+                                              first_label, 
+                                              second_label, 
+                                              third_label):
     graph_container = dbc.Container(
         fluid=True,
         children=[
             dbc.Row([
                 dbc.Col([
                     html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    html.P(paragraph_text, style={"font-size": "1rem"})
+                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
                 ], width=3),
                 dbc.Col([
                     html.H2(graph_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
@@ -323,6 +315,7 @@ def generate_graph_container_interactive_two(title_text, paragraph_text,
         ]
     )
     return graph_container
+
 
 
 
@@ -390,7 +383,7 @@ title_container = generate_title_container(
 
 
 subtitle_container_goverment_pages = generate_subtitle_container(
-    subtitle_text = "Web Traffic Surged Alongside COVID-19",
+    subtitle_text = "How People Accessed HHS Sites",
  background_color = "#005aae", 
    text_color = "white"
      )
@@ -405,71 +398,78 @@ graph_container_cdc_data = generate_graph_container_two(
 
 
 subtitle_container_forms_of_accesing = generate_subtitle_container(
-  subtitle_text =  "FROM WHERE WERE PEOPLE ACCESING GOV. WEBSITES?",
+  subtitle_text =  "Paths to HHS Websites",
  background_color = "#005aae", 
  text_color = "white")
 
 
 
 graph_container_language = generate_graph_container_one(
-title_text = "Language", 
-paragraph_text =  "During the COVID-19 pandemic, users visited government websites in more than 68 languages. Government sites were most viewed in English (74.2%), Spanish (13%), Chinese (3.8%) or French (1%)." , 
+title_text = "HHS Sites Viewed in 68 Languages", 
+paragraph_text =  "HHS sites were **most viewed in English (74.3%)**, Spanish (13.4%), Chinese (3.8%) or French (1%). These proportions are consistent with languages spoken in the United States, [according to 2021 ACS estimates](https://data.census.gov/table?q=B16001:+LANGUAGE+SPOKEN+AT+HOME+BY+ABILITY+TO+SPEAK+ENGLISH+FOR+THE+POPULATION+5+YEARS+AND+OVER&g=0100000US&tid=ACSDT1Y2021.B16001&moe=true). \n\n Across all four years (2019-2022), users visited HHS websites in more than 68 languages." , 
 graph_component = graph_language, 
 title_color = "#808080", 
-graph_title = "This is a title")
+graph_title = "Languages with over 100M Visits")
 
 graph_container_cdc_visits = generate_graph_container_one(
-title_text = "A Digital Response to the Pandemic", 
-paragraph_text =  "In looking at traffic to cdc.gov alone, we see a significant uptick in the number of total visits surrounding the date when COVID-19 was declared a national emergency (March 11, 2020). In looking at traffic over 2019-2022, that was the only significant increase of traffic, suggesting that other sites might have absorbed more of the fluctuation of web traffic during the course of the COVID-19 pandemic." , 
+title_text = "Initial Lockdowns Drove Surge in CDC Traffic", 
+paragraph_text =  "The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency." , 
 graph_component = cdc_data_graph, 
 title_color = "#808080", 
 graph_title = "Cumulative Visits to CDC.gov from 2019-2022")
 
 graph_container_non_cdc_visits = generate_graph_container_one(
 title_text = "Websites Born out of the Pandemic", 
-paragraph_text =  "Likely in response to the uptick of traffic on government websites, the Biden administration increased efforts to offer digital tools related to the pandemic launching two new sites specific to COVID-19: CovidTests.gov and Covid.gov. In part due to the Omicron wave, CovidTests.gov drew visitors almost instantly, achieving similar traffic numbers to longer-standing sites like Vaccines.gov within weeks. Traffic to CovidTests.gov plateaus after the launch of Covid.gov in March 2020, which aggregated information on the pandemic to one website. Like CovidTests.gov, Covid.gov quickly amassed visitors post-launch offering further evidence of people’s increased reliance on digital services as a result of the pandemic." , 
+paragraph_text =  "At the start of 2022, two new HHS sites were launched: **covidtests.gov** and **covid.gov**. Likely due to Omicron, covidtests.gov drew visitors instantly, achieving similar traffic numbers to longer-standing sites like vaccines.gov within weeks. \n\n Traffic to covidtests.gov plateaus after the launch of covid.gov in March 2022, which aggregated information on the pandemic to one website.", 
 graph_component = non_cdc_data_graph, 
 title_color = "#808080", 
 graph_title = "Cumulative Visits to Other Pandemic-Related Websites from 2019-2022")
 
+
+#order Twitter, Facebook, Instagram
 social_numbers_container = generate_numbers_container(
     title_text = "Traffic Driven by Social Networks",
-    paragraph_text = "Some of the government website traffic during the pandemic was driven by links shared by friends on social media. However, the proportion of traffic driven by friends differed across social media platforms. In the two months around the three largest spikes of COVID cases, Twitter was the most “contagious” in terms of sharing government website links (99% of traffic was due to social referrals), while only 4 in 10 Facebook visits were driven by social referrals. Instragram traffic was driven the least by social referrals, as only 14% of all traffic from the platform were driven by this type of interaction.", 
-    number1 = fb_number, 
-    explanation1 = "from Facebook", 
-    number2 = tw_number, 
-    explanation2 = "from Twitter", 
+    paragraph_text = "Social media traffic can be split into two categories: social referrals and normal traffic. **Social referrals are visits driven by users clicking on links shared by friends on social networks,** instead of users clicking on ads or content pushed by the platform itself.\n\n This “social referral” proportion of traffic differed across social media platforms.\n\n In the two months around the three largest spikes of COVID cases, **99% of all HHS traffic from Twitter was due to social referrals.** Only 4 in 10 Facebook visits and less than 2 in 10 Instagram visits were driven by social referrals.", 
+    number1 = tw_number,
+    explanation1 = "from Twitter",
+    number2 = fb_number, 
+    explanation2 = "from Facebook", 
     number3 = ig_number, 
     explanation3 = "from Instagram", 
-    title_color= "#808080", 
-    number_color= "#005aae")
+    title_color= "#808080",
+    number_color= "#005aae", 
+    numbers_title = "Percentage of Social Referrals")
 
 subtitle_container_language = generate_subtitle_container(
-  subtitle_text =  "DID USER LANGUAGE PLAYED A ROLE?",
+  subtitle_text =  "Primary Languages of HHS Site Visitors",
  background_color = "#005aae", 
  text_color = "white")
 
-graph_container_accesing = generate_graph_container_interactive(
-    title_text = "Traffic Source", 
-    paragraph_text = "In the first wave of the pandemic (March/April 2020), 63% of traffic to government websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to government websites came from social media websites during this time period. These trends remained true during the peak of COVID cases in December 2020/January 2021 as well as in December 2021/January 2022.", 
-    graph_component_1 = graph_traffic_sources, 
-    graph_component_2 = graph_component_line, 
-    graph_component_3 = graph_component_bar, 
-    title_color = "#808080")
+# graph_container_accesing = generate_graph_container_interactive(
+#     title_text = "Search Engines Served as Main Access Point", 
+#     paragraph_text = "In the first wave of the pandemic (March/April 2020), 63% of traffic to government websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to government websites came from social media websites during this time period. These trends remained true during the peak of COVID cases in December 2020/January 2021 as well as in December 2021/January 2022.", 
+#     graph_component_1 = graph_traffic_sources, 
+#     graph_component_2 = graph_component_line, 
+#     graph_component_3 = graph_component_bar, 
+#     title_color = "#808080")
+
+graph_container_accesing = generate_graph_container_one(title_text = "Search Engines Served as Main Access Point",
+                                                        paragraph_text = "In the first wave of the pandemic (March/April 2020), **63% of traffic** to HHS websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to HHS websites came from social media websites during this time period. \n\n These trends remained true during the peak of COVID-19 cases in December 2021/January 2022, as well as when COVID-19 cases were not spiking in December 2020/January 2021.", 
+                                                        graph_component = graph_traffic_sources, 
+                                                        title_color = "#808080", 
+                                                        graph_title = "Visits to HHS Websites by Source"
+                                                        ) 
 
 subtitle_container_most_visited_pages = generate_subtitle_container(
-  subtitle_text =  "KEY SITES", 
+  subtitle_text =  "A Digital Response to the Pandemic", 
  background_color = "#005aae", 
  text_color = "white" )
 
+
 conclusion_container = generate_conclusion_container(
-        title_text="Conclusion",
-        list_items=[
-            "1. This is our first conclusion.",
-            "2. This is our second conclusion.",
-            "3. This is our third conclusion."
-        ],
-        bg_color="#005aae"
+        title_text="Powerd by Happ.py",
+        bg_color="#005aae", 
+        github_link = "https://github.com/uchicago-capp122-spring23/30122-project-hap_py"
     )
 
 
@@ -477,8 +477,8 @@ conclusion_container = generate_conclusion_container(
 
 
 interactive_cdc_covid_container = generate_graph_container_interactive_two(
-    title_text = "Spikes in Health and Human Services Web Usage", 
-    paragraph_text = "In tandem with the pandemic’s initial surge during March 2020, visits to Department of Health and Human Services websites increased sharply, rising 155 million more than traffic in 2019. When COVID- 19 was declared a national emergency and lockdowns begun traffic reached number, some amount higher then. 234 million (max visits per week) As the pandemic stretched on throughout 2020 into 2021, HHS website traffic remained consistently higher than what was witnessed during 2019, suggesting the presence of the pandemic increased the likelihood people turned to government sources for information regarding health and safety.Traffic remained steady until January 2022, when visits peaked coinciding with the Omicron wave of the pandemic and the launch of new HHS websites, like CovidTests.gov.", 
+    title_text = "Spikes in HHS Web Usage", 
+    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **203 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **155 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
     graph_component_1 = graph_2019_2020 , 
     graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
@@ -498,25 +498,29 @@ app.layout = html.Div(children=[
     interactive_cdc_covid_container,
     subtitle_container_forms_of_accesing, 
     graph_container_accesing, 
+    html.Br(), 
     social_numbers_container, 
-    subtitle_container_language, 
-    graph_container_language, 
     subtitle_container_most_visited_pages, 
     graph_container_cdc_visits,
     graph_container_non_cdc_visits,  
+    subtitle_container_language, 
+    graph_container_language, 
     conclusion_container
-
 ])
 
 
+
+
+
+
+
+
 @app.callback(
-    [dash.dependencies.Output('graph-container-1', 'children'),
-     dash.dependencies.Output('graph-container-2', 'children')],
-    [dash.dependencies.Input('graph-dropdown-1', 'value'),
-     dash.dependencies.Input('graph-dropdown-2', 'value')]
+    [dash.dependencies.Output('graph-container-1', 'children')],
+    [dash.dependencies.Input('graph-dropdown-1', 'value')]
 )
 
-def update_graph_container(value1, value2):
+def update_graph_container(value1):
     if value1 == 'graph1':
         graph_container_1 = [graph_2019_2020, graph_covid_2020]
     elif value1 == 'graph2':
@@ -524,19 +528,18 @@ def update_graph_container(value1, value2):
     elif value1 == 'graph3':
         graph_container_1 = [graph_2019_2022, graph_covid_2022]
     
-    if value2 == 'graph1':
-        graph_container_2 = graph_traffic_sources
-    elif value2 == 'graph2':
-        graph_container_2 = graph_component_line
-    elif value2 == 'graph3':
-        graph_container_2 = graph_component_treemap
+    # if value2 == 'graph1':
+    #     graph_container_2 = graph_traffic_sources
+    # elif value2 == 'graph2':
+    #     graph_container_2 = graph_component_line
+    # elif value2 == 'graph3':
+    #     graph_container_2 = graph_component_treemap
     
-    return graph_container_1, graph_container_2
-
+    return [graph_container_1]
 
 
 
 
 # Run app
 if __name__=='__main__':
-    app.run_server(port=8052)
+    app.run_server(port=8050)
