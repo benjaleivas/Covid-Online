@@ -181,35 +181,53 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
-        children=[ dbc.Row(        [dbc.Col([html.H1(title_text,                           style={"color": title_color, "font-size": "2rem"}),                                     dcc.Markdown(paragraph_text, style={"font-size": "1rem"})],
+        children=[ 
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            html.H1(title_text, style={"color": title_color, "font-size": "2rem"}), 
+                            dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
+                        ],
                         width=4,
-                        style={'height': '40vh', 'display': 'flex',
-                                'flex-direction': 'column', 
-                                'justify-content': 'center'}
+                        style={'height': '40vh', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                     ),
                     dbc.Col(
-                        [html.H2(numbers_title, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),                          dbc.Row(                            [dbc.Col([html.H1(f"{number1}%", style={'text-align': 'center',                                                                     'font-size': '6rem',                                                                      'color': number_color}),                                            html.P(explanation1, style={'text-align': 'center'})                                        ],
+                        [
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        [
+                                            html.H1(f"{number1}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),
+                                            html.P(explanation1, style={'text-align': 'center'})
+                                        ],
                                         width=4,
-                                        style={'display': 'flex',
-                                                'flex-direction': 'column', 
-                                                'justify-content': 'center'}
+                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [html.H1(f"{number2}%", style={'text-align': 'center',                                                                        'font-size': '6rem',                                                                         'color': number_color}),                                            html.P(explanation2, style={'text-align': 'center'})                                        ],
+                                        [
+                                            html.H1(f"{number2}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),
+                                            html.P(explanation2, style={'text-align': 'center'})
+                                        ],
                                         width=4,
-                                        style={'display': 'flex',
-                                                'flex-direction': 'column',
-                                                  'justify-content': 'center'}
+                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                                     ),
                                     dbc.Col(
-                                        [html.H1(f"{number3}%", style={'text-align': 'center',                                                                        'font-size': '6rem',                                                                         'color': number_color}),                                            html.P(explanation3, style={'text-align': 'center'})                                        ],
+                                        [
+                                            html.H1(f"{number3}%", style={'text-align': 'center', 'font-size': '6rem', 'color': number_color}),
+                                            html.P(explanation3, style={'text-align': 'center'})
+                                        ],
                                         width=4,
-                                        style={'display': 'flex',
-                                                'flex-direction': 'column', 
-                                                'justify-content': 'center'}
+                                        style={'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
                                     ),
                                 ],
                                 style={'height': '50%', 'margin-top': '1rem'}
+                            ),
+                            dbc.Row(
+                                dbc.Col(
+                                    html.H2(numbers_title, style={"text-align": "center", "color": title_color, "font-size": "2rem"}),
+                                    style={'height': '10vh', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'}
+                                )
                             )
                         ],
                         width=8,
@@ -221,6 +239,7 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
         ]
     )
     return container
+
 
 
 
@@ -413,7 +432,7 @@ graph_title = "Languages with over 100M Visits")
 
 graph_container_cdc_visits = generate_graph_container_one(
 title_text = "Initial Lockdowns Drove Surge in CDC Traffic", 
-paragraph_text =  "The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency." , 
+paragraph_text =  "The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency. \n\n In 2019, visits to cdc.gov accounted for only 10% of visits to all HHS websites compared to 2020, following the first year of the pandemic, visits to cdc.gov comprised **28% of all traffic on HHS sites**. \n\n Across all four years, visits to cdc.gov accounted for **20% of all web traffic on HHS websites**." , 
 graph_component = cdc_data_graph, 
 title_color = "#808080", 
 graph_title = "Cumulative Visits to CDC.gov from 2020-2022")
@@ -478,7 +497,7 @@ conclusion_container = generate_conclusion_container(
 
 interactive_cdc_covid_container = generate_graph_container_interactive_two(
     title_text = "Spikes in HHS Web Usage", 
-    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **155 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **155 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
+    paragraph_text = "During the pandemic’s initial surge in March 2020, visits to HHS websites increased sharply, with these sites witnessing **155 million per week** compared to the same time period in 2019. \n\n At its peak, traffic to HHS websites reached **234 million visits per week** in alignment with when COVID-19 was first declared a national emergency and lockdowns initially begun. \n\n Traffic remained steady throughout 2021 until January 2022, when visits peaked at **203 million more visits** coinciding with the pandemic’s Omicron wave of the pandemic.", 
     graph_component_1 = graph_2019_2020 , 
     graph_component_2 = graph_covid_2020, 
     graph_component_3 = graph_2019_2021, 
