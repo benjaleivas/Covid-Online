@@ -42,4 +42,5 @@ def plot_languages():
                             })
     plt.tight_layout()
 
+    #Return dash object
     return dcc.Graph(id=f'languages', figure=fig)
