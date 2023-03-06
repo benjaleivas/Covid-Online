@@ -6,28 +6,28 @@
 
 ## constants used in analysis/
 
-# KEY_DATES_2020 = {
-#     "2020-03-13": "COVID-19 Declared National Emergency",
-#     "2020-05-08": "FDA Authorizes First COVID-19 Test",
-#     "2020-12-11": "FDA Authorizes Pfizer Vaccine",
-# }
-
-# KEY_DATES_2021 = {
-#     "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
-#     "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
-#     "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
-# }
-
-# KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
-
-KEY_DATES = {
+KEY_DATES_2020 = {
     "2020-03-13": "COVID-19 Declared National Emergency",
     "2020-05-08": "FDA Authorizes First COVID-19 Test",
     "2020-12-11": "FDA Authorizes Pfizer Vaccine",
+}
+
+KEY_DATES_2021 = {
     "2021-03-08": "CDC Approves Safe Gathering for Vaccinated Individuals",
     "2021-07-27": "CDC Recommends Masks Due to Delta Variant",
-    "2021-11-19": "Omicron Surge Begins; CDC Urges Booster Shots",
-    "2022-01-19": "Due to Omicron surge, Biden launches online platform to order free COVID-19 tests"
+    "2021-11-19": "Omnicron Surge Begins; CDC Urges Booster Shots",
+}
+
+KEY_DATES_2022 = {"2022-01-24": "Omnicron accounts for 99\% of COVID-19 Cases"}
+
+KEY_DATES = {
+    "2020-03-13": "COVID-19 Declared <br> National Emergency",
+    "2020-05-08": "FDA Authorizes <br> First COVID-19 Test",
+    "2020-12-11": "FDA Authorizes <br> Pfizer Vaccine",
+    "2021-03-08": "CDC Approves Safe Gathering <br> for Vaccinated Individuals",
+    "2021-07-27": "CDC Recommends Masks <br> Due to Delta Variant",
+    "2021-11-19": "Omicron Surge Begins; <br> CDC Urges Booster Shots",
+    "2022-01-19": "Due to Omicron surge, <br> Biden launches online platform <br> to order free COVID-19 tests"
 }
 
 ## constants used in clean/

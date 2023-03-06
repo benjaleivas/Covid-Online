@@ -20,6 +20,6 @@ To replicate our data collection process follow these steps:
 1. Obtain a API key from Analytics.Gov by filling out [this form](https://open.gsa.gov/api/dap/) under **Getting Started**.
 2. In the repository, store the key in your environment by executing the following line in your shell:
 ```bash
- export ANALYTICS_API_KEY=<YOUR KEY> 
+ export ANALYTICS_API_KEY=<YOUR KEY HERE> 
  ```
-3. Run ```python -m happy_app.clean``` to pull and clean our data from the APIs
+3. Run ```python -m happy_app.clean``` to pull and clean our data from the APIs. This will take around 20-25 minutes to run to completion. 
