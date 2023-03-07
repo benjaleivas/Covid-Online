@@ -1,6 +1,6 @@
 import pandas as pd
 from .datatype import DataType
-from happy_app.collect.auxilary_data import get_covid_data
+from happy_app.collect.auxiliary_data import get_covid_data
 from collections import defaultdict
 
 

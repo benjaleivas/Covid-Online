@@ -1,8 +1,11 @@
-# Author: Jack
+
+# Author: Jack (Class structure) and Claire (implementation for report types)
+
 import pandas as pd
 import itertools
-from happy_app.collect.analytics_data import get_analytics_by_agency
-from happy_app.collect.auxilary_data import simplify_language_codes
+from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
+from happy_app.collect.auxiliary_data import get_language_codes, get_census_language_data
+from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from happy_app.clean.create_source_categories import add_source_labels
 from .datatype import DataType
 from collections import defaultdict
@@ -147,7 +150,8 @@ class TrafficSourceData(AnalyticsData):
         """
         Takes a dataframe of TrafficSourceData, and adds two columns: "source cat"
         and "source type" which offer two levels of categorization of the source
-        data for analytics.
+        data for better analysis. 
+        """
 
         Inputs (DataFrame): a dataframe that is a value of the self.data atrribute
             of the TrafficSourceData class
@@ -190,10 +194,10 @@ class LanguageData(AnalyticsData):
 
     def add_language_columns(self, export=True):
         """
-        Creates new column of language names using dictionary from aux data.
+        Creates new column of cleaned language names for better categorization.
         """
         # get language codes from webscraper functions, then simplify
-        language_codes = simplify_language_codes()
+        language_codes = get_language_codes()
 
         # create copy of self.data to modify in this function
         with_language_cols = {key: val for key, val in self.data.items()}
