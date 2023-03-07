@@ -14,7 +14,8 @@ def find_social_referral_frequency(start_date, end_date, source_cat):
     Facebook, Instagram, Twitter, Other .com, and Other .org.
 
     Inputs:
-        filepath (str)
+        start date of data already pulled (str)
+        end date of data already pulled (str)
         source cat (str): must be the same exact str as source categories used
     
     Returns (float): frequency of visits that were social referrals for that source
