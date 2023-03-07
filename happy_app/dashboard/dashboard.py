@@ -436,14 +436,14 @@ title_text = "Initial Lockdowns Drove Surge in CDC Traffic",
 paragraph_text =  f"The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency. \n\n In 2019, visits to cdc.gov accounted for only {get_yearly_percentage(2019, 'cdc.gov'):.1f}% of visits to all HHS websites compared to 2020, following the first year of the pandemic, visits to cdc.gov comprised **{get_yearly_percentage(2020, 'cdc.gov'):.1f}% of all traffic on HHS sites**. \n\n Across all four years, visits to cdc.gov accounted for **{get_yearly_percentage([2019, 2020, 2021, 2022], 'cdc.gov'):.1f}% of all web traffic on HHS websites**." , 
 graph_component = cdc_data_graph, 
 title_color = "#808080", 
-graph_title = "Cumulative Visits to CDC.gov from 2020-2022")
+graph_title = "Cumulative Visits to CDC.gov from 2019-2022")
 
 graph_container_non_cdc_visits = generate_graph_container_one(
 title_text = "Websites Born out of the Pandemic", 
 paragraph_text =  "At the start of 2022, two new HHS sites were launched: **covidtests.gov** and **covid.gov**. Likely due to Omicron, covidtests.gov drew visitors instantly, achieving similar traffic numbers to longer-standing sites like vaccines.gov within weeks. \n\n Traffic to covidtests.gov plateaus after the launch of covid.gov in March 2022, which aggregated information on the pandemic to one website.", 
 graph_component = non_cdc_data_graph, 
 title_color = "#808080", 
-graph_title = "Cumulative Visits to Other Pandemic-Related Websites from 2019-2022")
+graph_title = "Cumulative Visits to Other Pandemic-Related Websites from 2020-2022")
 
 
 #order Twitter, Facebook, Instagram
