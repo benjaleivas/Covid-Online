@@ -94,6 +94,28 @@ def get_traffic_sources_data():
     return source_visits
 
 
+def get_key_sites_data(start_year, weeks_in_period, key_sites):
+    """
+    """
+    data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
+    for year in range(start_year,2022+1):
+        all_sites = pd.read_csv(f'happy_app/data/{year}_domain_by_week.csv')
+        data = pd.concat([data, all_sites], ignore_index=True)
+
+    idx = pd.MultiIndex.from_product(
+        [data.year.unique(), data.week.unique(), data.domain.unique()], 
+        names=['year', 'week', 'domain']
+    )
+    data = data.set_index(['year', 'week', 'domain']).reindex(idx, fill_value=0).reset_index()
+    data = data.sort_values(by=['domain', 'year', 'week'], ignore_index=True)
+    data['visits'] = data['visits'].astype(int)
+    data['visits_cum'] = data.groupby(['domain'])['visits'].cumsum()
+    data['week_count'] = data.index % weeks_in_period + 1
+    data = data[data['domain'].isin(key_sites)]
+    
+    return (data, key_sites)
+
+
 def get_cdc_visits_data():
     """
     """
@@ -130,24 +152,3 @@ def get_languages_data():
     data["X"] = list(range(0, len(data)))
 
     return data
-
-def get_key_sites_data(start_year, weeks_in_period, key_sites):
-    """
-    """
-    data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
-    for year in range(start_year,2022+1):
-        all_sites = pd.read_csv(f'happy_app/data/{year}_domain_key_sites.csv')
-        data = pd.concat([data, all_sites], ignore_index=True)
-
-    idx = pd.MultiIndex.from_product(
-        [data.year.unique(), data.week.unique(), data.domain.unique()], 
-        names=['year', 'week', 'domain']
-    )
-    data = data.set_index(['year', 'week', 'domain']).reindex(idx, fill_value=0).reset_index()
-    data = data.sort_values(by=['domain', 'year', 'week'], ignore_index=True)
-    data['visits'] = data['visits'].astype(int)
-    data['visits_cum'] = data.groupby(['domain'])['visits'].cumsum()
-    data['week_count'] = data.index % weeks_in_period + 1
-    data = data[data['domain'].isin(key_sites)]
-    
-    return (data, key_sites)
