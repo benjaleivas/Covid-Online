@@ -4,7 +4,6 @@ import pandas as pd
 # Turn off pandas warnings
 warnings.simplefilter("ignore")
 
-# Jack 
 def get_yearly_percentage(years, site):
     '''
     Calculates percentage of total visits for a specified site over the 
@@ -32,26 +31,37 @@ def get_yearly_percentage(years, site):
 
     return (site_df["visits"].sum() / total['visits'].sum()) * 100
 
-# Benja
 def get_hhs_visits_data(year):
     """
+    Creates dataframes used to visualize HHS website visits for 'year'.
+    Inputs: year (int).
+    Returns (list): list of dataframes.
     """
     prev = pd.read_csv('happy_app/data/2019_domain_by_week_total.csv')
     post = pd.read_csv(f'happy_app/data/{year}_domain_by_week_total.csv')
     diff = post[['week']]
     diff['visits'] = post.visits - prev.visits
+
     return [post, prev, diff]
 
 def get_covid_cases_data(year):
     """
+    Creates dataframe used to visualize daily COVID cases for 'year'.
+    Inputs: year (int).
+    Returns: dataframe.
     """
     data = pd.read_csv(f'happy_app/data/{year}_daily_covid_data.csv')
     data = data[['date','daily_cases']]
     data['date'] =  pd.to_datetime(data['date'])
+
     return data
 
 def get_traffic_sources_data():
     """
+    Creates data used to visualize sources of HHS website's visits.
+    Inputs: None.
+    Returns (list of int): list of lists, where each list contains the visits 
+    for that specific source for the three analyzed time periods.
     """
     mar_2020_apr_2020 = pd.read_csv(
         'happy_app/data/2020-03-01_to_2020-04-30_traffic-source.csv', 
@@ -96,6 +106,13 @@ def get_traffic_sources_data():
 
 def get_key_sites_data(start_year, weeks_in_period, key_sites):
     """
+    Helper function used to extract data for specific websites.
+
+    Inputs:
+        - start_year (int): year from which to start collecting data.
+        - weeks_in_period (int): number of weeks contained in time period.
+        - key_sites (list of str): websites to analyze.
+    Returns (tuple): containing dataframe and list of websites to analyze.
     """
     data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
     for year in range(start_year,2022+1):
@@ -118,6 +135,9 @@ def get_key_sites_data(start_year, weeks_in_period, key_sites):
 
 def get_cdc_visits_data():
     """
+    Creates dataframe for visualizing CDC website visits.
+    Inputs: None.
+    Returns: dataframe.
     """
     key_sites = ['cdc.gov']
     data =  get_key_sites_data(2019, 212, key_sites)[0]
@@ -127,6 +147,9 @@ def get_cdc_visits_data():
 
 def get_domain_visits_data():
     """
+    Creates dataframe for visualizing specific website visits.
+    Inputs: None.
+    Returns: dataframe.
     """
     key_sites = ['vaccines.gov', 
                 'vacunas.gov', 
@@ -139,6 +162,9 @@ def get_domain_visits_data():
 
 def get_languages_data():
     """
+    Creates dataframe for visualizing browser language usage in HHS website visits.
+    Inputs: None.
+    Returns: dataframe.
     """
     data = pd.read_csv("happy_app/data/language.csv", \
                         usecols=["language_name", "visits"])
