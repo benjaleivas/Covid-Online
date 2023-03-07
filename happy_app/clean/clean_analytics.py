@@ -151,7 +151,6 @@ class TrafficSourceData(AnalyticsData):
         Takes a dataframe of TrafficSourceData, and adds two columns: "source cat"
         and "source type" which offer two levels of categorization of the source
         data for better analysis. 
-        """
 
         Inputs (DataFrame): a dataframe that is a value of the self.data atrribute
             of the TrafficSourceData class
@@ -181,8 +180,7 @@ class TrafficSourceData(AnalyticsData):
                 print(f"Saving {name}.")
                 df.to_csv(
                     f"happy_app/data/{self.start_date}_to_{self.end_date}_{name}.csv",
-                    index=False,
-                )
+                    index=False)
 
 
 # Claire
