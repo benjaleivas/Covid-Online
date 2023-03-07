@@ -4,7 +4,7 @@ import pandas as pd
 from happy_app.collect.utils import COMMON_SOURCES, SOURCE_TYPES
 import warnings
 
-# tell python to ignore a UserWarning for str.extract
+# ignore a UserWarning for str.extract
 warnings.simplefilter(action='ignore', category=UserWarning)
 
 def create_source_category_dict(data):
@@ -50,7 +50,7 @@ def add_source_labels(data):
     Inputs (DataFrame): a dataframe that is a value of the self.data atrribute
         of the TrafficSourceData class 
     Returns (DataFrame): the same dataframe with two added columns, "source cat"
-    (str) and "source type" (str).
+        (str) and "source type" (str).
     """
     # get source categories using helper function
     source_categories = create_source_category_dict(data)
