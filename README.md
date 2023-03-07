@@ -2,8 +2,11 @@
 
 Using data from Analytics.Gov capturing website traffic for US government domains, we examine how trends in government website traffic changed over the course of the COVID-19 pandemic. In combination with data on COVID-19 cases, deaths, and vaccinations to track the pandemic’s course, we explore what government websites people accessed during the pandemic and how the traffic on these sites changed as the pandemic progressed. Additionally, we use auxillary Analytics.gov data on traffic source and browser language to offer insights into the demographics of people using government websites and to showcase how people accessed government-published information (e.g through search engines, social media, news, etc.) in times of crisis. 
 
+<img width="1501" alt="Screen Shot 2023-03-07 at 1 01 37 AM" src="https://user-images.githubusercontent.com/111666975/223348759-686114b0-7bac-4835-aa21-33dd34ba04c8.png">
+<img width="1507" alt="Screen Shot 2023-03-07 at 1 01 50 AM" src="https://user-images.githubusercontent.com/111666975/223348868-83f2fab5-9935-4032-a44a-cf8bec9804c6.png">
 
-ADD SOME EXAMPLE SCREEN SHOTS OF THE DASHBOARD HERE
+
+
 
 ## Running our Project
 
