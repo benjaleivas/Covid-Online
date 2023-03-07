@@ -1,18 +1,14 @@
 # Author: Jack and Claire
-
 from .clean_analytics import TrafficData, LanguageData, TrafficSourceData
 from .clean_covid_data import CovidData
 
-# TODO: all relative file paths
-
 
 # Jack and Claire
-# Add optional argument to pass in periods to analyze traffic source
 def collect_analytics_data(agency, years, report_type, sites):
     """
     Collects and cleans data on website visits, browser langague,
-    and traffic source for use in visualizations
-
+    and traffic source for use in visualizations; exports CSV files to the 
+    data folder
     """
     # ALL VISITS - Jack
     all_visits = TrafficData(agency, years["traffic"], report_type["traffic"])

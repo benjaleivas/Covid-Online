@@ -17,7 +17,7 @@ def plot_cdc_visits():
     #Load data
     data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
     for year in range(2019,2022+1):
-        all_sites = pd.read_csv(f'happy_app/data/update_data/{year}_all_sites.csv')
+        all_sites = pd.read_csv(f'happy_app/data/{year}_domain_by_week.csv')
         data = pd.concat([data, all_sites], ignore_index=True)
 
     #Transform data

@@ -18,6 +18,7 @@ from happy_app.analysis.traffic_sources import plot_traffic_sources
 from happy_app.analysis.domain_visits import plot_domain_visits
 from happy_app.analysis.cdc_visits import plot_cdc_visits
 from happy_app.analysis.languages import plot_languages
+from happy_app.analysis.dashboard_math import get_yearly_percentage
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -432,7 +433,7 @@ graph_title = "Languages with over 100M Visits")
 
 graph_container_cdc_visits = generate_graph_container_one(
 title_text = "Initial Lockdowns Drove Surge in CDC Traffic", 
-paragraph_text =  "The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency. \n\n In 2019, visits to cdc.gov accounted for only 10% of visits to all HHS websites compared to 2020, following the first year of the pandemic, visits to cdc.gov comprised **28% of all traffic on HHS sites**. \n\n Across all four years, visits to cdc.gov accounted for **20% of all web traffic on HHS websites**." , 
+paragraph_text =  f"The only large uptick in traffic to cdc.gov was in March 2020, after COVID-19 was declared a national emergency. \n\n In 2019, visits to cdc.gov accounted for only {get_yearly_percentage(2019, 'cdc.gov'):.1f}% of visits to all HHS websites compared to 2020, following the first year of the pandemic, visits to cdc.gov comprised **{get_yearly_percentage(2020, 'cdc.gov'):.1f}% of all traffic on HHS sites**. \n\n Across all four years, visits to cdc.gov accounted for **{get_yearly_percentage([2019, 2020, 2021, 2022], 'cdc.gov'):.1f}% of all web traffic on HHS websites**." , 
 graph_component = cdc_data_graph, 
 title_color = "#808080", 
 graph_title = "Cumulative Visits to CDC.gov from 2020-2022")

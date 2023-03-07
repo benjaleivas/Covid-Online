@@ -1,4 +1,5 @@
 from . import link
+# Jack and Claire
 
 # Variables to replicate our project
 agency = "health-human-services"
@@ -12,7 +13,6 @@ years = {
     "language": [2019, 2020, 2021, 2022],
 }
 
-# can we just hard code these into link?
 report_type = {
     "traffic": ["domain"],
     "traffic-source": ["traffic-source"],

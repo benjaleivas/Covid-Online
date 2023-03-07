@@ -12,26 +12,11 @@ import warnings
 # Turn off pandas warnings
 warnings.simplefilter("ignore")
 
-# Regex to clean URLS
-# Add merge column with strings of dates and merge
-# no second-level domain
-
-# Time Periods for Traffic
-# March 2020 - April 2020
-# December 2020 - January 2021
-# December 2021 - January 2022
-
-# Sites to track
-# cdc.gov
-# covid.cdc.gov
-# vacunas.cdc
-# vaccines.gov
-# covid.gov
-# covidtests.gov
-
-
 # Jack
 class AnalyticsData(DataType):
+    '''
+    Parent class for all Analytics.gov data. 
+    '''
     def __init__(self, report_type, years):
         self.report_type = report_type
         self.years = years
@@ -40,25 +25,27 @@ class AnalyticsData(DataType):
         self.to_export = []
 
     def sum_by(self, time_range, aggregate=False, export=True):
-        """
-        Cleans dataframe and sums values
-        """
+        '''
+        Cleans dataframe and sums values across inputed time range. If aggregate
+        is true, variables are collapsed into one summed observation per time
+        range. If not, variables are summed by report_type (e.g by site)
+        '''
         if time_range == "week":
             self.count_weeks()
 
         to_sum = defaultdict(None)
         for name, report in self.data.items():
+            # Set group by column name via regex 
             col = re.sub(r"\d{4}_", "", name)
+            # Alternative way to set col name depending on inputed report type
             if "domain" in name:
                 col = "domain"
             if aggregate:
                 to_sum[f"{name}_by_{time_range}_total"] = report.groupby(
-                    ["year", time_range], as_index=False
-                ).sum()
+                    ["year", time_range], as_index=False).sum()
             else:
                 to_sum[f"{name}_by_{time_range}"] = report.groupby(
-                    [col, time_range, "year"], as_index=False
-                ).sum()
+                    [col, time_range, "year"], as_index=False).sum()
 
         if export:
             self.to_export.append(to_sum)
@@ -66,64 +53,67 @@ class AnalyticsData(DataType):
             return to_sum
 
     def split_by_year(self):
-        """
+        '''
         Splits aggegrated yearly data into multiple dataframes per year.
-        """
+        '''
         by_year = defaultdict(None)
         for pair in itertools.product(self.report_type, self.years):
             report, year = pair
             # Convert date to datetime
             self.data[report].date = pd.to_datetime(self.data[report].date)
-            year_df = self.data[report][
-                self.data[report].date.dt.isocalendar().year == int(year)
-            ]
+            # Selects only observations that match the correct year
+            year_df = self.data[report][self.data[report].date.dt.isocalendar().year == int(year)]
 
             by_year[f"{year}_{report}"] = year_df
-
+        
+        # Sets data in yearly format
         self.data = by_year
 
     def export(self):
-        """
-        Exports data to CSV files in the data folder.
-        """
+        '''
+        Exports data as CSV files in the data folder.
+        '''
 
         for export_dct in self.to_export:
             for name, df in export_dct.items():
-                # Remove date if not removed already
+                # Remove daily date if not removed already
                 if "date" in df.columns:
                     df.drop("date", axis=1, inplace=True)
                 print(f"Saving {name}.")
                 df.to_csv(f"happy_app/data/{name}.csv", index=False)
 
     def count_weeks(self):
-        """
-        Adds column to track weeks for a given
-        """
+        '''
+        Adds column to track weeks for a given. Used when aggregating data 
+        by week 
+        '''
         for report in self.data:
             self.data[report]["week"] = self.data[report]["date"].dt.isocalendar().week
             self.data[report]["year"] = self.data[report]["date"].dt.isocalendar().year
 
     def undo_changes(self):
-        """
+        '''
         Reverts data into format received from Analytics.gov
-        """
+        '''
         self.data = self.raw_data
 
     def fetch_data(self):
-        """
-        Fetches data for specified reports.
-        """
+        '''
+        Fetches data from API for specified reports.
+        '''
         for report in self.report_type:
             print(f"Collecting data on {report}.")
-            self.raw_data[report] = get_analytics_by_agency(
-                self.agency, (self.years[0], self.years[-1]), report
-            )
-
+            self.raw_data[report] = get_analytics_by_agency(self.agency, 
+                                        (self.years[0], self.years[-1]), report)
+       
         self.data = self.raw_data
-
 
 # Jack
 class TrafficData(AnalyticsData):
+    '''
+    Child class specific to traffic data. Used to clean data to visualize
+    overall visit trends to HHS websites
+    '''
     def __init__(self, agency, years, report_type):
         super().__init__(report_type, years)
         self.agency = agency

@@ -4,6 +4,10 @@ from dash import dcc
 import plotly.graph_objects as go
 from datetime import datetime as dt
 from happy_app.collect.utils import KEY_DATES
+import warnings
+
+# Turn off pandas warnings
+warnings.simplefilter("ignore")
 
 def plot_hhs_visits(year):
     """
@@ -15,8 +19,8 @@ def plot_hhs_visits(year):
     Returns (object): DCC Graph.
     """
     #Load data
-    post, prev = [pd.read_csv(f'happy_app/data/update_data/{year}_total_hhsvisits_by_week.csv'),
-                 pd.read_csv('happy_app/data/update_data/2019_total_hhsvisits_by_week.csv')]
+    post, prev = [pd.read_csv(f'happy_app/data/{year}_domain_by_week_total.csv'),
+                 pd.read_csv('happy_app/data/2019_domain_by_week_total.csv')]
     diff = post[['week']]
     diff['visits'] = post.visits - prev.visits
     datasets = [post, prev, diff]
