@@ -5,6 +5,7 @@ import requests
 import lxml.html
 import re
 
+
 def get_covid_data():
     """
     Retrieves COVID-19 data from NYTimes Github, which includes the date,
