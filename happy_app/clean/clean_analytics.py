@@ -4,7 +4,7 @@
 import pandas as pd
 import itertools
 from happy_app.collect.analytics_data import get_analytics_by_agency, get_analytics_by_report
-from happy_app.collect.auxiliary_data import get_language_codes, get_census_language_data
+from happy_app.collect.auxiliary_data import get_language_codes
 from happy_app.collect.utils import REPORT_NAME, AGENCY_NAME
 from happy_app.clean.create_source_categories import add_source_labels
 from .datatype import DataType
