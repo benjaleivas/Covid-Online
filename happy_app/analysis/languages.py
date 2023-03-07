@@ -18,7 +18,7 @@ def plot_languages():
     """
     # Load data
     data = pd.read_csv(
-        "happy_app/data/update_data/language.csv", usecols=["language_name", "visits"]
+        "happy_app/data/language.csv", usecols=["language_name", "visits"]
     )
 
     # Transform data

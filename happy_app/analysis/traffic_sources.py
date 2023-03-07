@@ -15,9 +15,9 @@ def plot_traffic_sources():
     """
 
     #Load data
-    mar_2020_apr_2020 = pd.read_csv('happy_app/data/update_data/2020-03-01_to_2020-04-30_traffic-source.csv', usecols=['source type', 'visits'])
-    dec_2020_jan_2021 = pd.read_csv('happy_app/data/update_data/2020-12-01_to_2021-01-31_traffic-source.csv', usecols=['source type', 'visits'])
-    dec_2021_jan_2022 = pd.read_csv('happy_app/data/update_data/2021-12-01_to_2022-01-31_traffic-source.csv', usecols=['source type', 'visits'])
+    mar_2020_apr_2020 = pd.read_csv('happy_app/data/2020-03-01_to_2020-04-30_traffic-source.csv', usecols=['source type', 'visits'])
+    dec_2020_jan_2021 = pd.read_csv('happy_app/data/2020-12-01_to_2021-01-31_traffic-source.csv', usecols=['source type', 'visits'])
+    dec_2021_jan_2022 = pd.read_csv('happy_app/data/2021-12-01_to_2022-01-31_traffic-source.csv', usecols=['source type', 'visits'])
     datasets = [dec_2021_jan_2022, dec_2020_jan_2021, mar_2020_apr_2020]
 
     #Transform data

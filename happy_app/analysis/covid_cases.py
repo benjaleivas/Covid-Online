@@ -12,7 +12,7 @@ def plot_covid_cases(year):
     Returns (object): DCC graph.
     """
     #Load data
-    data = pd.read_csv(f'happy_app/data/update_data/{year}_daily_covid_data.csv')
+    data = pd.read_csv(f'happy_app/data/{year}_daily_covid_data.csv')
 
     #Transform data
     data = data[['date','daily_cases']]

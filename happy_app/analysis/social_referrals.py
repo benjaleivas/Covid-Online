@@ -19,7 +19,7 @@ def find_social_referral_frequency(start_date, end_date, source_cat):
     
     Returns (float): frequency of visits that were social referrals for that source
     """
-    filepath = f"happy_app/data/update_data/{start_date}_to_{end_date}_traffic-source.csv"
+    filepath = f"happy_app/data/{start_date}_to_{end_date}_traffic-source.csv"
     
     traffic_source_data = pd.read_csv(filepath)
     
