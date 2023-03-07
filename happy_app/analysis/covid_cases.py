@@ -2,6 +2,8 @@ import pandas as pd
 from dash import dcc
 import datetime as dt
 from plotly_calplot import calplot
+from happy_app.analysis.dashboard_math import get_covid_cases_data
+
 
 def plot_covid_cases(year):
     """
@@ -12,11 +14,7 @@ def plot_covid_cases(year):
     Returns (object): DCC graph.
     """
     #Load data
-    data = pd.read_csv(f'happy_app/data/{year}_daily_covid_data.csv')
-
-    #Transform data
-    data = data[['date','daily_cases']]
-    data['date'] =  pd.to_datetime(data['date'])
+    data = get_covid_cases_data(year)
 
     #Create figure
     fig = calplot(
@@ -28,5 +26,4 @@ def plot_covid_cases(year):
         colorscale='blues'
     )
 
-    #Return dash object
     return dcc.Graph(id=f'covid_daily_cases-{year}', figure=fig)

@@ -5,6 +5,8 @@ from dash import dcc
 import plotly.graph_objects as go
 from datetime import datetime as dt
 from happy_app.collect.utils import KEY_DATES
+from happy_app.analysis.dashboard_math import get_cdc_visits_data
+
 
 def plot_cdc_visits():
     """
@@ -15,32 +17,13 @@ def plot_cdc_visits():
     Returns (object): DCC Graph.
     """
     #Load data
-    data = pd.DataFrame(columns=['year', 'week', 'domain', 'visits'])
-    for year in range(2019,2022+1):
-        all_sites = pd.read_csv(f'happy_app/data/{year}_domain_by_week.csv')
-        data = pd.concat([data, all_sites], ignore_index=True)
-
-    #Transform data
-    idx = pd.MultiIndex.from_product(
-        [data.year.unique(), data.week.unique(), data.domain.unique()], 
-        names=['year', 'week', 'domain']
-    )
-    data = data.set_index(['year', 'week', 'domain']).reindex(idx, fill_value=0).reset_index()
-    data = data.sort_values(by=['domain', 'year', 'week'], ignore_index=True)
-    data['visits'] = data['visits'].astype(int)
-    data['visits_cum'] = data.groupby(['domain'])['visits'].cumsum()
-    data['week_count'] = data.index % 212 + 1
-    data = data[data['domain'] == 'cdc.gov']
+    data = get_cdc_visits_data()
 
     #Define layout
     layout = go.Layout(
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)',
-        title=None,
-        title_font_family=None,
-        title_font_color=None,
         font_family='Arial',
-        font_color=None,
         font_size=14,
         showlegend=True,
         legend=dict(
@@ -50,8 +33,6 @@ def plot_cdc_visits():
             yanchor='bottom',
             orientation='h'
         ),
-        yaxis_title=None, 
-        xaxis_title=None,
         xaxis=dict(
             tickmode = 'array',
             tickvals = [1, 14, 27, 40, \
@@ -86,7 +67,11 @@ def plot_cdc_visits():
     for date, event in KEY_DATES.items():
         key_date = dt.strptime(date, '%Y-%m-%d')
         diff_year = key_date.year - 2019
-        week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1] + (53 * diff_year)
+        week = datetime.date(
+            key_date.year,
+            key_date.month,
+            key_date.day
+            ).isocalendar()[1] + (53 * diff_year)
         fig.add_vline(
             x=week,
             line_width=1,
@@ -106,5 +91,4 @@ def plot_cdc_visits():
         range=[0, 5500000000]
     )
 
-    #Return dash object
     return dcc.Graph(id=f'cdc_visits', figure=fig)

@@ -4,10 +4,8 @@ from dash import dcc
 import plotly.graph_objects as go
 from datetime import datetime as dt
 from happy_app.collect.utils import KEY_DATES
-import warnings
+from happy_app.analysis.dashboard_math import get_hhs_visits_data
 
-# Turn off pandas warnings
-warnings.simplefilter("ignore")
 
 def plot_hhs_visits(year):
     """
@@ -19,11 +17,7 @@ def plot_hhs_visits(year):
     Returns (object): DCC Graph.
     """
     #Load data
-    post, prev = [pd.read_csv(f'happy_app/data/{year}_domain_by_week_total.csv'),
-                 pd.read_csv('happy_app/data/2019_domain_by_week_total.csv')]
-    diff = post[['week']]
-    diff['visits'] = post.visits - prev.visits
-    datasets = [post, prev, diff]
+    datasets = get_hhs_visits_data(year)
 
     #Define layout
     layout = go.Layout(
@@ -40,7 +34,7 @@ def plot_hhs_visits(year):
         )
     )
 
-    #Define lines formats
+    #Define line formats
     line_types = ['solid', 'solid', 'dash']
     line_colors = ['#1E90FF', '#C1CDCD', '#CD2626']
     line_names = [f'{year}', 'Baseline (2019)', 'Difference with baseline']
@@ -66,7 +60,11 @@ def plot_hhs_visits(year):
     for date, event in KEY_DATES.items():
         key_date = dt.strptime(date, '%Y-%m-%d')
         if year == key_date.year:
-            week = datetime.date(key_date.year, key_date.month, key_date.day).isocalendar()[1]
+            week = datetime.date(
+                key_date.year, 
+                key_date.month, 
+                key_date.day
+                ).isocalendar()[1]
             fig.add_vline(
                 x=week,
                 line_width=1, 
@@ -85,5 +83,4 @@ def plot_hhs_visits(year):
         range=[0, 250000000]
     )
 
-    #Return dash object
     return dcc.Graph(id=f'hhs_visits-{year}', figure=fig)
