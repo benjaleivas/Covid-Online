@@ -124,6 +124,8 @@ def generate_graph_container_one(title_text,
         The text to be used for the paragraph.
     - graph_component: imported graph 
         A graph imported as a dcc object 
+    - graph_title: (str)
+        Text to be used as the title of the graph 
     - title_color : str
         The color to be used for the title text.
 
@@ -150,35 +152,29 @@ def generate_graph_container_one(title_text,
     return graph_container
 
 
-
-
-
-
-def generate_graph_container_two(title_text, paragraph_text, graph_component, 
-                                 graph_component_2, title_color):
-    graph_container = dbc.Container(
-        fluid=True,
-        children=[
-            dbc.Row([
-                dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
-                ], width=4),
-                dbc.Col([
-                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    graph_component, 
-                    graph_component_2
-                ], width=8)
-            ])
-        ]
-    )
-    return graph_container
-
-
-
-
 def generate_numbers_container(title_text, paragraph_text, number1, explanation1, number2, explanation2, 
                                number3, explanation3, numbers_title, title_color='black', number_color='black'):
+
+    """
+    This function generates a graph container that displays numbers. 
+
+    Inputs: 
+    - title_text: (str)
+        The text to be used for the title of the graph component. 
+    - number_1 to number_3: (int)
+        The numbers to be displayed. 
+    - explanation_1 to eexplanation_3: (sstr)
+        An explanation for the number. 
+    - title_color: (str)
+        Color for the title, default at black.  
+    - number_color: (str)
+        The color to be used for the number, default at black.
+
+    Returns: 
+    - dbc.Container
+        A Dash container that will be used to display and give context for one graph
+
+    """
     container = dbc.Container(
         fluid=True,
         style={'height': '50vh'},
@@ -244,7 +240,23 @@ def generate_numbers_container(title_text, paragraph_text, number1, explanation1
 
 
 
-def generate_conclusion_container(title_text, bg_color, github_link):
+def generate_footer_container(title_text, bg_color, github_link):
+    """
+    This function generates a graph container that displays the footer of the page. 
+
+    Inputs: 
+    - title_text: (str)
+        The text to be used for the title of the graph component. 
+    - title_color: (str)
+        Color for the background.  
+    - github_link: (str)
+        The github of our repository. 
+
+    Returns: 
+    - dbc.Container
+        A Dash container that will be used to display our github and the name of our team.
+
+    """
     container = dbc.Container(
         fluid=True,
         style={'height': '15vh', 'background-color': bg_color},
@@ -267,38 +279,6 @@ def generate_conclusion_container(title_text, bg_color, github_link):
     return container
 
 
-
-def generate_graph_container_interactive(title_text, paragraph_text, graph_component_1, graph_component_2, graph_component_3, title_color):
-    graph_container = dbc.Container(
-        fluid=True,
-        children=[
-            dbc.Row([
-                dbc.Col([
-                    html.H1(title_text, style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    dcc.Markdown(paragraph_text, style={"font-size": "1rem"})
-                ], width=4),
-                dbc.Col([
-                    html.H2("Graph Title", style={"text-align": "left", "color": title_color, "font-size": "2rem"}),
-                    dcc.Dropdown(
-                        id='graph-dropdown-2',
-                        options=[
-                            {'label': 'Graph 1', 'value': 'graph1'},
-                            {'label': 'Graph 2', 'value': 'graph2'},
-                            {'label': 'Graph 3', 'value': 'graph3'}
-                        ],
-                        value='graph1'
-                    ),
-                    html.Div(
-                        id='graph-container-2',
-                        children=graph_component_1
-                    )
-                ], width=8)
-            ])
-        ]
-    )
-    return graph_container
-
-
 def generate_graph_container_interactive_two(title_text, paragraph_text,
                                               graph_component_1, graph_component_2, 
                                               graph_component_3, graph_component_4,
@@ -307,6 +287,22 @@ def generate_graph_container_interactive_two(title_text, paragraph_text,
                                               first_label, 
                                               second_label, 
                                               third_label):
+    """
+    This function generates a graph container that has a dropdown that allows 
+
+    Inputs: 
+    - title_text: (str)
+        The text to be used for the title of the graph component. 
+    - title_color: (str)
+        Color for the background.  
+    - github_link: (str)
+        The github of our repository. 
+
+    Returns: 
+    - dbc.Container
+        A Dash container that will be used to display our github and the name of our team.
+
+    """
     graph_container = dbc.Container(
         fluid=True,
         children=[
@@ -340,27 +336,8 @@ def generate_graph_container_interactive_two(title_text, paragraph_text,
 
 
 ##############
-# Fake data 
+# Importing the data 
 #############
-
-# Bar plot
-data = {'fruit': ['apple', 'orange', 'banana'], 'quantity': [10, 5, 20]}
-df = pd.DataFrame(data)
-fig_bar = go.Figure(data=[go.Bar(x=df['fruit'], y=df['quantity'])])
-graph_component_bar = dcc.Graph(figure=fig_bar)
-
-# Line plot
-data = {'year': [2010, 2011, 2012, 2013, 2014, 2015, 2016],
-        'sales': [100, 150, 200, 250, 300, 350, 400]}
-df = pd.DataFrame(data)
-fig_line = go.Figure(data=[go.Scatter(x=df['year'], y=df['sales'], mode='lines')])
-graph_component_line = dcc.Graph(figure=fig_line)
-
-# Treemap
-data = px.data.gapminder().query("year == 2007").query("continent == 'Asia'")
-fig_treemap = px.treemap(data, path=['continent', 'country'], values='pop',
-                         color='lifeExp', hover_data=['iso_alpha'])
-graph_component_treemap = dcc.Graph(figure=fig_treemap)
 
 #import graphs visits to cdc by year 
 graph_2019_2020 = plot_hhs_visits(2020)
@@ -376,7 +353,6 @@ graph_covid_2022 = plot_covid_cases(2022)
 fb_number = get_social_referral_frequency("Facebook")
 tw_number = get_social_referral_frequency("Twitter")
 ig_number = get_social_referral_frequency("Instagram")
-
 
 from happy_app.analysis.domain_visits import plot_domain_visits
 from happy_app.analysis.cdc_visits import plot_cdc_visits
@@ -407,14 +383,6 @@ subtitle_container_goverment_pages = generate_subtitle_container(
  background_color = "#005aae", 
    text_color = "white"
      )
-
-
-graph_container_cdc_data = generate_graph_container_two(
- title_text =   "CDC Data",
- paragraph_text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.",
-  graph_component = graph_component_bar, 
-  graph_component_2 = graph_component_line, 
-  title_color = "#808080")
 
 
 subtitle_container_forms_of_accesing = generate_subtitle_container(
@@ -465,13 +433,6 @@ subtitle_container_language = generate_subtitle_container(
  background_color = "#005aae", 
  text_color = "white")
 
-# graph_container_accesing = generate_graph_container_interactive(
-#     title_text = "Search Engines Served as Main Access Point", 
-#     paragraph_text = "In the first wave of the pandemic (March/April 2020), 63% of traffic to government websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to government websites came from social media websites during this time period. These trends remained true during the peak of COVID cases in December 2020/January 2021 as well as in December 2021/January 2022.", 
-#     graph_component_1 = graph_traffic_sources, 
-#     graph_component_2 = graph_component_line, 
-#     graph_component_3 = graph_component_bar, 
-#     title_color = "#808080")
 
 graph_container_accesing = generate_graph_container_one(title_text = "Search Engines Served as Main Access Point",
                                                         paragraph_text = "In the first wave of the pandemic (March/April 2020), **63% of traffic** to HHS websites came from search engines, followed by direct links (15%). Only 0.7% of traffic to HHS websites came from social media websites during this time period. \n\n These trends remained true during the peak of COVID-19 cases in December 2021/January 2022, as well as when COVID-19 cases were not spiking in December 2020/January 2021.", 
@@ -486,7 +447,7 @@ subtitle_container_most_visited_pages = generate_subtitle_container(
  text_color = "white" )
 
 
-conclusion_container = generate_conclusion_container(
+footer_container = generate_footer_container(
         title_text="Powered by Happ.py",
         bg_color="#005aae", 
         github_link = "https://github.com/uchicago-capp122-spring23/30122-project-hap_py"
@@ -525,13 +486,8 @@ app.layout = html.Div(children=[
     graph_container_non_cdc_visits,  
     subtitle_container_language, 
     graph_container_language, 
-    conclusion_container
+    footer_container
 ])
-
-
-
-
-
 
 
 
@@ -547,13 +503,6 @@ def update_graph_container(value1):
         graph_container_1 = [graph_2019_2021, graph_covid_2021]
     elif value1 == 'graph3':
         graph_container_1 = [graph_2019_2022, graph_covid_2022]
-    
-    # if value2 == 'graph1':
-    #     graph_container_2 = graph_traffic_sources
-    # elif value2 == 'graph2':
-    #     graph_container_2 = graph_component_line
-    # elif value2 == 'graph3':
-    #     graph_container_2 = graph_component_treemap
     
     return [graph_container_1]
 
